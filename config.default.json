@@ -2,7 +2,7 @@
   "env": "development",
   "timezone": "UTC",
   "url": {
-    "host": "localhost:3000",
+    "host": "localhost:7002",
     "prefix": "/",
     "ssl": false,
     "static": false,
@@ -10,14 +10,14 @@
   },
   "max-request-size": "1MB",
   "store": {
-    "adapter": "sqlite",
+    "adapter": "mysql",
     "sqlite": {
       "location": "jsbin.sqlite"
     },
     "mysql": {
       "host": "localhost",
       "user": "root",
-      "password": "",
+      "password": "root",
       "database": "jsbin",
       "charset": "utf8mb4",
       "collate": "utf8mb4_unicode_ci"

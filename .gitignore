@@ -10,3 +10,4 @@ statsd.js
 jsbin.sqlite
 node_modules
 tmp/*
+.idea
