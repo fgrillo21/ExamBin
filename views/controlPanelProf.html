@@ -2,13 +2,34 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title></title>
+        <title>Control Panel Prof</title>
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/controlPanelProf.css">
     </head>
     <body>
-    <p>Pannello di controllo dello Professore</p>
+        <h1 align="center">Pannello di controllo dello Professore</h1>
+
         <form method='post' action='/uploadFileCustom' enctype="multipart/form-data">
-            <input type='file' id='fileUploaded' name='fileUploaded' />
-            <input type='submit' />
+            <fieldset>
+                <legend>form in cui caricare i dati relativi al compito</legend>
+                <input type='file' id='fileUploaded' name='fileUploaded' />
+                <input type='submit' />
+            </fieldset>
         </form>
+
+        <p>bottone con cui avere il report del compito desiderato</p>
+        <button id="btnGetStudentReport">
+            Get Student Report
+        </button>
+    <div id="divExamReport" style="display: none">
+        <table id="tableExamReport" border="1">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{static}}/js/myJsbin/controlPanelProf.js"></script>
 </html>

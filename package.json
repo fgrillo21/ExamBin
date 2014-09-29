@@ -63,7 +63,8 @@
     "validator": "^3.16.1",
     "sendy-api": "0.0.1",
     "clone": "~0.1.18",
-    "fs": "~0.0.2"
+    "fs": "~0.0.2",
+    "moment": "~2.8.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
