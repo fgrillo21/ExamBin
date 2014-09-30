@@ -64,7 +64,8 @@
     "sendy-api": "0.0.1",
     "clone": "~0.1.18",
     "fs": "~0.0.2",
-    "moment": "~2.8.3"
+    "moment": "~2.8.3",
+      "w3cvalidator": "~0.1.26"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
