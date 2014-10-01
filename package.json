@@ -65,7 +65,8 @@
     "clone": "~0.1.18",
     "fs": "~0.0.2",
     "moment": "~2.8.3",
-      "w3cvalidator": "~0.1.26"
+      "w3cvalidator": "~0.1.26",
+      "esprima": "~1.2.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
