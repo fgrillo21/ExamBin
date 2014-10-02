@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Control Panel Prof</title>
         <link rel="stylesheet" href="{{static}}/css/myjsbin/controlPanelProf.css">
+        <script src="{{static}}/js/myJsbin/countdown_v5.0/countdown.js"></script>
     </head>
     <body>
         <h1 align="center">Pannello di controllo del Professore</h1>
@@ -16,19 +17,62 @@
             </fieldset>
         </form>
 
-        <p>bottone con cui avere il report del compito desiderato</p>
-        <button id="btnGetStudentReport">
-            Get Student Report
-        </button>
-    <div id="divExamReport" style="display: none">
-        <table id="tableExamReport" border="1">
-            <thead>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <section id="clock">
+            <div>
+                <button id="btnsetup" value="setup" >Setup</button>
+                <button id="btnready" value="ready" >Ready</button>
+                <script type="application/javascript">
+                    var myCountdown2 = new Countdown({
+                        time: 5400,
+                        width:300,
+                        height:80,
+                        inline:true,
+                        hideLine: true,
+                        numbers		: 	{
+                            font 	: "Arial",
+                            color	: "#FFFFFF",
+                            bkgd	: "#ff8f00",
+                            rounded	: 0.15,
+                            shadow	: {
+                                x : 0,
+                                y : 3,
+                                s : 4,
+                                c : "#000000",
+                                a : 0.4
+                            }
+                        },
+                        labels : {
+                            font   : "Arial",
+                            color  : "#a8a8a8",
+                            weight : "normal" // < - no comma on last item!
+                        },
+                        rangeHi:"hour"	// <- no comma on last item!
+                    });
 
-    </div>
+                </script>
+            </div>
+            <div>
+                <span>Actual Status Timer inside Server : </span>
+                <span id="spanStatusClock"></span>
+            </div>
+        </section>
+
+        <section>
+            <p>//bottone con cui avere il report del compito desiderato</p>
+            <button id="btnGetStudentReport">
+                Get Student Report
+            </button>
+
+
+            <div id="divExamReport" style="display: none">
+                <table id="tableExamReport" border="1">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{{static}}/js/myJsbin/controlPanelProf.js"></script>

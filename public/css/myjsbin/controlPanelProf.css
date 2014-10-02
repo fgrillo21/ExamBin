@@ -6,3 +6,24 @@ input[type="file"] {
     position:relative;
     left:47%;
 }
+#clock {
+    padding: 20px;
+    border: 2px solid blueviolet;
+}
+#spanStatusClock {
+    color:#ff0000;
+    font-weight: bold;
+}
+
+section {
+    margin: 20px;
+    border: 2px dotted black;
+}
+fieldset {
+    border:1px solid #999;
+    border-radius:8px;
+    box-shadow:0 0 10px #999;
+}
+legend {
+    background:#fff;
+}

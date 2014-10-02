@@ -4,6 +4,13 @@
 $(document).ready(mainFunction);
 
 function mainFunction() {
+
+    setTimeout(callForClockAulaStatus, 5000);
+
+    $("button[id^='btn']").click(function (){
+        setClockAulaStatus(this.value);
+    })
+
     $("#btnGetStudentReport").click(function() {
         //call the service that return all
         $.ajax({
@@ -49,4 +56,43 @@ function mainFunction() {
 }
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function callForClockAulaStatus() {
+    console.log(location.protocol+"//"+location.hostname+":"+location.port+"/getClockAula");
+    $.ajax({
+        url: "getClockAula", //this is the right route
+        dataType: "json",
+        success: function (data) { //TODO here I need a switch block to manage different clock status
+            console.log(data);
+            $("#spanStatusClock").text(data.status);
+            //setTimeout(callForClockAulaStatus, 5000);
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
+}
+
+function setClockAulaStatus(newStatus) {
+
+    var data = {
+        status: newStatus
+    }
+
+    $.ajax({
+        url: "setClockAula", //this is the right route
+        dataType: "json",
+        data: data,
+        success: function (response) { //TODO here I need a switch block to manage different clock status
+            console.log(response);
+            $("#spanStatusClock").text(response.status);
+            //setTimeout(callForClockAulaStatus, 3000);
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
 }

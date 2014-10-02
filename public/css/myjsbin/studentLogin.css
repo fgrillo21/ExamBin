@@ -1,0 +1,27 @@
+#formLogin {
+    width:30%;
+    margin:auto;
+}
+label {
+    display: inline-block;
+    width: 50%;
+    font-style: italic;
+}
+
+#btnLogin {
+    font-size: larger;
+    position:relative;
+    left:40%;
+}
+fieldset {
+    border:1px solid #999;
+    border-radius:8px;
+    box-shadow:0 0 10px #999;
+}
+legend {
+    background:#fff;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+}
