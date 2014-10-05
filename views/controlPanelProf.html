@@ -8,7 +8,8 @@
     </head>
     <body>
         <h1 align="center">Pannello di controllo del Professore</h1>
-
+        <span id="foo"></span>
+        <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
         <form method='post' action='/uploadFileCustom' enctype="multipart/form-data">
             <fieldset>
                 <legend>form in cui caricare i dati relativi al compito</legend>
@@ -23,11 +24,12 @@
                 <button id="btnready" value="ready" >Ready</button>
                 <script type="application/javascript">
                     var myCountdown2 = new Countdown({
-                        time: 5400,
+                        time: {{timeout}} || 100,
                         width:300,
                         height:80,
                         inline:true,
                         hideLine: true,
+                        target: "foo", //TODO perfetc, with this property I can set the father element where attach th countdown element, created from library
                         numbers		: 	{
                             font 	: "Arial",
                             color	: "#FFFFFF",

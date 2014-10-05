@@ -324,14 +324,15 @@ if(top != self) {
           </div>
         </div>
         <div class="menu">
-            <span class="button">Time to the end:
-                <script type="application/javascript"> //TODO modify with real parameters
+            <span id="spanCountdown" class="button">Time to the end:
+                <script type="application/javascript"> //TODO modify with real parameters end put it inside a js script
                     var myCountdown2 = new Countdown({
-                        time: 5400,
+                        time:5000,
                         width:200,
                         height:25,
                         inline:true,
                         hideLabels	: true,
+                        target: spanCountdown,
                         hideLine: true,
                         numbers		: 	{
                             font 	: "Arial",
