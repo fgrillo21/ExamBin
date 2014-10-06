@@ -1,13 +1,27 @@
 /**
  * Created by Trappola on 29/09/2014.
  */
+
+var headersTableReport = [
+    "name",
+    "surname",
+    "matricola",
+    "html",
+    "javascript",
+    "css",
+    "error_Html",
+    "error_Javascript",
+    "error_Css"
+];
+
 $(document).ready(mainFunction);
 
 function mainFunction() {
 
+    console.log($("[style]").length);
     setTimeout(callForClockAulaStatus, 5000);
 
-    $("button[id^='btn']").click(function (){
+    $("button[id^='btnClock']").click(function (){
         setClockAulaStatus(this.value);
     })
 
@@ -27,8 +41,8 @@ function mainFunction() {
 
                 var tmp;
                 var tableHeader = "<tr>";
-                for (tmp in res[0]){
-                    tableHeader += "<th>"+tmp+"</th>";
+                for (var y = 0; y < headersTableReport.length ;y++){
+                    tableHeader += "<th>"+headersTableReport[y].replace("_"," ")+"</th>";
                 }
                 tableHeader += "</tr>";
                 $thead.append(tableHeader);
@@ -39,13 +53,12 @@ function mainFunction() {
                     tmp = res[i];
                     tableRow = "<tr>";
 
-                    for (row in tmp){
-                        tableRow += "<td>"+  htmlEntities(tmp[row])+"</td>";
+                    for (var z = 0; z < headersTableReport.length ;z++){
+                        tableRow += "<td>"+  htmlEntities(tmp[headersTableReport[z]])+"</td>";
                     }
                     tableRow += "</tr>";
                     $tbody.append(tableRow);
                 }
-
                 $divExamReport.show();
             },
             error: function () {
@@ -84,6 +97,7 @@ function setClockAulaStatus(newStatus) {
     $.ajax({
         url: "setClockAula", //this is the right route
         dataType: "json",
+        type: "POST",
         data: data,
         success: function (response) { //TODO here I need a switch block to manage different clock status
             console.log(response);

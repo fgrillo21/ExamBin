@@ -2,10 +2,11 @@
 <html id="jsbin" lang="en" class="{{#if flash_tip}}showtip{{/if}}{{#if embed}} embed{{/if}}{{#equal editorLayout "0"}}{{else}} layout layout{{editorLayout}}{{/equal}}">
 <head>
   <meta charset=utf-8>
-  <title>JS Bin - Collaborative JavaScript Debugging</title>
+  <title>My JS Bin - Collaborative JavaScript Debugging</title>
   <link rel="icon" href="{{static}}/images/favicon.png">
   <link rel="stylesheet" href="{{static}}/css/style.css{{cacheBust}}">
   <link rel="stylesheet" href="{{static}}/css/flat-ui.css{{cacheBust}}">
+    <link rel="stylesheet" href="{{static}}/css/myjsbin/index.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   {{#if custom_css}}<link rel="stylesheet" href="{{static}}/{{custom_css}}{{cacheBust}}">{{/if}}
   {{#equal editorLayout "0"}}{{else}}<link rel="stylesheet" href="{{static}}/css/editor-layout.css{{cacheBust}}">{{/equal}}
@@ -24,7 +25,6 @@
   <meta property="og:description" content="A live pastebin for HTML, CSS & JavaScript and a range of processors, including SCSS, CoffeeScript, Jade and more..." />
   {{/if}}
   <meta property="og:image" content="{{static}}/images/logo.png" />
-  <script src="{{static}}/js/myJsbin/countdown_v5.0/countdown.js"></script>
 </head>
 <!--[if lt IE 7]>  <body class="source ie ie6"> <![endif]-->
 <!--[if IE 7]>     <body class="source ie ie7"> <![endif]-->
@@ -52,7 +52,7 @@ if(top != self) {
           <h1>JS Bin</h1></a><a href="/clone" target="_blank" class="button">Save</a>
         </span>
       {{else}}
-        <div class="menu">
+        <!--<div class="menu">
           <a href="{{root}}{{code_id_path}}/edit#{{#feature request "fileMenuTest"}}file{{else}}bins{{/feature}}" target="_blank" class="brand button button-dropdown group button-dropdown-arrow"><img src="{{static}}/images/favicon.svg"> {{#feature request "fileMenuTest"}}File{{else}}Bins{{/feature}}</a>
           <div class="dropdown" id="{{#feature request "fileMenuTest"}}file{{else}}bins{{/feature}}">
             <div class="dropdownmenu">
@@ -91,7 +91,8 @@ if(top != self) {
               <a hidden data-desc="How to embed a bin" target="_blank" title="How to embed a bin" data-label="how-to-embed" class="button group" href="http://jsbin.com/help/how-can-i-embed-jsbin">How to embed</a>
             </div>
           </div>
-        </div><div class="menu">
+        </div>-->
+        <div class="menu">
           <span class="button group">Add library
           <select id="library"></select>
           </span>
@@ -221,7 +222,8 @@ if(top != self) {
                   </div>
                 </div>
                 {{else}}
-                <a href="/login" class="button" id="loginbtn">Login or Register</a>
+                  <!-- TODO hide the html part that is not useful for my project -->
+                <!--<a href="/login" class="button" id="loginbtn">Login or Register</a>-->
                 {{/feature}}
               </div>
             {{else}}
@@ -325,9 +327,9 @@ if(top != self) {
         </div>
         <div class="menu">
             <span id="spanCountdown" class="button">Time to the end:
-                <script type="application/javascript"> //TODO modify with real parameters end put it inside a js script
+                <!--<script type="application/javascript"> //TODO modify with real parameters end put it inside a js script
                     var myCountdown2 = new Countdown({
-                        time:5000,
+                        time: {{timeout}} || 100,
                         width:200,
                         height:25,
                         inline:true,
@@ -355,8 +357,11 @@ if(top != self) {
                         rangeHi:"hour"	// <- no comma on last item!
                     });
 
-                </script>
+                </script>-->
             </span>
+        </div>
+        <div class="menu">
+            <span id="btnFinish" class="button">Consegna</span>
         </div>
       </div>
     </div>
@@ -635,6 +640,11 @@ Include alerts, prompts &amp; confirm boxes">Run with JS</button>
 window.template = {{{json_template}}};
 window.jsbin = {{{jsbin}}};
 </script>
+<script type="application/javascript">
+    var timeoutClassroomClock = {{timeout}};
+</script>
+<script src="{{static}}/js/myJsbin/countdown_v5.0/countdown.js"></script>
+<script src="{{static}}/js/myjsbin/index.js"></script>
   {{#if concat}}
 <script src="{{static}}/js/prod/jsbin-{{version}}.js"></script>
   {{else}}

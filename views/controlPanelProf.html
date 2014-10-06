@@ -7,7 +7,7 @@
         <script src="{{static}}/js/myJsbin/countdown_v5.0/countdown.js"></script>
     </head>
     <body>
-        <h1 align="center">Pannello di controllo del Professore</h1>
+        <h1 class="ciao" align="center">Pannello di controllo del Professore</h1>
         <span id="foo"></span>
         <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
         <form method='post' action='/uploadFileCustom' enctype="multipart/form-data">
@@ -20,11 +20,12 @@
 
         <section id="clock">
             <div>
-                <button id="btnsetup" value="setup" >Setup</button>
-                <button id="btnready" value="ready" >Ready</button>
+                <button id="btnClocksetup" value="setup" >Setup</button>
+                <button id="btnClockready" value="ready" >Ready</button>
                 <script type="application/javascript">
                     var myCountdown2 = new Countdown({
                         time: {{timeout}} || 100,
+                        //style: "flip",
                         width:300,
                         height:80,
                         inline:true,

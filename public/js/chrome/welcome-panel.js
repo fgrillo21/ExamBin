@@ -4,6 +4,8 @@
 
   if (!$('#toppanel').length) {
     return;
+  } else {
+      return; //TODO fix problem about welcome Panel (because it is a pretty ugly solution
   }
 
   if (jsbin.settings.gui === undefined) {

@@ -1,0 +1,10 @@
+#btnFinish{
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+}
+
+#btnFinish:hover {
+    background-color: green;
+}

@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{static}}/css/myjsbin/studentLogin.css">
-    <title>Student Login</title>
-</head>
-<body>
-    <h1 align="center">Pagina di login dello studente</h1>
-    <form method="post" action="/confirmStudent" id="formLogin">
-        <fieldset>
-            <legend>Login for the exam Session</legend>
-                <div>
-                    <label >Name:</label>
-                    <input name="name" type="text">
-                </div>
-                <div>
-                    <label >Surname:</label>
-                    <input name="surname" type="text">
-                </div>
-                <div>
-                    <label >Matricola:</label>
-                    <input name="matricola" type="number">
-                </div>
-                <input id="btnLogin" type='submit' value="Login/Entra" disabled="disabled"/>
-        </fieldset>
-    </form>
-</body>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/studentLogin.css">
+        <title>Student Login</title>
+    </head>
+    <body>
+        <h1 align="center">Pagina di login dello studente</h1>
+        <form method="post" action="/confirmStudent" id="formLogin">
+            <fieldset>
+                <legend>Login for the exam Session</legend>
+                    <div>
+                        <label >Name:</label>
+                        <input name="name" type="text">
+                    </div>
+                    <div>
+                        <label >Surname:</label>
+                        <input name="surname" type="text">
+                    </div>
+                    <div>
+                        <label >Matricola:</label>
+                        <input name="matricola" type="number">
+                    </div>
+                    <input id="btnLogin" type='submit' value="Login/Entra" disabled="disabled"/>
+            </fieldset>
+        </form>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{static}}/js/myJsbin/studentLogin.js"></script>
 </html>
