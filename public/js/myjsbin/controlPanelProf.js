@@ -11,7 +11,9 @@ var headersTableReport = [
     "css",
     "error_Html",
     "error_Javascript",
-    "error_Css"
+    "error_Css",
+    "failure_Mocha",
+    "pass_Mocha"
 ];
 
 $(document).ready(mainFunction);
