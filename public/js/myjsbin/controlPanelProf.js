@@ -16,16 +16,73 @@ var headersTableReport = [
     "pass_Mocha"
 ];
 
+console.log($("section").length);
+
 $(document).ready(mainFunction);
 
 function mainFunction() {
 
-    console.log($("[style]").length);
+    $("#formExamFile").submit(function(event) {
+
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+            url = $form.attr( 'action' );
+        var formData = new FormData($(this)[0]);
+
+//        awesome, with this ajax call I update the exam's file choose by the professor
+        $.ajax({
+            url: url,
+            data: formData,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                console.log(res);
+            },
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        })
+    });
+
+    var myCountdown2 = new Countdown({
+        time: 100,
+        //style: "flip",
+        width:300,
+        height:80,
+        inline:true,
+        hideLine: true,
+        target: "foo", //TODO perfetc, with this property I can set the father element where attach th countdown element, created from library
+        numbers		: 	{
+        font 	: "Arial",
+            color	: "#FFFFFF",
+            bkgd	: "#ff8f00",
+            rounded	: 0.15,
+            shadow	: {
+                x : 0,
+                y : 3,
+                s : 4,
+                c : "#000000",
+                a : 0.4
+            }
+        },
+        labels : {
+            font   : "Arial",
+                color  : "#a8a8a8",
+                weight : "normal" // < - no comma on last item!
+        },
+        rangeHi:"hour"	// <- no comma on last item!
+        });
+
     setTimeout(callForClockAulaStatus, 5000);
 
     $("button[id^='btnClock']").click(function (){
         setClockAulaStatus(this.value);
-    })
+    });
 
     $("#btnGetStudentReport").click(function() {
         //call the service that return all

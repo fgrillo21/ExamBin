@@ -68,7 +68,8 @@
       "w3cvalidator": "~0.1.26",
       "esprima": "~1.2.2",
       "cheerio": "~0.17.0",
-      "chai": "~1.9.2"
+      "chai": "~1.9.2",
+      "jsdom": "~1.0.1"
 
   },
   "devDependencies": {
