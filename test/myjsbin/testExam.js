@@ -17,27 +17,14 @@ describe("Validate Exam", function() {
             expect(examWindow.y).to.equal(1);
         });
 
-        it("should not have element with attribute id", function() {
+        it("vediamo se incluso veramente il file", function() {
             //var numElementClass  = $("[id]").length;
-            expect(examWindow.x).to.equal(3);
+            expect(examWindow.borghi).to.equal(22);
         });
-        it("should have threee <p> element", function() {
+        it("test my function zeta", function() {
 //            var numElementClass  = $("p").css();
 //            console.log(numElementClass);
             expect(examWindow.zeta()).to.equal(3);
         });
     });
-
-    /*describe("#greets", function() {
-        it("should throw if no target is passed in", function() {
-            expect(function() {
-                (new Cow()).greets();
-            }).to.throw(Error);
-        });
-
-        it("should greet passed target", function() {
-            var greetings = (new Cow("Kate")).greets("Baby");
-            expect(greetings).to.equal("Kate greets Baby");
-        });
-    });*/
 });
