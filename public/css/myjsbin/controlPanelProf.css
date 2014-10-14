@@ -6,10 +6,7 @@ input[type="file"] {
     position:relative;
     left:47%;
 }
-#clock {
-    padding: 20px;
-    border: 2px solid blueviolet;
-}
+
 #spanStatusClock {
     color:#ff0000;
     font-weight: bold;
@@ -17,7 +14,9 @@ input[type="file"] {
 
 section {
     margin: 20px;
-    border: 2px dotted black;
+    padding: 10px;
+    border: 3px solid #000088;
+    border-radius:8px;
 }
 fieldset {
     border:1px solid #999;
@@ -25,5 +24,51 @@ fieldset {
     box-shadow:0 0 10px #999;
 }
 legend {
+    text-align: center;
     background:#fff;
+}
+
+div.wrapper {
+    display: table;
+    width: 100%;
+}
+
+div.wrapper > section {
+    display: table-cell;
+    width:50%;
+}
+
+label::after {
+    content: " :";
+}
+label {
+    display: inline-block;
+    width: 50%;
+}
+#examSessionInfo > div{
+    display: inline-block;
+    width: 48%;
+    text-align: center;
+}
+#examSessionInfo {
+
+    width: 70%;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 3px solid orange;
+    border-radius: 8px;
+}
+
+.center {
+    text-align: center;
+}
+
+div.center {
+    margin-top:5px;
+}
+
+button[id^='btnClock'] {
+    margin:20px;
+    font-size: large;
 }

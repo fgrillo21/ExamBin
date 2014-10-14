@@ -7,28 +7,72 @@
         <script src="{{static}}/js/myjsbin/countdown_v5.0/countdown.js"></script>
     </head>
     <body>
-        <h1 class="ciao" align="center">Pannello di controllo del Professore</h1>
-        <span id="foo"></span>
-        <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
-        <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
-            <fieldset>
-                <legend>form in cui caricare i dati relativi al compito</legend>
-                <input type='file' id='fileUploaded' name='fileUploaded' />
-                <input type='submit' />
-            </fieldset>
-        </form>
+        <h1 align="center">Pannello di controllo del Professore</h1>
 
-        <section id="clock">
-            <div>
-                <button id="btnClocksetup" value="setup" >Setup</button>
-                <button id="btnClockready" value="ready" >Ready</button>
+        <section id="secLoadExamInformation">
+            <h1 align="center">Sezione relativa al caricamento delle informazioni per iniziare l'esame</h1>
+            <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
+            <div class="wrapper">
+                <section id="secUploadFileExam">
+                    <h3 align="center" >Gestione File compito</h3>
+                    <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
+                        <fieldset>
+                            <legend>form in cui caricare i dati relativi al compito</legend>
+                            <div id="divUploadHtml">
+                                <label>Choose File Html for the exam</label>
+                                <input type='file'  id='fileHtmlUpload' name='fileHtmlUpload' />
+                            </div>
+                            <div id="divUploadCss">
+                                <label>Choose File Css for the exam</label>
+                                <input type='file' id='fileCssUpload' name='fileCssUpload' />
+                            </div>
+                            <div id="divUploadJavascript">
+                                <label>Choose File Javascript for the exam</label>
+                                <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' />
+                            </div>
+                            <div class="center">
+                                <input type='submit' value="Carica file del Compito"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </section>
+                <section id="clock">
+                    <h3 align="center" >Gestione Temporizzazione compito</h3>
+                    <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
+                        <fieldset>
+                            <legend>form setup clock compito</legend>
+                            <div>
+                                <label>Duration of the exam</label>
+                                <input type='number'  id='inputDurationTest' name='inputDurationTest' />
+                            </div>
+                            <div>
+                                <label>Duration of over Time</label>
+                                <input type='number' id='inputDurationOverTimeTest' name='inputDurationOverTimeTest' />
+                            </div>
+                            <div class="center">
+                                <input type='submit' value="Carica valori Clock del compito"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="center">
+                        <button id="btnClocksetup" value="setup" >Inizia la fase di Setup</button>
+                        <button id="btnClockready" value="ready" disabled="disabled" >Inizia Il Compito</button>
+                    </div>
+
+                </section>
+
             </div>
+        </section>
+        <div id="examSessionInfo">
+            <h1 align="center"> Informazioni sull'Attuale sessione d'esame </h1>
             <div>
                 <span>Actual Status Timer inside Server : </span>
                 <span id="spanStatusClock"></span>
             </div>
-        </section>
-
+            <div>
+                <span id="divCountdown"></span>
+            </div>
+        </div>
         <section>
             <p>//bottone con cui avere il report del compito desiderato</p>
             <button id="btnGetStudentReport">

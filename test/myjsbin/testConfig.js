@@ -1,19 +1,19 @@
 /**
  * Created by Trappola on 07/10/2014.
  */
-var exam = null;
+var exams = [];
 
-function getExam(){
-    return exam;
+function getExams(){
+    return exams;
 }
 
-function setExam(examToTest){
-    exam = examToTest;
+function addExam(examToTest){
+    exams.push(examToTest);
 }
 
 var testConfig = {
-    getExam: getExam,
-    setExam: setExam
+    getExams: getExams,
+    addExam: addExam
 };
 
 module.exports = testConfig;
