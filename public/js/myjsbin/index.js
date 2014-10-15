@@ -9,6 +9,31 @@ $(document).ready(mainFunction);
 //TODO manage btnFinish click
 function mainFunction() {
     createCountdownElement();
+
+    $("#btnFinish").click(function() {
+        console.log(location.pathname);
+        console.log(location.pathname.split('/')[1]);
+
+        var urlExam = location.pathname.split('/')[1];
+
+        var data = {
+            urlExam: urlExam
+        }
+        $.ajax({
+            url: "/deliveryExam", //this is the right route
+            dataType: "json",
+            type: "POST",
+            data: data,
+            success: function (response) { //TODO here I need a switch block to manage different clock status
+                console.log(response);
+                alert(response);
+            },
+
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
+    });
 }
 
 function callServiceClock(){
@@ -34,6 +59,7 @@ function callServiceClock(){
 }
 
 function createCountdownElement(){
+    console.log(timeoutClassroomClock);
     myCountdown = new Countdown({
             time: timeoutClassroomClock,
             width:200,

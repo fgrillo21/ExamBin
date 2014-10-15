@@ -1,5 +1,10 @@
+body {
+    font-family: Verdana, sans-serif;
+}
+
 #formLogin {
-    width:30%;
+    height: 50%;
+    width:40%;
     margin:auto;
 }
 label {
@@ -8,10 +13,13 @@ label {
     font-style: italic;
 }
 
-#btnLogin {
+#divLogin {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#btnLogin{
     font-size: larger;
-    position:relative;
-    left:40%;
 }
 fieldset {
     border:1px solid #999;
@@ -19,9 +27,7 @@ fieldset {
     box-shadow:0 0 10px #999;
 }
 legend {
+    text-align: center;
     background:#fff;
 }
 
-body {
-    font-family: Verdana, sans-serif;
-}

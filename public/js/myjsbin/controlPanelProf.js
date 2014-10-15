@@ -3,6 +3,7 @@
  */
 
 var MILLIS2SEC = 1000;
+var MINUTE2MILLIS = 60000;
 var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
@@ -12,14 +13,15 @@ var headersTableReport = [
     "surname",
     "matricola",
     //"html",
-    "javascript",
-    "css",
+    //"javascript",
+    //"css",
     "examUrl",
     "error_Html",
     "error_Javascript",
     "error_Css",
     "failure_Mocha",
-    "pass_Mocha"
+    "pass_Mocha",
+    "proposal_vote"
 ];
 
 
@@ -50,6 +52,7 @@ function mainFunction() {
                 processData: false,
                 success: function (res) {
                     console.log(res);
+                    fileUploaded = true;
                     alert(res);
                 },
                 error: function () {
@@ -81,8 +84,7 @@ function mainFunction() {
                 contentType: false,
                 success: function (response) { //TODO here I need a switch block to manage different clock status
                     console.log(response);
-                    //$("#spanStatusClock").text(response.status);
-                    //setTimeout(callForClockAulaStatus, 3000);
+                    clockUploaded = true;
                     alert(res);
                 },
                 error: function () {
@@ -102,7 +104,24 @@ function mainFunction() {
         var data = {
             status: this.value
         }
-        setClockAulaStatus(data);
+
+        var confirmRequest = true;
+
+        if (this.value === "setup"){
+            if (!fileUploaded || !clockUploaded){
+                var message = "ATTENZIONE\n\n";
+                if (!fileUploaded){
+                    message += "- testo esami non caricato\n";
+                }
+                if (!clockUploaded){
+                    message += "- testo esami non caricato\n";
+                }
+                confirmRequest = confirm(message);
+            }
+        }
+        if (confirmRequest) {
+            setClockAulaStatus(data);
+        }
     });
 
     $("#btnGetStudentReport").click(function() {
@@ -168,10 +187,11 @@ function callForClockAulaStatus() {
                     case "almostover":
                     case "overtime":
                     case "over":
-                        $('#btnLogin').prop('disabled', true);
-                        break;
                     case "setup":
                     case "ready":
+                        //$('#btnLogin').prop('disabled', true);
+                        break;
+
                     case "start":
                         countdownTime = data.timeout;
                         createCountdownObject(countdownTime);
@@ -234,9 +254,10 @@ function validateInputFile(){
 function validateClockInput(){
 
     var ok = false;
-    console.log($("#inputDurationTest").val());
-    if ($("#inputDurationTest").val() !== ""){
-        if ($("#inputDurationOverTimeTest").val() !== ""){
+    var durationTest = $("#inputDurationTest").val();
+    var durationOverTime = $("#inputDurationOverTimeTest").val();
+    if (durationTest !== "" && durationTest > 0 ){
+        if (durationOverTime !== "" && durationOverTime > 0){
             ok = true;
         }
     }
@@ -260,7 +281,7 @@ function createCountdownObject(millisec){
           //TODO try to manage in a best way this function call when the countdown finish your work
           alert("time is up");
         },
-        target: "divCountdown", //TODO perfetc, with this property I can set the father element where attach th countdown element, created from library
+        target: "divCountdown", // perfetc, with this property I can set the father element where attach th countdown element, created from library
         numbers		: 	{
             font 	: "Arial",
             color	: "#FFFFFF",
