@@ -22,7 +22,7 @@ function callForClockAulaStatus() {
             console.log(data);
             if (data.status !== clockStatus){
                 clockStatus = data.status;
-                /*switch (clockStatus){
+                switch (clockStatus){
                     case "notest":
                     case "almostover":
                     case "overtime":
@@ -34,7 +34,7 @@ function callForClockAulaStatus() {
                     case "start":
                         $('#btnLogin').prop('disabled', false);
                         break;
-                }*/
+                }
             }
             var cookie = document.cookie;
             console.log(cookie);
