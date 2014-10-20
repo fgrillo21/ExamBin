@@ -1,14 +1,9 @@
 body {
-     font-family: Verdana, sans-serif;
- }
+    font-family: Verdana, sans-serif;
+}
 
 input[type="file"] {
     border: 3px solid darkgreen;
-}
-
-#btnGetStudentReport {
-    position:relative;
-    left:47%;
 }
 
 #spanStatusClock {
@@ -48,20 +43,6 @@ label::after {
 label {
     display: inline-block;
     width: 50%;
-}
-#examSessionInfo > div{
-    display: inline-block;
-    width: 48%;
-    text-align: center;
-}
-#examSessionInfo {
-
-    width: 70%;
-    margin-top: 20px;
-    margin-right: auto;
-    margin-left: auto;
-    border: 3px solid orange;
-    border-radius: 8px;
 }
 
 .center {

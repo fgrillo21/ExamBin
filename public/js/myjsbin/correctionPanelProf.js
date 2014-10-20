@@ -1,0 +1,192 @@
+/**
+ * Created by Trappola on 17/10/2014.
+ */
+
+var fileValidationUploaded = false;
+var voteWeightUploaded = false;
+var validateExamsArray = null;
+
+var headersTableReport = [
+    "name",
+    "surname",
+    "matricola",
+    //"html",
+    //"javascript",
+    //"css",
+    "examUrl",
+    "error_Html",
+    "error_Javascript",
+    "error_Css",
+    "failure_Mocha",
+    "pass_Mocha",
+    "proposal_vote"
+];
+
+$(document).ready(mainFunction);
+
+function mainFunction() {
+
+    loadExamsDate();
+
+    $("#formValidationFile").submit(function(event) {
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+            url = $form.attr( 'action' );
+        var formData = new FormData($(this)[0]);
+
+        //var confirmInput = validateInputFile();
+
+//        awesome, with this ajax call I update the exam's file choose by the professor
+        //if (confirmInput) {
+            $.ajax({
+                url: url,
+                data: formData,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    console.log(res);
+                    fileValidationUploaded = true;
+                    alert(res);
+                },
+                error: function () {
+                    alert("Si è verificato un problema");
+                }
+            });
+        /*} else {
+            alert("attenzione!!! estensione file errata");
+        }*/
+    });
+
+    $("#formVoteWeight").submit(function(event) {
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+            url = $form.attr( 'action' );
+        var formData = new FormData($(this)[0]);
+
+        var confirmInput = true;
+
+        if (confirmInput) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) { //TODO here I need a switch block to manage different clock status
+                    console.log(response);
+                    voteWeightUploaded = true;
+                    alert(res);
+                },
+                error: function () {
+                    alert("Si è verificato un problema");
+                }
+            });
+        } else {
+            alert("Attenzione!!! \nInserire dei valori numerici nei campi del form");
+        }
+    });
+
+    $("#btnGetExamValidation").click(function() {
+        //call the service that return all
+
+        var confirmRequest = true;
+
+        var optionSelected = $( "#selectExamDate" ).val();
+        if (!fileValidationUploaded || !voteWeightUploaded || optionSelected === "---"){
+            var message = "ATTENZIONE\n\n";
+            if (!fileValidationUploaded){
+                message += "- testo validazione custom non caricato\n";
+            }
+            if (!voteWeightUploaded){
+                message += "- pesi per creazione voto non caricati\n";
+            }
+
+            if (optionSelected === "---"){
+                message += "- nessuna data dell'esame selezionata\n";
+            }
+            message += "\n\nPremendo OK verrà effettuata la validazione\ncon le impostazioni di default del sistema\n";
+
+            //TODO here for production mode I need only an alert and not a confirm dialog, and I can set confirm request to false
+            confirmRequest = confirm(message);
+        }
+
+        var dataToSend = {
+            date: optionSelected
+        };
+
+        if (confirmRequest) {
+
+            $.ajax({
+                url: "/correction/validateExams",
+                dataType: "json",
+                data: dataToSend,
+                success: function (res) {
+                    console.log(res);
+                    alert(res);
+                    validateExamsArray = res;
+                    var $divExamReport = $("#divExamReport");
+                    var $thead = $("#tableExamReport thead");
+                    var $tbody = $("#tableExamReport tbody");
+                    $thead.empty();
+                    $tbody.empty();
+
+                    var tmp;
+                    var tableHeader = "<tr>";
+                    for (var y = 0; y < headersTableReport.length; y++) {
+                        tableHeader += "<th>" + headersTableReport[y].replace("_", " ") + "</th>";
+                    }
+                    tableHeader += "</tr>";
+                    $thead.append(tableHeader);
+
+                    var tableRow;
+                    for (var i = 0; i < res.length; i++) {
+                        tmp = res[i];
+                        tableRow = "<tr>";
+
+                        for (var z = 0; z < headersTableReport.length; z++) {
+                            tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
+                        }
+                        tableRow += "</tr>";
+                        $tbody.append(tableRow);
+                    }
+                    $divExamReport.show();
+                },
+                error: function () {
+                    alert("Si è verificato un problema");
+                }
+            });
+        }
+    });
+
+    $("#saveReport").click(function() {
+        window.location.href = location.protocol+"//"+location.hostname+":"+location.port+"/professor/correction/file";
+    });
+}
+
+function loadExamsDate() {
+    $.ajax({
+        url: "/correction/getAllExamsDate",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            alert(response);
+            var $selectDate = $("#selectExamDate");
+            var tmpOption = null;
+            for (var i = 0; i < response.length; i++){
+                tmpOption = "<option value='"+response[i]+"'>"+response[i]+"</option>";
+                $selectDate.append(tmpOption);
+            }
+        },
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
+}

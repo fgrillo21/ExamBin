@@ -50,7 +50,8 @@
   "saveBookmark": "INSERT INTO owner_bookmarks (`name`, `url`, `revision`, `type`, `created`) VALUES (?,?,?,?,?)",
   "getBookmark": "SELECT * FROM owner_bookmarks WHERE `name`=? AND `type`=? ORDER BY `created` DESC",
   "getAllSandbox": "SELECT * FROM sandbox WHERE url LIKE ? ",
-  "updateBinCompleteExam": "UPDATE `sandbox` SET `url`=? WHERE `url`=? ",
+  "updateBinCompleteExam": "UPDATE `sandbox` SET `url`=? WHERE `url`=? AND `revision`=? ",
+  "getAllExamDate": "SELECT `url` FROM sandbox WHERE `url` LIKE '%finish' ORDER BY `url` DESC",
   "sandboxColumns": [
     "created",
     "last_viewed",

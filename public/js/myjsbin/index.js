@@ -3,53 +3,52 @@
  */
 
 var myCountdown;
+var clockStatus = null;
+
 
 $(document).ready(mainFunction);
 
 //TODO manage btnFinish click
 function mainFunction() {
+
     createCountdownElement();
 
     $("#btnFinish").click(function() {
-        console.log(location.pathname);
-        console.log(location.pathname.split('/')[1]);
-
-        var urlExam = location.pathname.split('/')[1];
-
-        var data = {
-            urlExam: urlExam
+        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler consegnare il tuo esame???\n\n cliccando su OK consegnerai il tuo elaborato definitivamente,\ne questa sarà la versione che verrà corretta");
+        if (confirmDelivery){
+            deliveryExam();
         }
-        $.ajax({
-            url: "/deliveryExam", //this is the right route
-            dataType: "json",
-            type: "POST",
-            data: data,
-            success: function (response) { //TODO here I need a switch block to manage different clock status
-                console.log(response);
-                alert(response);
-            },
-
-            error: function () {
-                alert("Si è verificato un problema");
-            }
-        });
     });
+
+    callForClockAulaStatus();
 }
 
-function callServiceClock(){
-
-    console.log(location.protocol+"://"+location.hostname+":"+location.port+"/getClockAula");
+function callForClockAulaStatus(){
     $.ajax({
-        url: location.protocol+"://"+location.hostname+"/getClockAula", //this is the right route
+        url: "/getClockAula", //this is the right route
         dataType: "json",
         success: function (data) { //todo, qui penso ad un bello switch probabilmente
-            console.log(data.status);
-            if (data.status === "notest"){
-                console.log("Non ci si può registrare poichè non siamo in una sessione di test");
-                alert("Yuppi");
-                //setTimeout(callServiceClock,15000);
+
+            if (data.status !== clockStatus){
+
+                clockStatus = data.status;
+
+                switch (clockStatus){
+                    case "notest":
+                    case "almostover":
+                    case "overtime":
+                    case "setup":
+                    case "ready":
+                        //$('#btnLogin').prop('disabled', true);
+                        break;
+
+                    case "over":
+                        deliveryExam();
+                        break;
+                }
             }
 
+            setTimeout(callForClockAulaStatus, 5000);
         },
 
         error: function () {
@@ -66,7 +65,11 @@ function createCountdownElement(){
             height:25,
             inline:true,
             hideLabels	: true,
-            target: spanCountdown,
+            target: "spanCountdown",
+            onComplete: function(){
+                //TODO try to manage in a best way this function call when the countdown finish your work
+                alert("time is up");
+            },
             hideLine: true,
             numbers		: 	{
             font 	: "Arial",
@@ -88,4 +91,29 @@ function createCountdownElement(){
             },
             rangeHi:"hour"	// <- no comma on last item!
         });
+}
+
+function deliveryExam(){
+    var urlExam = location.pathname.split('/')[1];
+    var examRevision = location.pathname.split('/')[2]
+
+    var data = {
+        urlExam: urlExam,
+        examRevision: examRevision
+    }
+    $.ajax({
+        url: "/deliveryExam", //this is the right route
+        dataType: "json",
+        type: "POST",
+        data: data,
+        success: function (response) { //TODO here I need a switch block to manage different clock status
+            console.log(response);
+            alert("esame consegnato con successo");
+            window.location.href = response.finishPageUrl;
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
 }

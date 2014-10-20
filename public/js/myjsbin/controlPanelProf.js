@@ -11,17 +11,17 @@ var countdownTime = 0;
 var headersTableReport = [
     "name",
     "surname",
-    "matricola",
-    //"html",
-    //"javascript",
-    //"css",
+    "matricola"/*,
+    "html",
+    "javascript",
+    "css",
     "examUrl",
     "error_Html",
     "error_Javascript",
     "error_Css",
     "failure_Mocha",
     "pass_Mocha",
-    "proposal_vote"
+    "proposal_vote"*/
 ];
 
 
@@ -114,7 +114,7 @@ function mainFunction() {
                     message += "- testo esami non caricato\n";
                 }
                 if (!clockUploaded){
-                    message += "- testo esami non caricato\n";
+                    message += "- durata esame non caricata\n";
                 }
                 confirmRequest = confirm(message);
             }
@@ -124,41 +124,50 @@ function mainFunction() {
         }
     });
 
-    $("#btnGetStudentReport").click(function() {
-        //call the service that return all
+    $("#btnGetFinishStudent").click(function() {
+        //call the service that return all student that have finish
         $.ajax({
-            url: "getStudentReport",
+            url: "/getFinishStudent",
             dataType: "json",
             success: function (res) {
                 console.log(res);
                 alert(res);
-                var $divExamReport = $("#divExamReport");
-                var $thead = $("#tableExamReport thead");
-                var $tbody = $("#tableExamReport tbody");
-                $thead.empty();
-                $tbody.empty();
+                if (!res.length) {
 
-                var tmp;
-                var tableHeader = "<tr>";
-                for (var y = 0; y < headersTableReport.length ;y++){
-                    tableHeader += "<th>"+headersTableReport[y].replace("_"," ")+"</th>";
-                }
-                tableHeader += "</tr>";
-                $thead.append(tableHeader);
+                    $("#divNobodyFinishExam").show();
 
-                var tableRow;
-                for (var i = 0; i < res.length;i++){
-                    tmp = res[i];
-                    tableRow = "<tr>";
+                } else {
 
-                    for (var z = 0; z < headersTableReport.length ;z++){
-                        //tableRow += "<td>"+  htmlEntities(tmp[headersTableReport[z]])+"</td>";
-                        tableRow += "<td>"+  tmp[headersTableReport[z]]+"</td>";
+                    $("#divNobodyFinishExam").hide();
+                    var $divExamReport = $("#divExamReport");
+                    var $thead = $("#tableExamReport thead");
+                    var $tbody = $("#tableExamReport tbody");
+                    $thead.empty();
+                    $tbody.empty();
+
+                    var tmp;
+                    var tableHeader = "<tr>";
+                    for (var y = 0; y < headersTableReport.length; y++) {
+                        tableHeader += "<th>" + headersTableReport[y].replace("_", " ") + "</th>";
                     }
-                    tableRow += "</tr>";
-                    $tbody.append(tableRow);
+                    tableHeader += "</tr>";
+                    $thead.append(tableHeader);
+
+                    var tableRow;
+                    for (var i = 0; i < res.length; i++) {
+                        tmp = res[i];
+                        tableRow = "<tr>";
+
+                        for (var z = 0; z < headersTableReport.length; z++) {
+                            //tableRow += "<td>"+  htmlEntities(tmp[headersTableReport[z]])+"</td>";
+                            tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
+                        }
+                        tableRow += "</tr>";
+                        $tbody.append(tableRow);
+                    }
+                    $divExamReport.show();
+
                 }
-                $divExamReport.show();
             },
             error: function () {
                 alert("Si è verificato un problema");
@@ -257,7 +266,7 @@ function validateClockInput(){
     var durationTest = $("#inputDurationTest").val();
     var durationOverTime = $("#inputDurationOverTimeTest").val();
     if (durationTest !== "" && durationTest > 0 ){
-        if (durationOverTime !== "" && durationOverTime > 0){
+        if (durationOverTime !== "" && durationOverTime >= 0){
             ok = true;
         }
     }

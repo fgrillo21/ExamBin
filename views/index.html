@@ -39,7 +39,7 @@ if(top != self) {
 </script>
 <a href="#html" id="skipToEditor" class="visuallyhidden">Skip welcome & menu and move to editor</a>
 {{#feature request "welcomePanel"}}
-  {{> welcome_panel}}
+  <!--{{> welcome_panel}}-->
 {{/feature}}
 {{/unless}}
 <div id="control">
@@ -614,8 +614,10 @@ window.jsbin = {{{jsbin}}};
 <script type="application/javascript">
     var timeoutClassroomClock = {{timeout}};
 </script>
+    {{#if notProfessor}}
 <script src="{{static}}/js/myjsbin/countdown_v5.0/countdown.js"></script>
 <script src="{{static}}/js/myjsbin/index.js"></script>
+    {{/if}}
   {{#if concat}}
 <script src="{{static}}/js/prod/jsbin-{{version}}.js"></script>
   {{else}}

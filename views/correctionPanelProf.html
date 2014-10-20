@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Correction Panel Prof</title>
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/correctionPanelProf.css">
+    </head>
+    <body>
+        <h1 align="center">Pannello correzione compiti del Professore</h1>
+        <section id="secLoadWeigthInformation">
+            <h1 align="center">Sezione relativa al caricamento delle informazioni per CORREGGERE l'esame</h1>
+            <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
+            <div class="wrapper">
+                <section id="secUploadFileExam">
+                    <h3 align="center" >Gestione File validazione CUSTOM compito</h3>
+                    <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data">
+                        <fieldset>
+                            <legend>form in cui caricare il test mocha personalizzato</legend>
+                            <div id="divUploadHtml">
+                                <label>Choose File Mocha validation</label>
+                                <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
+                            </div>
+                            <div class="center">
+                                <input type='submit' value="Carica file per validazione personalizzata"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </section>
+                <section id="clock">
+                    <h3 align="center" >Gestione Pesi per proposta di voto</h3>
+                    <form id="formVoteWeight" class="form" method='post' action='/correction/setWeightValidation'>
+                        <fieldset>
+                            <legend>form setup pesi validazione</legend>
+                            <div>
+                                <label>Peso validazione Html standard</label>
+                                <input type='number'  id='inputWeightHtml' name='inputWeightHtml' pattern="\i+" />
+                            </div>
+                            <div>
+                                <label>Peso validazione Css standard</label>
+                                <input type='number'  id='inputWeightCss' name='inputWeightCss' pattern="\i+" />
+                            </div>
+                            <div>
+                                <label>Peso validazione Javascript standard</label>
+                                <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' pattern="\i+" />
+                            </div>
+                            <div>
+                                <label>Peso validazione Custom (Mocha)</label>
+                                <input type='number'  id='inputWeightMocha' name='inputWeightMocha' pattern="\i+" />
+                            </div>
+                            <div>
+                                <label>Voto di partenza</label>
+                                <input type='number'  id='inputStartVote' name='inputStartVote' pattern="\i+" />
+                            </div>
+
+                            <div class="center">
+                                <input type='submit' value="Carica Pesi per validazione"/>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </section>
+
+            </div>
+
+        </section>
+        <section class="center">
+            <span>Scegli data compito</span>
+            <select id="selectExamDate">
+                <option value="---">---</option>
+            </select>
+            <button id="btnGetExamValidation">
+                Get Student Report
+            </button>
+
+
+            <div id="divExamReport" style="display: none">
+                <table id="tableExamReport" border="1">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <button id="saveReport">
+                    View Json Object of Report
+                </button>
+            </div>
+        </section>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{static}}/js/myjsbin/correctionPanelProf.js"></script>
+</html>
