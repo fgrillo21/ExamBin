@@ -4,6 +4,8 @@ body {
 
 input[type="file"] {
     border: 3px solid darkgreen;
+    display: inline-block;
+    width: 48%;
 }
 
 #spanStatusClock {
@@ -17,11 +19,7 @@ section {
     border: 3px solid #000088;
     border-radius:8px;
 }
-fieldset {
-    border:1px solid #999;
-    border-radius:8px;
-    box-shadow:0 0 10px #999;
-}
+
 legend {
     text-align: center;
     background:#fff;
@@ -50,7 +48,7 @@ label {
 }
 
 div.center {
-    margin-top:5px;
+    margin-top:10px;
 }
 
 button[id^='btnClock'] {
@@ -68,4 +66,31 @@ td {
 }
 td:last-child, th:last-child {
     background: #ff0000;
+}
+.pointer {
+    cursor: pointer;
+}
+
+fieldset {
+    border:1px solid #999 !important;
+    border-radius:8px;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0 0 10px #999;
+    box-shadow:0 0 10px #999;
+}
+
+legend {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
+}
+#tableExamReport {
+    margin: 10px 0px;
+}
+mark {
+    background-color: #ff0 !important;
 }

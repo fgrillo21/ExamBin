@@ -49,7 +49,7 @@ label {
     display: inline-block;
     width: 50%;
 }
-#examSessionInfo > div{
+#examSessionInfo > div.cell {
     display: inline-block;
     width: 48%;
     text-align: center;
@@ -87,4 +87,8 @@ td {
 }
 td:last-child, th:last-child {
     background: #ff0000;
+}
+
+#divRestartExamSession {
+    margin: 15px 0px;
 }

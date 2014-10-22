@@ -152,7 +152,12 @@ function mainFunction() {
                         tableRow = "<tr>";
 
                         for (var z = 0; z < headersTableReport.length; z++) {
-                            tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
+                            if (tmp[headersTableReport[z]+"_messages"] && tmp[headersTableReport[z]+"_messages"].length){
+                                tableRow += "<td class='pointer' onclick='viewErrorDialog("+i+",\""+headersTableReport[z]+"\")' >" + tmp[headersTableReport[z]] + "</td>"
+                                console.log("im inside the loop");
+                            } else {
+                                tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
+                            }
                         }
                         tableRow += "</tr>";
                         $tbody.append(tableRow);
@@ -189,4 +194,43 @@ function loadExamsDate() {
             alert("Si è verificato un problema");
         }
     });
+}
+
+function viewErrorDialog(index, errorType){
+    var exam = validateExamsArray[index];
+    var $modalTitle = $('#myModalErrorTitle');
+    var $modalBody = $('#myModalError div.modal-body');
+
+    $modalTitle.empty();
+    $modalBody.empty();
+
+    var errorArray = exam[errorType+"_messages"];
+    $modalTitle.append(errorType.replace("_", " "));
+    switch (errorType){
+        case "error_Html":
+        case "error_Css":
+            for(var i = 0; i < errorArray.length; i++){
+                $modalBody.append("<p>" + (i+1) +") " +errorArray[i]["message"]+"</p>");
+            }
+            break;
+        case "error_Javascript":
+            var stringError = null;
+            //I implement this if because esprima can get an exception if the sintax is invalidable
+            if (errorArray.exception){
+                $modalBody.append("<p> Eccezione nella validazione: " + errorArray.error + "</p>");
+            } else {
+                for (var i = 0; i < errorArray.length; i++) {
+                    stringError = "error at line " + errorArray[i]["lineNumber"] + " : " + errorArray[i]["description"];
+                    $modalBody.append("<p>" + (i+1) +") "+stringError + "</p>");
+                }
+            }
+            break;
+        case "pass_Mocha":
+        case "failure_Mocha":
+            for(var i = 0; i < errorArray.length; i++){
+                $modalBody.append("<p>" + (i+1) +") "+ errorArray[i]+"</p>");
+            }
+            break;
+    }
+    $('#myModalError').modal('show');
 }

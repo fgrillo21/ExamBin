@@ -27,7 +27,17 @@
                     </div>
             </fieldset>
         </form>
+        {{#if studentLoggedIn}}
+        <div id="divRedirectToExam" class="center">
+            <form action="{{urlOldExam}}" method="get">
+                <input type="submit" value="Riprendi Esame Da dove avevi lasciato"
+                       name="Submit" id="frm1_submit" />
+            </form>
+        </div>
+        {{/if}}
     </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="{{static}}/js/myjsbin/studentLogin.js"></script>
+    {{#if loadJs}}
+        <script src="{{static}}/js/vendor/jquery-1.11.0.min.js"></script>
+        <script src="{{static}}/js/myjsbin/studentLogin.js"></script>
+    {{/if}}
 </html>

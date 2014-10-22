@@ -9,7 +9,7 @@
         <h1 align="center">Pannello di controllo del Professore</h1>
 
         <section id="secLoadExamInformation">
-            <h1 align="center">Sezione relativa al caricamento delle informazioni per iniziare l'esame</h1>
+            <h1 align="center">Sezione relativa al caricamento delle informazioni per <mark>INIZIARE</mark> l'esame</h1>
             <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
             <div class="wrapper">
                 <section id="secUploadFileExam">
@@ -64,12 +64,17 @@
         </section>
         <div id="examSessionInfo">
             <h1 align="center"> Informazioni sull'Attuale sessione d'esame </h1>
-            <div>
+            <div class="cell">
                 <span>Actual Status Timer inside Server : </span>
                 <span id="spanStatusClock"></span>
             </div>
-            <div>
-                <span id="divCountdown"></span>
+            <div class="cell">
+                <div id="divCountdown"></div>
+            </div>
+            <div id="divRestartExamSession" class="center" style="display: none">
+                <button >
+                    Reset Exam Session
+                </button>
             </div>
         </div>
         <section class="center">
@@ -93,6 +98,6 @@
         </section>
     </body>
     <script src="{{static}}/js/myjsbin/countdown_v5.0/countdown.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{static}}/js/vendor/jquery-1.11.0.min.js"></script>
     <script src="{{static}}/js/myjsbin/controlPanelProf.js"></script>
 </html>

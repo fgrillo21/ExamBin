@@ -52,6 +52,8 @@
   "getAllSandbox": "SELECT * FROM sandbox WHERE url LIKE ? ",
   "updateBinCompleteExam": "UPDATE `sandbox` SET `url`=? WHERE `url`=? AND `revision`=? ",
   "getAllExamDate": "SELECT `url` FROM sandbox WHERE `url` LIKE '%finish' ORDER BY `url` DESC",
+  "getAllStudentRecord": "SELECT `url`, `revision` FROM sandbox WHERE `url` LIKE ? ORDER BY `url` DESC",
+  "getLastIdSandbox": "SELECT MAX(`id`) FROM sandbox",
   "sandboxColumns": [
     "created",
     "last_viewed",
