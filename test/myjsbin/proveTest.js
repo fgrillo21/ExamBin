@@ -1,18 +1,24 @@
 describe("Validate Exam", function() {
-    describe("Html Rule", function() {
-        it("should not have element with attribute class", function() {
-            //var numElementClass  = $("[class]").length;
-            expect(windows.i).to.equal(10);
+    describe("Javascript Rule", function() {
+        it("La variabile i dovrebbe avere il valore 10", function() {
+            chai.expect(window.i).to.equal(10);
         });
 
-        /*it("vediamo se incluso veramente il file", function() {
-         //var numElementClass  = $("[id]").length;
-         expect(windows.borghi).to.equal(22);
+        it("La variabile denominata 'borghi' dovrebbe avere il valore 22", function() {
+            chai.expect(window.borghi).to.equal(22);
          });
-         it("test my function zeta", function() {
-         //            var numElementClass  = $("p").css();
-         //            console.log(numElementClass);
-         expect(windows.zeta()).to.equal(3);
-         });*/
+         it("La funzione z() dovrebbe ritornare il valore 3", function() {
+             chai.expect(window.zeta()).to.equal(3);
+         });
+    });
+    describe("HTML Rule", function() {
+        it("Nessun elemento html dovrebbe contenere l'atrtibuto class", function() {
+            var numElementClass  = window.$("[class]").length;
+            chai.expect(numElementClass).to.equal(0);
+        });
+        it("Nessun elemento html dovrebbe contenere l'atrtibuto id", function() {
+            var numElementId  = window.$("[id]").length;
+            chai.expect(numElementId).to.equal(0);
+        });
     });
 });

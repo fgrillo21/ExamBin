@@ -1,6 +1,6 @@
-﻿p {
-  color:red;
-}
-p:first-child {
+﻿p:first-child {
  color:blue;
+}
+p {
+  color:red;
 }

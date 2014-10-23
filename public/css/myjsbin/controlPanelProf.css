@@ -3,7 +3,12 @@ body {
  }
 
 input[type="file"] {
-    border: 3px solid darkgreen;
+    border: 3px solid #999;
+    display: inline-block;
+    width: 48%;
+}
+div[id^='divUpload'] {
+    margin:5px 0px;
 }
 
 #btnGetStudentReport {
@@ -19,16 +24,25 @@ input[type="file"] {
 section {
     margin: 20px;
     padding: 10px;
-    border: 3px solid #000088;
+    border: 3px solid #46b8da;
     border-radius:8px;
 }
 fieldset {
-    border:1px solid #999;
+    border:1px solid #999 !important;
     border-radius:8px;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0 0 10px #999;
     box-shadow:0 0 10px #999;
 }
+
 legend {
-    text-align: center;
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
     background:#fff;
 }
 
@@ -72,23 +86,39 @@ div.center {
     margin-top:5px;
 }
 
-button[id^='btnClock'] {
+/*button[id^='btnClock'] {
     margin:20px;
     font-size: large;
-}
+}*/
 
 table {
     width: 100%;
     border-collapse: collapse;
 }
-td {
+td, th {
     text-align: center;
     padding: 5px;
-}
-td:last-child, th:last-child {
-    background: #ff0000;
 }
 
 #divRestartExamSession {
     margin: 15px 0px;
+}
+
+#tableExamReport {
+    margin: 10px 0px;
+}
+
+mark {
+    background-color: #ff0 !important;
+}
+.btn-default {
+    color: #333;
+    background-color: buttonface;
+    margin-top: 10px;
+}
+#secFinishExam {
+    border-color: #4cae4c;
+}
+th {
+    background-color: #4cae4c;
 }

@@ -10,7 +10,7 @@
     <body>
         <h1 align="center">Pannello correzione compiti del Professore</h1>
         <section id="secLoadWeigthInformation">
-            <h2 align="center">Sezione relativa al caricamento delle informazioni per <mark>CORREGGERE</mark> l'esame</h1>
+            <h2 align="center">Sezione relativa al caricamento delle informazioni per <mark>CORREGGERE</mark> l'esame</h2>
             <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
             <div class="wrapper">
                 <section id="secUploadFileExam">
@@ -23,12 +23,12 @@
                                 <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
                             </div>
                             <div class="center">
-                                <input type='submit' value="Carica file per validazione personalizzata"/>
+                                <input class="btn btn-default" type='submit' value="Carica file per validazione personalizzata"/>
                             </div>
                         </fieldset>
                     </form>
                     <div class="center">
-                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalInfoFileValidation">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoFileValidation">
                             Info Creazione File Validazione
                         </button>
                     </div>
@@ -37,46 +37,49 @@
                     <h3 align="center" >Gestione Pesi per proposta di voto</h3>
                     <form id="formVoteWeight" class="form" method='post' action='/correction/setWeightValidation'>
                         <fieldset>
-                            <legend>form setup pesi validazione</legend>
+                            <legend>form setup pesi validazione
+                            </legend>
                             <div>
                                 <label>Peso validazione Html standard</label>
-                                <input type='number'  id='inputWeightHtml' name='inputWeightHtml' pattern="\i+" />
+                                <input type='number'  id='inputWeightHtml' name='inputWeightHtml'/>
                             </div>
                             <div>
                                 <label>Peso validazione Css standard</label>
-                                <input type='number'  id='inputWeightCss' name='inputWeightCss' pattern="\i+" />
+                                <input type='number'  id='inputWeightCss' name='inputWeightCss'/>
                             </div>
                             <div>
                                 <label>Peso validazione Javascript standard</label>
-                                <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' pattern="\i+" />
+                                <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' />
                             </div>
                             <div>
                                 <label>Peso validazione Custom (Mocha)</label>
-                                <input type='number'  id='inputWeightMocha' name='inputWeightMocha' pattern="\i+" />
+                                <input type='number'  id='inputWeightMocha' name='inputWeightMocha'  />
                             </div>
                             <div>
                                 <label>Voto di partenza</label>
-                                <input type='number'  id='inputStartVote' name='inputStartVote' pattern="\i+" />
+                                <input type='number'  id='inputStartVote' name='inputStartVote' />
                             </div>
 
                             <div class="center">
-                                <input type='submit' value="Carica Pesi per validazione"/>
+                                <input class="btn btn-default" type='submit' value="Carica Pesi per validazione"/>
                             </div>
                         </fieldset>
                     </form>
-
+                    <div class="center">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoWeightValidation">
+                            Info utilizzo pesi validazione
+                        </button>
+                    </div>
                 </section>
-
             </div>
-
         </section>
         <section class="center" id="secExamRepor">
             <div id="divHeaderExamReport">
-                <span>Scegli data compito</span>
+                <span><b>Scegli data compito : </b></span>
                 <select id="selectExamDate">
                     <option value="---">---</option>
                 </select>
-                <button id="btnGetExamValidation">
+                <button id="btnGetExamValidation" class="btn btn-success">
                     Get Student Report
                 </button>
             </div>
@@ -89,10 +92,10 @@
                     <tbody>
                     </tbody>
                 </table>
-
-                <button id="saveReport">
+                <a class="btn btn-default" href="{{static}}/professor/correction/file" target="_blank">View Json Object of Report</a>
+                <!--<button class="btn btn-default" id="saveReport">
                     View Json Object of Report
-                </button>
+                </button>-->
             </div>
         </section>
 
@@ -100,7 +103,7 @@
         <div class="modal fade" id="myModalError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header btn-warning">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <h4 class="modal-title" id="myModalErrorTitle"></h4>
                     </div>
@@ -114,13 +117,13 @@
             </div>
         </div>
 
-        <!-- Modal for visualize info how to create file for validation -->
+        <!-- Modal for visualize info about how to create file for validation -->
         <div class="modal fade" id="modalInfoFileValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header btn-info">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Info su come creare file per validazione</h4>
+                        <h4 class="modal-title" id="myModalFileValidationTitle">Info su come creare file per validazione</h4>
                     </div>
                     <div class="modal-body">
                         <h3>Informazioni su come creare file per validazione</h3>
@@ -131,6 +134,42 @@
                         <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
                         quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
                         all'interno del test: chai.expect(window.i).to.equal(10); </p>
+                        <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
+                        <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation">File Esempio validazione custom</a></p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for visualize info about how to create file for validation -->
+        <div class="modal fade" id="modalInfoWeightValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header btn-info">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalWeightValidationTitle">Info su come vengono utilizzati i pesi a livello di validazione</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Informazioni su come vengono utilizzati i pesi a livello di validazione</h3>
+                        <p>Nella creazione del voto proposto dal sistema relativamente ad ogni prova di esame, un fattore importante è rappresentato dai pesi attribuiti
+                        ad ogni singolo errore identificato a livello di validazione del compito</p>
+                        <p>Ciò che viene richiesto nella compilazione del form relativo ai pesi da utilizzare nella proposta di voto, è il singolo peso di ogni errore, sia esso ottenuto a livello
+                        di validazione di html standard, css standard, javascript più o meno standard (il modulo esprima utilizzato internamente al server, tiene conto anche della semantica) e
+                        riguardo la validazione cosidetta "custom", (decisa dal professore e uploadata tramite il form sulla sinistra). </p>
+                        <p>Ogni errore riscontrato verrà moltiplicato per il proprio peso e il valore ottenuto, verrà sottratto al voto di partenza (anch'esso deciso dal professore in questo form),
+                        in modo tale da ottenere il voto finale, che sarà presentato al docente a correzzione avvenuta</p>
+<pre>Esempio:
+Peso validazione HTML standard = 0.5      errori HTML standard = 1
+Peso validazione CSS standard = 0.5       errori CSS standard = 2
+Peso validazione JS standard = 1          errori JS standard = 0
+Peso validazione CUSTOM standard = 2      errori CUSTOM standard = 1
+Voto di partenza = 30
+
+Voto finale = 30 - (0.5 * 1 + 0.5 * 2 + 1 * 0 + 2 * 1) = 26.5</pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -3,7 +3,7 @@ body {
 }
 
 input[type="file"] {
-    border: 3px solid darkgreen;
+    border: 3px solid #999;
     display: inline-block;
     width: 48%;
 }
@@ -16,7 +16,7 @@ input[type="file"] {
 section {
     margin: 20px;
     padding: 10px;
-    border: 3px solid #000088;
+    border: 3px solid #46b8da;
     border-radius:8px;
 }
 
@@ -51,21 +51,22 @@ div.center {
     margin-top:10px;
 }
 
-button[id^='btnClock'] {
+/*button[id^='btnClock'] {
     margin:20px;
     font-size: large;
-}
+}*/
 
 table {
     width: 100%;
     border-collapse: collapse;
 }
-td {
+td, th {
     text-align: center;
     padding: 5px;
 }
 td:last-child, th:last-child {
     background: #ff0000;
+    font-weight: bold;
 }
 .pointer {
     cursor: pointer;
@@ -87,10 +88,25 @@ legend {
     width:auto;
     padding:0 10px;
     border-bottom:none;
+    background:#fff;
 }
 #tableExamReport {
     margin: 10px 0px;
 }
 mark {
     background-color: #ff0 !important;
+}
+.btn-default {
+    color: #333;
+    background-color: buttonface;
+}
+#secExamRepor {
+    border-color: #4cae4c;
+}
+th {
+    background-color: #4cae4c;
+    border-color: black;
+}
+tbody > tr:nth-child(even) {
+    background: buttonface;
 }

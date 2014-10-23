@@ -1,5 +1,5 @@
-﻿var y = 10;
+﻿var borghi = 22;
 var x = 11;	  
 function zeta() {
-return 3;
+    return 3;
 }

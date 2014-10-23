@@ -37,10 +37,10 @@ function mainFunction() {
             url = $form.attr( 'action' );
         var formData = new FormData($(this)[0]);
 
-        //var confirmInput = validateInputFile();
+        var confirmInput = validateInputFile();
 
 //        awesome, with this ajax call I update the exam's file choose by the professor
-        //if (confirmInput) {
+        if (confirmInput) {
             $.ajax({
                 url: url,
                 data: formData,
@@ -57,9 +57,9 @@ function mainFunction() {
                     alert("Si è verificato un problema");
                 }
             });
-        /*} else {
+        } else {
             alert("attenzione!!! estensione file errata");
-        }*/
+        }
     });
 
     $("#formVoteWeight").submit(function(event) {
@@ -70,8 +70,7 @@ function mainFunction() {
         var $form = $( this ),
             url = $form.attr( 'action' );
         var formData = new FormData($(this)[0]);
-
-        var confirmInput = true;
+        var confirmInput = validateWeightInput();
 
         if (confirmInput) {
             $.ajax({
@@ -171,9 +170,10 @@ function mainFunction() {
         }
     });
 
-    $("#saveReport").click(function() {
+    //I put this call inside a link with target attribute with value _blank ;)
+    /*$("#saveReport").click(function() {
         window.location.href = location.protocol+"//"+location.hostname+":"+location.port+"/professor/correction/file";
-    });
+    });*/
 }
 
 function loadExamsDate() {
@@ -233,4 +233,37 @@ function viewErrorDialog(index, errorType){
             break;
     }
     $('#myModalError').modal('show');
+}
+
+function validateInputFile(){
+
+    var ok = false;
+
+    //I want a js file for custom validation
+    if ($("#fileMochaUpload").val().split('.').pop() === "js"){
+        ok = true;
+    }
+    return ok;
+}
+
+function validateWeightInput(){
+
+    var ok = false;
+    var whtml = $("#inputWeightHtml").val();
+    var wcss = $("#inputWeightCss").val();
+    var wjs = $("#inputWeightJavascript").val();
+    var wcustom = $("#inputWeightMocha").val();
+    var startVote = $("#inputStartVote").val();
+    if (whtml !== "" && whtml > 0 ){
+        if (wcss !== "" && wcss > 0){
+            if (wjs !== "" && wjs > 0){
+                if (wcustom !== "" && wcustom > 0){
+                    if (startVote !== "" && startVote > 0){
+                        ok = true;
+                    }
+                }
+            }
+        }
+    }
+    return ok;
 }

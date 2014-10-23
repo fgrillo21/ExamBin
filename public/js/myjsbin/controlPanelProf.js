@@ -30,11 +30,9 @@ $(document).ready(mainFunction);
 
 function mainFunction() {
 
+    //gestione submit form upload file per esame
     $("#formExamFile").submit(function(event) {
-        /* stop form from submitting normally */
         event.preventDefault();
-
-        /* get some values from elements on the page: */
         var $form = $( this ),
             url = $form.attr( 'action' );
         var formData = new FormData($(this)[0]);
@@ -51,12 +49,15 @@ function mainFunction() {
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    console.log(res);
-                    fileUploaded = true;
-                    alert(res);
+                    if (res.ok) {
+                        fileUploaded = true;
+                        alert(res.string);
+                    } else {
+                        alert(res);
+                    }
                 },
                 error: function () {
-                    alert("Si è verificato un problema");
+                    alert("Si è verificato un problema contattando il server al servizio \n"+url);
                 }
             });
         } else {
@@ -64,11 +65,9 @@ function mainFunction() {
         }
     });
 
+    //gestione submit form caricamento duranta esame e tempo di over time (quanto è di manica larga il professore)
     $("#formSetupClock").submit(function(event) {
-        /* stop form from submitting normally */
         event.preventDefault();
-
-        /* get some values from elements on the page: */
         var $form = $( this ),
             url = $form.attr( 'action' );
         var formData = new FormData($(this)[0]);
@@ -83,12 +82,15 @@ function mainFunction() {
                 processData: false,
                 contentType: false,
                 success: function (response) { //TODO here I need a switch block to manage different clock status
-                    console.log(response);
-                    clockUploaded = true;
-                    alert(res);
+                    if (response.ok) {
+                        clockUploaded = true;
+                        alert("Valori Temporizzazione compito caricati con successo");
+                    } else {
+                        alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
+                    }
                 },
                 error: function () {
-                    alert("Si è verificato un problema");
+                    alert("Si è verificato un problema contattando il server al servizio \n"+url);
                 }
             });
         } else {
@@ -96,14 +98,22 @@ function mainFunction() {
         }
     });
 
+    //creazione oggetto countdown
     createCountdownObject(countdownTime);
 
-    setTimeout(callForClockAulaStatus, 5000);
+    //richiedo lo stato interno del clock del server, per capire come sono messo
+    callForClockAulaStatus();
 
+    /*
+     gestione click pulsanti per settare il clock interno al server
+     SETUP : per fare in modo che gli alunni possano registrarsi
+     READY : per dire al server che tra 5 secondi deve far partire la sessione di esame
+     NOTEST : per accertare la fine dell'attuale sessione di esame e riportare il sistema allo stato di default (possibile solo quando si ha terminato l'attuale sessione di esame)
+     */
     $("button[id^='btnClock']").click(function (){
         var data = {
             status: this.value
-        }
+        };
 
         var confirmRequest = true;
 
@@ -124,6 +134,14 @@ function mainFunction() {
         }
     });
 
+    $("#btnResetExamSession").click(function() {
+        var data = {
+            status: "notest"
+        };
+        setClockAulaStatus(data);
+    });
+
+    //gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
     $("#btnGetFinishStudent").click(function() {
         //call the service that return all student that have finish
         $.ajax({
@@ -133,11 +151,8 @@ function mainFunction() {
                 console.log(res);
                 alert(res);
                 if (!res.length) {
-
                     $("#divNobodyFinishExam").show();
-
                 } else {
-
                     $("#divNobodyFinishExam").hide();
                     var $divExamReport = $("#divExamReport");
                     var $thead = $("#tableExamReport thead");
@@ -193,12 +208,22 @@ function callForClockAulaStatus() {
 
                 switch (clockStatus){
                     case "notest":
+                        break;
+                    case "setup":
+                        $("#btnClocksetup").attr('disabled', true);
+                        $("#btnClockready").attr('disabled', false);
+                        $("#btnSubmitExamFile").attr('disabled', true);
+                        $("#btnSubmitClockData").attr('disabled', true);
+                        break;
+                    case "over":
+                        $("#divRestartExamSession").show();
                     case "almostover":
                     case "overtime":
-                    case "over":
-                    case "setup":
                     case "ready":
-                        //$('#btnLogin').prop('disabled', true);
+                        $("#btnClocksetup").attr('disabled', true);
+                        $("#btnClockready").attr('disabled', true);
+                        $("#btnSubmitExamFile").attr('disabled', true);
+                        $("#btnSubmitClockData").attr('disabled', true);
                         break;
 
                     case "start":
@@ -228,16 +253,30 @@ function setClockAulaStatus(data) {
             console.log(response);
             //$("#spanStatusClock").text(response.status);
             //REMEMBER I only switch between two state, setup and ready, the two states that are manageable by the professor
-            switch (data.status){
-                case "setup":
-                    $("#btnClocksetup").attr('disabled', true);
-                    $("#btnClockready").attr('disabled', false);
-                    break;
-                case "ready":
-                    $("#btnClockready").attr('disabled', true);
-                    break;
+            if (response.ok){
+                switch (data.status){
+                    case "setup":
+                        $("#btnClocksetup").attr('disabled', true);
+                        $("#btnClockready").attr('disabled', false);
+                        $("#btnSubmitExamFile").attr('disabled', true);
+                        $("#btnSubmitClockData").attr('disabled', true);
+                        break;
+                    case "ready":
+                        $("#btnClockready").attr('disabled', true);
+                        break;
+                    case "notest":
+                        $("#btnClocksetup").attr('disabled', false);
+                        $("#btnClockready").attr('disabled', true);
+                        $("#btnSubmitExamFile").attr('disabled', false);
+                        $("#btnSubmitClockData").attr('disabled', false);
+                        fileUploaded = false;
+                        clockUploaded = false;
+                        $("#divRestartExamSession").hide();
+                        break;
+                }
+            } else {
+                alert("Si è verificato un errore nel passaggio allo stato di : "+data.status.toUpperCase());
             }
-            //setTimeout(callForClockAulaStatus, 3000);
         },
 
         error: function () {
@@ -286,9 +325,11 @@ function createCountdownObject(millisec){
         height:80,
         inline:true,
         hideLine: true,
-        onComplete: function(){
-          //TODO try to manage in a best way this function call when the countdown finish your work
-          alert("time is up");
+        onComplete: function(second){
+          //if I'm not started from zero
+          if (!second) {
+              alert("time is up");
+          }
         },
         target: "divCountdown", // perfetc, with this property I can set the father element where attach th countdown element, created from library
         numbers		: 	{
