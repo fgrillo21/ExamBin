@@ -30,6 +30,12 @@ $(document).ready(mainFunction);
 
 function mainFunction() {
 
+    $('li[id$="-tab"]').click(function(event){
+        if ($(this).hasClass('disabled')) {
+            return false;
+        }
+    });
+
     //gestione submit form upload file per esame
     $("#formExamFile").submit(function(event) {
         event.preventDefault();
@@ -141,6 +147,36 @@ function mainFunction() {
         setClockAulaStatus(data);
     });
 
+    $("#btnClearExamFile").click(function (){
+
+        var message = "Sei sicuro di voler pulire i file del compito?\n" +
+            "in questo modo le schermate dello studente relative a:\n html\n javascript\n css\n" +
+            "saranno completamente vuote";
+        var confirmRequest = confirm(message);
+
+        if (confirmRequest) {
+            $.ajax({
+                url: "clearDefaultFile", //this is the right route
+                dataType: "json",
+                type: "POST",
+                success: function (response) { //TODO here I need a switch block to manage different clock status
+                    console.log(response);
+                    //$("#spanStatusClock").text(response.status);
+                    //REMEMBER I only switch between two state, setup and ready, the two states that are manageable by the professor
+                    if (response.ok){
+                        alert(response.message);
+                    } else {
+                        alert("Si è verificato un errore nel passaggio allo stato di : "+data.status.toUpperCase());
+                    }
+                },
+
+                error: function () {
+                    alert("Si è verificato un problema");
+                }
+            });
+        }
+    });
+
     //gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
     $("#btnGetFinishStudent").click(function() {
         //call the service that return all student that have finish
@@ -210,20 +246,21 @@ function callForClockAulaStatus() {
                     case "notest":
                         break;
                     case "setup":
-                        $("#btnClocksetup").attr('disabled', true);
-                        $("#btnClockready").attr('disabled', false);
-                        $("#btnSubmitExamFile").attr('disabled', true);
-                        $("#btnSubmitClockData").attr('disabled', true);
+                        $("#setup-tab").attr('class', 'disabled');
+                        $("#start-tab").attr('class', 'active');
+                        $('div[class*="tab-pane"]').removeClass("active in");
+                        $('#start').addClass('in active');
                         break;
                     case "over":
                         $("#divRestartExamSession").show();
                     case "almostover":
                     case "overtime":
                     case "ready":
-                        $("#btnClocksetup").attr('disabled', true);
-                        $("#btnClockready").attr('disabled', true);
-                        $("#btnSubmitExamFile").attr('disabled', true);
-                        $("#btnSubmitClockData").attr('disabled', true);
+                        $("#setup-tab").attr('class', 'disabled');
+                        $("#start-tab").attr('class', 'disabled');
+                        $("#examInfo-tab").attr('class', 'active');
+                        $('div[class*="tab-pane"]').removeClass("active in");
+                        $('#examInfo').addClass('in active');
                         break;
 
                     case "start":
@@ -256,19 +293,24 @@ function setClockAulaStatus(data) {
             if (response.ok){
                 switch (data.status){
                     case "setup":
-                        $("#btnClocksetup").attr('disabled', true);
-                        $("#btnClockready").attr('disabled', false);
-                        $("#btnSubmitExamFile").attr('disabled', true);
-                        $("#btnSubmitClockData").attr('disabled', true);
+                        $("#setup-tab").attr('class', 'disabled');
+                        $("#start-tab").attr('class', 'active');
+                        $('div[class*="tab-pane"]').removeClass("active in");
+                        $('#start').addClass('in active');
                         break;
                     case "ready":
-                        $("#btnClockready").attr('disabled', true);
+                        $("#setup-tab").attr('class', 'disabled');
+                        $("#start-tab").attr('class', 'disabled');
+                        $("#examInfo-tab").attr('class', 'active');
+                        $('div[class*="tab-pane"]').removeClass("active in");
+                        $('#examInfo').addClass('in active');
                         break;
                     case "notest":
-                        $("#btnClocksetup").attr('disabled', false);
-                        $("#btnClockready").attr('disabled', true);
-                        $("#btnSubmitExamFile").attr('disabled', false);
-                        $("#btnSubmitClockData").attr('disabled', false);
+                        $("#setup-tab").attr('class', 'active');
+                        $("#start-tab").attr('class', 'disabled');
+                        $("#examInfo-tab").attr('class', 'disabled');
+                        $('div[class*="tab-pane"]').removeClass("active in");
+                        $('#setup').addClass('in active');
                         fileUploaded = false;
                         clockUploaded = false;
                         $("#divRestartExamSession").hide();

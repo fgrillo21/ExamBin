@@ -110,3 +110,14 @@ th {
 tbody > tr:nth-child(even) {
     background: buttonface;
 }
+input[type="number"] {
+    text-align: right;
+}
+
+#linkToPanelProf::before {
+    content: '← ';
+}
+
+#linkToPanelProf {
+    text-align: left;
+}

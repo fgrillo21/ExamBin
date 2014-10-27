@@ -5,125 +5,163 @@
         <title>Control Panel Prof</title>
         <link rel="stylesheet" href="{{static}}/css/myjsbin/bootstrap.min.css">
         <link rel="stylesheet" href="{{static}}/css/myjsbin/controlPanelProf.css">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/footer.css">
     </head>
     <body>
-        <h1 align="center">Pannello di controllo del Professore
-            <button id="btnHelpProf" class="btn btn-danger"  data-toggle="modal" data-target="#modalHelpProf" >Help</button>
-        </h1>
-        <section id="secLoadExamInformation">
-            <h1 align="center">Sezione relativa al caricamento delle informazioni per <mark>INIZIARE</mark> l'esame</h1>
-            <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
-            <div class="wrapper">
-                <section id="secUploadFileExam">
-                    <h3 align="center" >Gestione File compito</h3>
-                    <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
-                        <fieldset>
-                            <legend>form in cui caricare i dati relativi al compito</legend>
-                            <div id="divUploadHtml">
-                                <label>Choose File Html for the exam</label>
-                                <input type='file'  id='fileHtmlUpload' name='fileHtmlUpload' />
-                            </div>
-                            <div id="divUploadCss">
-                                <label>Choose File Css for the exam</label>
-                                <input type='file' id='fileCssUpload' name='fileCssUpload' />
-                            </div>
-                            <div id="divUploadJavascript">
-                                <label>Choose File Javascript for the exam</label>
-                                <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' />
-                            </div>
-                            <div class="center">
-                                <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Carica file del Compito"/>
-                            </div>
-                        </fieldset>
-                    </form>
-                </section>
-                <section id="clock">
-                    <h3 align="center" >Gestione Temporizzazione compito</h3>
-                    <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
-                        <fieldset>
-                            <legend>form setup clock compito</legend>
-                            <div>
-                                <label>Durata dell'esame (in minuti)</label>
-                                <input type='number'  id='inputDurationTest' name='inputDurationTest' />
-                            </div>
-                            <div>
-                                <label>Durata Over Time (in minuti)</label>
-                                <input type='number' id='inputDurationOverTimeTest' name='inputDurationOverTimeTest' />
-                            </div>
-                            <div class="center">
-                                <input id="btnSubmitClockData" class="btn btn-default" type='submit' value="Carica valori Clock del compito"/>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="center">
-                        <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" >Inizia la fase di Setup</button>
-                        <button id="btnClockready" class="btn btn-primary btn-lg" value="ready" disabled="disabled" >Inizia Il Compito</button>
+        <div id="wrap">
+            <div class="container">
+                <div class="center" >
+                    <h1>
+                        <button id="btnHelpProf" class="btn btn-warning"  data-toggle="modal" data-target="#modalHelpProf" >Guida</button>
+                        Pannello di controllo del Professore
+                        <a id="linkToCorrectionPanelProf" class="btn btn-success" href="{{static}}/professor/correction" >Pagina di Correzione</a>
+                    </h1>
+                </div>
+                <!-- Nav tabs -->
+
+                    <ul id="prof-tab" class="nav nav-tabs" role="tablist">
+                        <li id="setup-tab" class="active" ><a href="#setup" role="tab" data-toggle="tab">Setup</a></li>
+                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab">Start</a></li>
+                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab">Exam Info</a></li>
+                    </ul>
+
+
+                <!-- Tab panes -->
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="setup">
+                            <section id="secLoadExamInformation">
+                                <h1 align="center">Sezione relativa al caricamento delle informazioni per INIZIARE l'esame</h1>
+                                <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
+                                <div class="wrapper">
+                                    <section id="secUploadFileExam">
+                                        <h3 align="center" >Gestione File compito</h3>
+                                        <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
+                                            <fieldset>
+                                                <legend>form in cui caricare i dati relativi al compito</legend>
+                                                <div id="divUploadHtml">
+                                                    <label>File Html</label>
+                                                    <input type='file'  id='fileHtmlUpload' name='fileHtmlUpload' />
+                                                </div>
+                                                <div id="divUploadCss">
+                                                    <label>File Css</label>
+                                                    <input type='file' id='fileCssUpload' name='fileCssUpload' />
+                                                </div>
+                                                <div id="divUploadJavascript">
+                                                    <label>File Javascript</label>
+                                                    <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' />
+                                                </div>
+                                                <div class="center">
+                                                    <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Aggiorna file del Compito"/>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                        <div class="center">
+                                            <a id="linkViewExam" class="btn btn-info" href="{{static}}" target="_blank">Attuale schermata esame</a>
+                                            <button id="btnClearExamFile" class="btn btn-warning" >Pulisci file compito</button>
+                                        </div>
+                                    </section>
+                                    <section id="clock">
+                                        <h3 align="center" >Gestione Temporizzazione compito</h3>
+                                        <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
+                                            <fieldset>
+                                                <legend>form setup clock compito</legend>
+                                                <div>
+                                                    <label>Durata esame*</label>
+                                                    <input type='number'  id='inputDurationTest' name='inputDurationTest' value="{{durationExam}}" />
+                                                </div>
+                                                <div>
+                                                    <label>Durata Over Time*</label>
+                                                    <input type='number' id='inputDurationOverTimeTest' name='inputDurationOverTimeTest' value="{{durationOverTime}}"/>
+                                                </div>
+                                                <span>* in minuti</span>
+                                                <div class="center">
+                                                    <input id="btnSubmitClockData" class="btn btn-default" type='submit' value="Aggiorna valori Clock del compito"/>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </section>
+                                </div>
+                                <div class="center">
+                                    <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" >Permetti agli studenti di Loggarsi</button>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane fade" id="start">
+                            <section id="examStartSession">
+                                <div class="center">
+                                    <button id="btnClockready" class="btn btn-primary btn-lg" value="ready">Inizia Il Compito</button>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane fade" id="examInfo">
+                            <section id="examSessionInfo">
+                                <h1 align="center"> Informazioni sull'Attuale sessione d'esame </h1>
+                                <div class="cell">
+                                    <span>Actual Status Timer inside Server : </span>
+                                    <span id="spanStatusClock"></span>
+                                </div>
+                                <div class="cell">
+                                    <div id="divCountdown"></div>
+                                </div>
+                                <div id="divRestartExamSession" class="center" style="display: none">
+                                    <button id="btnResetExamSession" class="btn btn-warning btn-lg">
+                                        Termina definitivamente la sessione di esame appena conclusa, per iniziarne una nuova.
+                                    </button>
+                                </div>
+                            </section>
+                            <section id="secFinishExam" class="center">
+                                <button id="btnGetFinishStudent" class="btn btn-success btn-lg">
+                                    Studenti che hanno terminato l'esame
+                                </button>
+                                <div id="divExamReport" style="display: none">
+                                    <table id="tableExamReport" border="1">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="divNobodyFinishExam" class="center" style="display: none">
+                                    <p>Nessuno studente ha terminato l'esame</p>
+                                </div>
+                            </section>
+                        </div>
                     </div>
 
-                </section>
+                <!-- Modal for visualize info about how to create file for validation -->
+                <div class="modal fade" id="modalHelpProf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header btn-danger">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalFileValidationTitle">Help!!!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Informazioni su come gestire una sessione d'esame</h3>
+                                <p>Nella creazione del file per la validazione, viene messo a disposizione il DOM del compito all'interno di una variabile denominata "window",
+                                    quindi se nel test, si vuole accedere ad una certa variabile o una funzione del DOM, bisogna scrivere: window.nomeVariabile o window.nomeFunzione;
+                                    questo tipo di istruzione funzionerà anche se provate il vostro test client side nel vostro browser, poichè anche nel browser il DOM è caricato
+                                    nella variabile window.</p>
+                                <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
+                                    quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
+                                    all'interno del test: chai.expect(window.i).to.equal(10); </p>
+                                <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
+                                <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
+                            </div>
 
-            </div>
-        </section>
-        <div id="examSessionInfo">
-            <h1 align="center"> Informazioni sull'Attuale sessione d'esame </h1>
-            <div class="cell">
-                <span>Actual Status Timer inside Server : </span>
-                <span id="spanStatusClock"></span>
-            </div>
-            <div class="cell">
-                <div id="divCountdown"></div>
-            </div>
-            <div id="divRestartExamSession" class="center" style="display: none">
-                <button id="btnResetExamSession" class="btn btn-warning btn-lg">
-                    Termina definitivamente la sessione di esame appena conclusa, per iniziarne una nuova.
-                </button>
-            </div>
-        </div>
-        <section id="secFinishExam" class="center">
-            <button id="btnGetFinishStudent" class="btn btn-success btn-lg">
-                Studenti che hanno terminato l'esame
-            </button>
-            <a href="{{static}}/professor/correction">Pagina Correzione</a>
-
-
-            <div id="divExamReport" style="display: none">
-                <table id="tableExamReport" border="1">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div id="divNobodyFinishExam" class="center" style="display: none">
-                <p>Nessuno studente ha terminato l'esame</p>
-            </div>
-        </section>
-
-        <!-- Modal for visualize info about how to create file for validation -->
-        <div class="modal fade" id="modalHelpProf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header btn-danger">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalFileValidationTitle">Help!!!</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h3>Informazioni su come gestire una sessione d'esame</h3>
-                        <p>Nella creazione del file per la validazione, viene messo a disposizione il DOM del compito all'interno di una variabile denominata "window",
-                            quindi se nel test, si vuole accedere ad una certa variabile o una funzione del DOM, bisogna scrivere: window.nomeVariabile o window.nomeFunzione;
-                            questo tipo di istruzione funzionerà anche se provate il vostro test client side nel vostro browser, poichè anche nel browser il DOM è caricato
-                            nella variabile window.</p>
-                        <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
-                            quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
-                            all'interno del test: chai.expect(window.i).to.equal(10); </p>
-                        <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
-                        <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div id="push"></div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">Powered by Matteo Borghi ©</p>
             </div>
         </div>
     </body>

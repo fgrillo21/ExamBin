@@ -4,7 +4,7 @@ body {
 
 #formLogin {
     height: 50%;
-    width:40%;
+    width:50%;
     margin:auto;
 }
 label {
@@ -19,7 +19,7 @@ label {
 }
 
 #btnLogin{
-    font-size: larger;
+    margin: 10px;
 }
 fieldset {
     border:1px solid #999;
@@ -39,3 +39,27 @@ legend {
     margin-top: 50px;
 }
 
+.btn-default {
+    color: #333;
+    background-color: buttonface;
+    margin-top: 10px;
+}
+
+fieldset {
+    border:1px solid #999 !important;
+    border-radius:8px;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0 0 10px #999;
+    box-shadow:0 0 10px #999;
+}
+
+legend {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
+    background:#fff;
+}

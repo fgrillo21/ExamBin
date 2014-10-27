@@ -2,39 +2,49 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/bootstrap.min.css">
         <link rel="stylesheet" href="{{static}}/css/myjsbin/studentLogin.css">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/footer.css">
         <title>Student Login</title>
     </head>
     <body>
-        <h1 align="center">Pagina di login dello studente</h1>
-        <form method="post" action="/confirmStudent" id="formLogin">
-            <fieldset>
-                <legend>Login for the exam Session</legend>
-                    <div>
-                        <label >Name:</label>
-                        <input name="name" type="text">
-                    </div>
-                    <div>
-                        <label >Surname:</label>
-                        <input name="surname" type="text">
-                    </div>
-                    <div>
-                        <label >Matricola:</label>
-                        <input name="matricola" type="number">
-                    </div>
-                    <div id="divLogin">
-                        <input id="btnLogin" type='submit' value="Login/Entra" disabled="disabled" />
-                    </div>
-            </fieldset>
-        </form>
-        {{#if studentLoggedIn}}
-        <div id="divRedirectToExam" class="center">
-            <form action="{{urlOldExam}}" method="get">
-                <input type="submit" value="Riprendi Esame Da dove avevi lasciato"
-                       name="Submit" id="frm1_submit" />
-            </form>
+
+        <div id="wrap">
+            <div class="container">
+                <h1 align="center">Pagina di login dello studente</h1>
+                <form method="post" action="/confirmStudent" id="formLogin">
+                    <fieldset>
+                        <legend>Login for the exam Session</legend>
+                            <div>
+                                <label >Name:</label>
+                                <input name="name" type="text">
+                            </div>
+                            <div>
+                                <label >Surname:</label>
+                                <input name="surname" type="text">
+                            </div>
+                            <div>
+                                <label >Matricola:</label>
+                                <input name="matricola" type="number">
+                            </div>
+                            <div id="divLogin">
+                                <input id="btnLogin" type='submit' class="btn btn-default btn-lg" value="Login/Entra" disabled="disabled" />
+                            </div>
+                    </fieldset>
+                </form>
+                {{#if studentLoggedIn}}
+                <div id="divRedirectToExam" class="center">
+                    <a id="linkToCorrectionPanelProf" class="btn btn-warning btn-lg" href="{{urlOldExam}}" >Riprendi l'esame da dove avevi lasciato</a>
+                </div>
+                {{/if}}
+                <div id="push"></div>
+            </div>
         </div>
-        {{/if}}
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">Powered by Matteo Borghi ©</p>
+            </div>
+        </div>
     </body>
     {{#if loadJs}}
         <script src="{{static}}/js/vendor/jquery-1.11.0.min.js"></script>

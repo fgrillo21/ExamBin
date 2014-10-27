@@ -1,9 +1,3 @@
-var chai = require('chai');
-var config = require('./testConfig2');
-
-var window = config.getExam();
-
-
 describe("Validate Exam", function() {
     describe("Javascript Rule", function() {
         it("La variabile i dovrebbe avere il valore 10", function() {
