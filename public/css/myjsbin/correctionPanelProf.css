@@ -121,3 +121,11 @@ input[type="number"] {
 #linkToPanelProf {
     text-align: left;
 }
+#allowCustomValidation {
+    margin:15px;
+    padding: 15px;
+    font-size: large;
+}
+h1 {
+    font-weight: bold;
+}

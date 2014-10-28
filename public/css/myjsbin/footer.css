@@ -17,12 +17,14 @@ body {
 }
 
 /* Set the fixed height of the footer here */
-#push,
 #footer {
     height: 60px;
 }
+#push {
+    height: 65px;
+}
 #footer {
-    background-color: yellowgreen;
+    background-color: buttonface;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */

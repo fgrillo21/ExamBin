@@ -79,10 +79,13 @@ function mainFunction() {
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (response) { //TODO here I need a switch block to manage different clock status
-                    console.log(response);
-                    voteWeightUploaded = true;
-                    alert(res);
+                success: function (response) {
+                    if (response.ok) {
+                        voteWeightUploaded = true;
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
                 },
                 error: function () {
                     alert("Si è verificato un problema");
@@ -99,26 +102,32 @@ function mainFunction() {
         var confirmRequest = true;
 
         var optionSelected = $( "#selectExamDate" ).val();
+        var customValidation = $('#checkboxCustomValidation').is(':checked');
+        console.log(customValidation);
+
         if (!fileValidationUploaded || !voteWeightUploaded || optionSelected === "---"){
             var message = "ATTENZIONE\n\n";
-            if (!fileValidationUploaded){
-                message += "- testo validazione custom non caricato\n";
-            }
-            if (!voteWeightUploaded){
-                message += "- pesi per creazione voto non caricati\n";
-            }
 
             if (optionSelected === "---"){
                 message += "- nessuna data dell'esame selezionata\n";
-            }
-            message += "\n\nPremendo OK verrà effettuata la validazione\ncon le impostazioni di default del sistema\n";
+                alert(message);
+                confirmRequest = false;
+            } else {
 
-            //TODO here for production mode I need only an alert and not a confirm dialog, and I can set confirm request to false
-            confirmRequest = confirm(message);
+                if (!fileValidationUploaded) {
+                    message += "- testo validazione custom non caricato\n";
+                }
+                if (!voteWeightUploaded) {
+                    message += "- pesi per creazione voto non caricati\n";
+                }
+                message += "\n\nPremendo OK verrà effettuata la validazione\ncon le impostazioni di default del sistema\n";
+                confirmRequest = confirm(message);
+            }
         }
 
         var dataToSend = {
-            date: optionSelected
+            date: optionSelected,
+            useCustomValidation : customValidation
         };
 
         if (confirmRequest) {
@@ -152,8 +161,7 @@ function mainFunction() {
 
                         for (var z = 0; z < headersTableReport.length; z++) {
                             if (tmp[headersTableReport[z]+"_messages"] && tmp[headersTableReport[z]+"_messages"].length){
-                                tableRow += "<td class='pointer' onclick='viewErrorDialog("+i+",\""+headersTableReport[z]+"\")' >" + tmp[headersTableReport[z]] + "</td>"
-                                console.log("im inside the loop");
+                                tableRow += "<td class='pointer' onclick='viewErrorDialog("+i+",\""+headersTableReport[z]+"\")' >" + tmp[headersTableReport[z]] + "</td>";
                             } else {
                                 tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
                             }
@@ -167,6 +175,14 @@ function mainFunction() {
                     alert("Si è verificato un problema");
                 }
             });
+        }
+    });
+
+    $("#btnAllowCustomValidation").click(function() {
+        if ($('#checkboxCustomValidation').is(':checked')){
+            $('#checkboxCustomValidation').prop('checked', false);
+        } else {
+            $('#checkboxCustomValidation').prop('checked', true);
         }
     });
 

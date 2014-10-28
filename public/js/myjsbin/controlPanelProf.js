@@ -87,10 +87,10 @@ function mainFunction() {
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (response) { //TODO here I need a switch block to manage different clock status
+                success: function (response) {
                     if (response.ok) {
                         clockUploaded = true;
-                        alert("Valori Temporizzazione compito caricati con successo");
+                        alert("Valori Temporizzazione compito aggiornati con successo");
                     } else {
                         alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
                     }
@@ -103,9 +103,6 @@ function mainFunction() {
             alert("Attenzione!!! \nInserire dei valori numerici nei campi del form");
         }
     });
-
-    //creazione oggetto countdown
-    createCountdownObject(countdownTime);
 
     //richiedo lo stato interno del clock del server, per capire come sono messo
     callForClockAulaStatus();
@@ -132,6 +129,9 @@ function mainFunction() {
                 if (!clockUploaded){
                     message += "- durata esame non caricata\n";
                 }
+                message += "\nIn caso di conferma, il compito inizierà\n" +
+                    "con i valori di Default visibili\n" +
+                    "nella schermata";
                 confirmRequest = confirm(message);
             }
         }
@@ -147,10 +147,11 @@ function mainFunction() {
         setClockAulaStatus(data);
     });
 
+    //handle the request by the professor for clear all of the exam's text file
     $("#btnClearExamFile").click(function (){
 
         var message = "Sei sicuro di voler pulire i file del compito?\n" +
-            "in questo modo le schermate dello studente relative a:\n html\n javascript\n css\n" +
+            "in questo modo le schermate dello studente relative a:\n > html\n > javascript\n > css\n" +
             "saranno completamente vuote";
         var confirmRequest = confirm(message);
 
@@ -368,10 +369,8 @@ function createCountdownObject(millisec){
         inline:true,
         hideLine: true,
         onComplete: function(second){
-          //if I'm not started from zero
-          if (!second) {
-              alert("time is up");
-          }
+          alert("time is up");
+          $("div[id^='Container_jbeeb']").css("background-color", "red");
         },
         target: "divCountdown", // perfetc, with this property I can set the father element where attach th countdown element, created from library
         numbers		: 	{

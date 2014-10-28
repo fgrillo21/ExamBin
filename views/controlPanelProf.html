@@ -6,23 +6,22 @@
         <link rel="stylesheet" href="{{static}}/css/myjsbin/bootstrap.min.css">
         <link rel="stylesheet" href="{{static}}/css/myjsbin/controlPanelProf.css">
         <link rel="stylesheet" href="{{static}}/css/myjsbin/footer.css">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/font-awesome-4.2.0/css/font-awesome.min.css">
     </head>
     <body>
         <div id="wrap">
             <div class="container">
-                <div class="center" >
-                    <h1>
-                        <button id="btnHelpProf" class="btn btn-warning"  data-toggle="modal" data-target="#modalHelpProf" >Guida</button>
-                        Pannello di controllo del Professore
-                        <a id="linkToCorrectionPanelProf" class="btn btn-success" href="{{static}}/professor/correction" >Pagina di Correzione</a>
-                    </h1>
-                </div>
+                <header>
+                    <button id="btnHelpProf" class="btn btn-warning"  data-toggle="modal" data-target="#modalHelpProf" >Guida</button>
+                    <i class="fa fa-home"></i><span class="title">&nbsp; Pannello di controllo del Professore</span>
+                    <a id="linkToCorrectionPanelProf" class="btn btn-success" href="{{static}}/professor/correction" >Pagina di Correzione</a>
+                </header>
                 <!-- Nav tabs -->
 
                     <ul id="prof-tab" class="nav nav-tabs" role="tablist">
-                        <li id="setup-tab" class="active" ><a href="#setup" role="tab" data-toggle="tab">Setup</a></li>
-                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab">Start</a></li>
-                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab">Exam Info</a></li>
+                        <li id="setup-tab" class="active" ><a href="#setup" role="tab" data-toggle="tab"><i class="fa fa-cogs fa-fw"></i>&nbsp; Setup</a></li>
+                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered fa-fw"></i>&nbsp;Start</a></li>
+                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab"><i class="fa fa-info-circle fa-fw"></i>&nbsp;Exam Info</a></li>
                     </ul>
 
 
@@ -35,7 +34,7 @@
                                 <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
                                 <div class="wrapper">
                                     <section id="secUploadFileExam">
-                                        <h3 align="center" >Gestione File compito</h3>
+                                        <h3 align="center" ><i class="fa fa-file-code-o"></i>&nbsp;Gestione File compito</h3>
                                         <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
                                             <fieldset>
                                                 <legend>form in cui caricare i dati relativi al compito</legend>
@@ -62,7 +61,7 @@
                                         </div>
                                     </section>
                                     <section id="clock">
-                                        <h3 align="center" >Gestione Temporizzazione compito</h3>
+                                        <h3 align="center" ><i class="fa fa-clock-o"></i>&nbsp;Gestione Temporizzazione compito</h3>
                                         <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
                                             <fieldset>
                                                 <legend>form setup clock compito</legend>

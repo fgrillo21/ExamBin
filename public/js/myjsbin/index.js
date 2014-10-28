@@ -67,8 +67,8 @@ function createCountdownElement(){
             hideLabels	: true,
             target: "spanCountdown",
             onComplete: function(){
-                //TODO try to manage in a best way this function call when the countdown finish your work
                 alert("time is up");
+                $("div[id^='Container_jbeeb']").css("background-color", "red");
             },
             hideLine: true,
             numbers		: 	{

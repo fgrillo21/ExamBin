@@ -6,103 +6,124 @@
 
         <link rel="stylesheet" href="{{static}}/css/myjsbin/bootstrap.min.css">
         <link rel="stylesheet" href="{{static}}/css/myjsbin/correctionPanelProf.css">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/footer.css">
+        <link rel="stylesheet" href="{{static}}/css/myjsbin/font-awesome-4.2.0/css/font-awesome.min.css">
+
     </head>
     <body>
-
-        <h1 align="center">
-            <a id="linkToPanelProf" class="btn btn-danger" href="{{static}}/professor" >Torna Indietro</a>
-            Pannello correzione compiti del Professore
-        </h1>
-        <section id="secLoadWeigthInformation">
-            <h2 align="center">Sezione relativa al caricamento delle informazioni per <mark>CORREGGERE</mark> l'esame</h2>
-            <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
-            <div class="wrapper">
-                <section id="secUploadFileExam">
-                    <h3 align="center" >Gestione File validazione CUSTOM compito</h3>
-                    <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data">
-                        <fieldset>
-                            <legend>form in cui caricare il test mocha personalizzato</legend>
-                            <div id="divUploadHtml">
-                                <label>Choose File Mocha validation</label>
-                                <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
-                            </div>
+        <div id="wrap">
+            <div class="container-fluid">
+                <div class="center">
+                    <h1>
+                        <a id="linkToPanelProf" class="btn btn-danger" href="{{static}}/professor" ><i class="fa fa-home"></i>&nbsp;Home</a>
+                        <i class="fa fa-pencil-square-o"></i>&nbsp;Pannello correzione compiti del Professore
+                    </h1>
+                </div>
+                <section id="secLoadWeigthInformation">
+                    <h2 align="center">Sezione relativa al caricamento delle informazioni per <mark>CORREGGERE</mark> l'esame</h2>
+                    <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
+                    <div class="wrapper">
+                        <section id="secUploadFileExam">
+                            <h3 align="center" ><i class="fa fa-file-text-o"></i>&nbsp;Gestione File validazione CUSTOM compito</h3>
+                            <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data">
+                                <fieldset>
+                                    <legend>form in cui caricare il test mocha personalizzato</legend>
+                                    <div id="divUploadHtml">
+                                        <label>Choose File Mocha validation</label>
+                                        <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
+                                    </div>
+                                    <div class="center">
+                                        <input class="btn btn-default" type='submit' value="Aggiorna file per validazione personalizzata"/>
+                                        <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Attuale file Validazione Custom</a>
+                                    </div>
+                                </fieldset>
+                            </form>
                             <div class="center">
-                                <input class="btn btn-default" type='submit' value="Aggiorna file per validazione personalizzata"/>
-                                <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Attuale file Validazione Custom</a>
+                                <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoFileValidation">
+                                    Info Creazione File Validazione
+                                </button>
+                            </div >
+                            <div id="allowCustomValidation" class="center" >
+                                <input type="checkbox" id="checkboxCustomValidation"/>
+                                <button class="btn btn-danger" id="btnAllowCustomValidation">
+                                    <span><b>Abilita Validazione Custom</b></span>
+                                </button>
                             </div>
-                        </fieldset>
-                    </form>
-                    <div class="center">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoFileValidation">
-                            Info Creazione File Validazione
-                        </button>
+                        </section>
+                        <section id="clock">
+                            <h3 align="center" ><i class="fa fa-calculator"></i>&nbsp;Gestione Pesi per proposta di voto</h3>
+                            <form id="formVoteWeight" class="form" method='post' action='/correction/setWeightValidation'>
+                                <fieldset>
+                                    <legend>form setup pesi validazione
+                                    </legend>
+                                    <div>
+                                        <label>Peso validazione Html standard</label>
+                                        <input type='number'  id='inputWeightHtml' name='inputWeightHtml' value="{{inputWeightHtml}}"/>
+                                    </div>
+                                    <div>
+                                        <label>Peso validazione Css standard</label>
+                                        <input type='number'  id='inputWeightCss' name='inputWeightCss' value="{{inputWeightCss}}"/>
+                                    </div>
+                                    <div>
+                                        <label>Peso validazione Javascript standard</label>
+                                        <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' value="{{inputWeightJavascript}}" />
+                                    </div>
+                                    <div>
+                                        <label>Peso validazione Custom (Mocha)</label>
+                                        <input type='number'  id='inputWeightMocha' name='inputWeightMocha' value="{{inputWeightMocha}}" />
+                                    </div>
+                                    <div>
+                                        <label>Voto di partenza</label>
+                                        <input type='number'  id='inputStartVote' name='inputStartVote' value="{{inputStartVote}}" />
+                                    </div>
+
+                                    <div class="center">
+                                        <input class="btn btn-default" type='submit' value="Aggiorna Pesi per validazione"/>
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <div class="center">
+                                <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoWeightValidation">
+                                    Info utilizzo pesi validazione
+                                </button>
+                            </div>
+                        </section>
                     </div>
                 </section>
-                <section id="clock">
-                    <h3 align="center" >Gestione Pesi per proposta di voto</h3>
-                    <form id="formVoteWeight" class="form" method='post' action='/correction/setWeightValidation'>
-                        <fieldset>
-                            <legend>form setup pesi validazione
-                            </legend>
-                            <div>
-                                <label>Peso validazione Html standard</label>
-                                <input type='number'  id='inputWeightHtml' name='inputWeightHtml' value="{{inputWeightHtml}}"/>
-                            </div>
-                            <div>
-                                <label>Peso validazione Css standard</label>
-                                <input type='number'  id='inputWeightCss' name='inputWeightCss' value="{{inputWeightCss}}"/>
-                            </div>
-                            <div>
-                                <label>Peso validazione Javascript standard</label>
-                                <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' value="{{inputWeightJavascript}}" />
-                            </div>
-                            <div>
-                                <label>Peso validazione Custom (Mocha)</label>
-                                <input type='number'  id='inputWeightMocha' name='inputWeightMocha' value="{{inputWeightMocha}}" />
-                            </div>
-                            <div>
-                                <label>Voto di partenza</label>
-                                <input type='number'  id='inputStartVote' name='inputStartVote' value="{{inputStartVote}}" />
-                            </div>
+                <section class="center" id="secExamRepor">
+                    <div id="divHeaderExamReport">
 
-                            <div class="center">
-                                <input class="btn btn-default" type='submit' value="Aggiorna Pesi per validazione"/>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="center">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoWeightValidation">
-                            Info utilizzo pesi validazione
+                        <span><b>Scegli data compito : </b></span>
+                        <select id="selectExamDate">
+                            <option value="---">---</option>
+                        </select>
+                        <button id="btnGetExamValidation" class="btn btn-success btn-lg">
+                            Correggi Esame
                         </button>
                     </div>
+
+
+                    <div id="divExamReport" style="display: none">
+                        <table id="tableExamReport" border="1">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-default" href="{{static}}/professor/correction/file" target="_blank">View Json Object of Report</a>
+                        <!--<button class="btn btn-default" id="saveReport">
+                            View Json Object of Report
+                        </button>-->
+                    </div>
                 </section>
+                <div id="push"></div>
             </div>
-        </section>
-        <section class="center" id="secExamRepor">
-            <div id="divHeaderExamReport">
-                <span><b>Scegli data compito : </b></span>
-                <select id="selectExamDate">
-                    <option value="---">---</option>
-                </select>
-                <button id="btnGetExamValidation" class="btn btn-success">
-                    Get Student Report
-                </button>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">Powered by Matteo Borghi ©</p>
             </div>
-
-
-            <div id="divExamReport" style="display: none">
-                <table id="tableExamReport" border="1">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <a class="btn btn-default" href="{{static}}/professor/correction/file" target="_blank">View Json Object of Report</a>
-                <!--<button class="btn btn-default" id="saveReport">
-                    View Json Object of Report
-                </button>-->
-            </div>
-        </section>
+        </div>
 
         <!-- Modal for visualize error -->
         <div class="modal fade" id="myModalError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -141,6 +162,7 @@
                         all'interno del test: chai.expect(window.i).to.equal(10); </p>
                         <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
                         <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
+                        <mark><p>Infine, per abilitare questo tipo di validazione, bisogna selezionare il checkbox sotto questo pulsante.</p></mark>
                     </div>
 
                     <div class="modal-footer">

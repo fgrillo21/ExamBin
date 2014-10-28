@@ -2,8 +2,27 @@ body {
      font-family: Verdana, sans-serif;
  }
 
+header {
+    font-size: 36px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+span.title {
+    font-weight: bold;
+}
+#btnHelpProf {
+    float: left;
+    margin-top: 10px;
+}
+#linkToCorrectionPanelProf {
+    float:right;
+    margin-top: 10px;
+}
+
 input[type="file"] {
-    border: 3px solid #999;
+    border: 2px solid #999;
     display: inline-block;
     width: 48%;
 }
@@ -21,10 +40,10 @@ div[id^='divUpload'] {
     font-weight: bold;
 }
 
-section {
+div.wrapper section {
     margin: 20px;
     padding: 10px;
-    border: 3px solid #46b8da;
+    border: 2px solid #46b8da;
     border-radius:8px;
 }
 fieldset {
@@ -69,7 +88,10 @@ label {
     text-align: center;
 }
 #examSessionInfo {
-    border: 3px solid orange;
+    margin: 20px;
+    padding: 10px;
+    border-radius:8px;
+    border: 2px solid orange;
 }
 #examStartSession {
     padding-top: 150px;
@@ -113,7 +135,10 @@ mark {
     margin-top: 10px;
 }
 #secFinishExam {
-    border-color: #4cae4c;
+    margin: 20px;
+    padding: 10px;
+    border: 2px solid #4cae4c;
+    border-radius:8px;
 }
 th {
     background-color: #4cae4c;
@@ -124,4 +149,45 @@ th {
 }
 input[type="number"] {
     text-align: right;
+}
+/*.nav-tabs > li.active > a{
+    background-color: lightgreen;
+}
+li.disabled > a {
+    background-color: lightcoral;
+}*/
+
+li > a {
+    color: #0088cc !important;
+}
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
+
+.nav-tabs>li.active>a {
+    border: 2px solid #46b8da;
+    border-bottom-color: transparent;
+}
+
+.tab-content {
+    border-left: 2px solid #46b8da;
+    border-right: 2px solid #46b8da;
+    border-bottom: 2px solid #46b8da;
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
+    border-bottom: 2px solid #46b8da;
+}
+.nav-tabs>li.active>a:hover {
+    border: 2px solid #46b8da;
+    border-bottom-color: transparent;
 }
