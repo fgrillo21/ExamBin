@@ -1,6 +1,6 @@
-# JS Bin
+# My JS Bin
 
-JS Bin is an open source collaborative web development debugging tool.
+My JS Bin is an open source collaborative web development debugging tool, created for...
 
 ## If you use JS Bin locally...
 

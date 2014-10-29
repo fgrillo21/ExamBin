@@ -132,23 +132,30 @@
                 <div class="modal fade" id="modalHelpProf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header btn-danger">
+                            <div class="modal-header btn-warning">
                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalFileValidationTitle">Help!!!</h4>
+                                <h2 class="modal-title" id="myModalFileValidationTitle">Guida al Professore</h2>
                             </div>
                             <div class="modal-body">
                                 <h3>Informazioni su come gestire una sessione d'esame</h3>
-                                <p>Nella creazione del file per la validazione, viene messo a disposizione il DOM del compito all'interno di una variabile denominata "window",
-                                    quindi se nel test, si vuole accedere ad una certa variabile o una funzione del DOM, bisogna scrivere: window.nomeVariabile o window.nomeFunzione;
-                                    questo tipo di istruzione funzionerà anche se provate il vostro test client side nel vostro browser, poichè anche nel browser il DOM è caricato
-                                    nella variabile window.</p>
-                                <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
-                                    quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
-                                    all'interno del test: chai.expect(window.i).to.equal(10); </p>
-                                <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
-                                <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
-                            </div>
+                                <p>Come si può notare, la navigazione è governata da tre tab nella parte superiore della pagina (setup, start ed exam info).
+                                    Inizialmente solo una delle tab è abilitata, in base allo stato interno del clock del sistema.
+                                    La navigazione tra le tab è sequenziale, quindi terminata un'operazione si passa alla tab successiva,
+                                    e la precedente non è più visibile.</p>
 
+                                <h4>Demo sessione d'esame</h4>
+                                <ol>
+                                    <li>
+                                        <h5>Prima fase: setup</h5>
+                                    </li>
+                                    <li>
+                                        <h5>Seconda fase: start</h5>
+                                    </li>
+                                    <li>
+                                        <h5>Terza fase: info sessione d'esame</h5>
+                                    </li>
+                                </ol>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>

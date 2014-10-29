@@ -33,8 +33,8 @@
                                         <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
                                     </div>
                                     <div class="center">
-                                        <input class="btn btn-default" type='submit' value="Aggiorna file per validazione personalizzata"/>
-                                        <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Attuale file Validazione Custom</a>
+                                        <input class="btn btn-default" type='submit' value="Aggiorna File"/>
+                                        <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Default File Validazione Custom</a>
                                     </div>
                                 </fieldset>
                             </form>
@@ -57,19 +57,19 @@
                                     <legend>form setup pesi validazione
                                     </legend>
                                     <div>
-                                        <label>Peso validazione Html standard</label>
+                                        <label>Peso Html standard</label>
                                         <input type='number'  id='inputWeightHtml' name='inputWeightHtml' value="{{inputWeightHtml}}"/>
                                     </div>
                                     <div>
-                                        <label>Peso validazione Css standard</label>
+                                        <label>Peso Css standard</label>
                                         <input type='number'  id='inputWeightCss' name='inputWeightCss' value="{{inputWeightCss}}"/>
                                     </div>
                                     <div>
-                                        <label>Peso validazione Javascript standard</label>
+                                        <label>Peso Javascript standard</label>
                                         <input type='number'  id='inputWeightJavascript' name='inputWeightJavascript' value="{{inputWeightJavascript}}" />
                                     </div>
                                     <div>
-                                        <label>Peso validazione Custom (Mocha)</label>
+                                        <label>Peso Custom (Mocha)</label>
                                         <input type='number'  id='inputWeightMocha' name='inputWeightMocha' value="{{inputWeightMocha}}" />
                                     </div>
                                     <div>
@@ -162,7 +162,9 @@
                         all'interno del test: chai.expect(window.i).to.equal(10); </p>
                         <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
                         <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
-                        <mark><p>Infine, per abilitare questo tipo di validazione, bisogna selezionare il checkbox sotto questo pulsante.</p></mark>
+                        <p>Per visualizzare il file di default presente nel sistema a livello di validazione custom (se ne è già stato caricato uno, sarà l'ultimo caricato) basta
+                        premere sull'apposito pulsante in arancio denominato "default file".</p>
+                        <p><mark>Infine, per abilitare questo tipo di validazione, bisogna selezionare il checkbox sotto questo pulsante.</mark></p>
                     </div>
 
                     <div class="modal-footer">
