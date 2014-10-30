@@ -9,4 +9,4 @@ Questa suddivisione porta il professore ad avere accesso a due schermate distint
 
 Il pannello di controllo, consente al professore di gestire interamente lo svolgimento di una sessione d'esame, partendo dalla fase di setup dei vari documenti, fino alla conclusione manuale della sessione stessa, allo scadere del tempo per l'esame.
 
-![Alt text](/images/controlPanelProf.png?raw=true "Optional Title")
+![Alt text](/docs/images/controlPanelProf.png?raw=true "Optional Title")
