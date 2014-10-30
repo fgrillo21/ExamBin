@@ -1,6 +1,6 @@
 # ExaM JS Bin
 
-ExaM JS Bin è un progetto open source creato per fare esami di informatica all'università, basato sul tool open source per debugging collaborativo a livello di sviluppo web denominato JS Bin ([jsbin.com]((http://jsbin.com)).
+ExaM JS Bin è un progetto open source creato per fare esami di informatica all'università, basato sul tool open source per debugging collaborativo a livello di sviluppo web denominato JS Bin ([jsbin.com](http://jsbin.com)).
 
 ## Cosa consente di fare ExaM JS Bin?
 
