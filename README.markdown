@@ -1,41 +1,27 @@
-# My JS Bin
+# ExaM JS Bin
 
-My JS Bin is an open source collaborative web development debugging tool, created for...
+ExaM JS Bin è un progetto open source creato per fare esami di informatica all'università, basato sul tool open source per debugging collaborativo a livello di sviluppo web denominato JS Bin ([jsbin.com]((http://jsbin.com)).
 
-## If you use JS Bin locally...
+## Cosa consente di fare ExaM JS Bin?
 
-It likely means you're not going to subscribe as a pro user - which is how we're sustaining our project, which is cool, but [please consider donating via gittip here](https://www.gittip.com/js_bin/).
-
-## What can JS Bin do?
-
-* Write code and have it both save in real-time, but also render a full preview in real-time
-* Help debug other people's JavaScript, HTML or CSS by sharing and editing urls
-* CodeCast - where you share what you're typing in JS Bin in real-time
-* Remote rendering - view the output of your JS Bin on any device on any platform, updating in real-time
-* Processors, including: coffee-script, LESS, Markdown and Jade.
-* Debug remote Ajax calls
-
-Find out more about JS Bin's features via the [YouTube JS Bin playlist](http://jsbin.com/videos).
+* Permette al docente di realizzare una domanda di HTML e/o CSS e/o Javascript e/o vari framework, di cui può fornire codice mezzo completato, o con errori.
+* In un laboratorio chiuso ad Internet, ma collegato ad un server su cui gira una versione di ExaM JS Bin, consente agli studenti dopo una procedura di login di avere a disposizione un ambiente di lavoro JS Bin like semplificato, per poter rispondere alla domanda posta dal docente, avendo sempre a disposizione console e output del compito che stanno redigendo. 
+* Permette di salvare il compito di ogni studente in una copia privata aggiungendo nome, cognome e matricola dell'alunno in questione; il meccanismo di salvataggio viene attivato ad ogni modifica apportata dallo studente nell'interfaccia dove realizza il compito. 
+* Dopo aver effettuato le modifiche necessarie al testo per risolvere l'esercizio, lo studente ha la possibilità di dichiarare di aver concluso il compito e consegnarlo al docente per la correzione.
+* Infine permette al professore di correggere/validare i compiti di una certa sessione d'esame, in maniera standar e/o personalizzata, eseguendo un test su ogni compito e generando un rapporto completo.
 
 ## Who built this?
 
-JS Bin was built by [Remy Sharp](http://remysharp.com) and is completely open source and available at [http://github.com/jsbin/jsbin](http://github.com/jsbin/jsbin). You can also follow [@rem](http://twitter.com/rem) on Twitter where he'll tweet about JavaScript, HTML 5 and other such gems.
+ExaM JS Bin è stato realizzato interamente da Matteo Borghi, studente laurendo della facoltà di Informatica per il Management dell'Università di Bologna, per adempiere al proprio tirocinio curricolare.
 
-If you would like to work with Remy and his company, [Left Logic](http://leftlogic.com) on a front end development project, [please get in touch](http://leftlogic.com/contact?message=Found%20through%20jsbin.com).
+ExaM JS Bin è stato ottenuto tramite un fork al progetto open source jsbin disponibile all'indirizzo [http://github.com/jsbin/jsbin](http://github.com/jsbin/jsbin).
 
-UX was kindly donated by [Danny Hope](http://yandleblog.com) who also tweets as [@yandle](http://twitter.com/yandle).
+## Componenti del progetto
 
-The vast majority of the port from PHP to Node in June 2012 was done by [Aron Carroll](http://aroncarroll.com/) who also plays in github as [@aron](http://github.com/aron).
-
-## A short history
-
-[JS Bin](http://jsbin.com) is a webapp specifically designed to help JavaScript and CSS folk test snippets of code, within some context, and debug the code collaboratively.
-
-JS Bin allows you to edit and test JavaScript and HTML (reloading the URL also maintains the state of your code - new tabs doesn't). Once you're happy you can save, and send the URL to a peer for review or help. They can then make further changes saving anew if required.
-
-The original idea spawned from a conversation with another developer in trying to help him debug an Ajax issue. The original aim was to build it using Google's app engine, but in the end, it was [John Resig](http://ejohn.org)'s [Learning app](http://ejohn.org/apps/learn) that inspired me to build the whole solution in JavaScript with liberal dashes of jQuery and a tiny bit of LAMP for the saving process.
-
-[Version 1](http://1.jsbin.com) of [JS Bin](http://www.flickr.com/photos/remysharp/4284906136) took me the best part of 4 hours to develop [back in 2008](http://remysharp.com/2008/10/06/js-bin-for-collaborative-javascript-debugging/), but [version 2](http://2.jsbin.com) was been rewritten from the ground up and is completely [open source](http://github.com/remy/jsbin).
+Il progetto è stato pensato per due categorie di utenti, studenti e professori:
+* [Interfaccia professore](/docs/professor-interface.md)
+* [Interfaccia studente](/docs/student-interface.md)
+    
 
 ## Build Process
 
