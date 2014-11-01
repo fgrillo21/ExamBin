@@ -1,0 +1,32 @@
+<!-- Modal for visualize info about how to create file for validation -->
+<div class="modal fade" id="modalInfoWeightValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header btn-info">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalWeightValidationTitle">Info su come vengono utilizzati i pesi a livello di validazione</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Informazioni su come vengono utilizzati i pesi a livello di validazione</h3>
+                <p>Nella creazione del voto proposto dal sistema relativamente ad ogni prova di esame, un fattore importante è rappresentato dai pesi attribuiti
+                    ad ogni singolo errore identificato a livello di validazione del compito</p>
+                <p>Ciò che viene richiesto nella compilazione del form relativo ai pesi da utilizzare nella proposta di voto, è il singolo peso di ogni errore, sia esso ottenuto a livello
+                    di validazione di html standard, css standard, javascript più o meno standard (il modulo esprima utilizzato internamente al server, tiene conto anche della semantica) e
+                    riguardo la validazione cosidetta "custom", (decisa dal professore e uploadata tramite il form sulla sinistra). </p>
+                <p>Ogni errore riscontrato verrà moltiplicato per il proprio peso e il valore ottenuto, verrà sottratto al voto di partenza (anch'esso deciso dal professore in questo form),
+                    in modo tale da ottenere il voto finale, che sarà presentato al docente a correzzione avvenuta</p>
+<pre>Esempio:
+Peso validazione HTML standard = 0.5      errori HTML standard = 1
+Peso validazione CSS standard = 0.5       errori CSS standard = 2
+Peso validazione JS standard = 1          errori JS standard = 0
+Peso validazione CUSTOM standard = 2      errori CUSTOM standard = 1
+Voto di partenza = 30
+
+Voto finale = 30 - (0.5 * 1 + 0.5 * 2 + 1 * 0 + 2 * 1) = 26.5</pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

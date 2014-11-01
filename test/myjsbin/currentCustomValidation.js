@@ -7,8 +7,8 @@ describe("Validate Exam", function() {
         it("La variabile denominata 'borghi' dovrebbe avere il valore 22", function() {
             chai.expect(window.borghi).to.equal(22);
          });
-         it("La funzione z() dovrebbe ritornare il valore 3", function() {
-             chai.expect(window.zeta()).to.equal(3);
+         it("La funzione z() dovrebbe ritornare il valore 4", function() {
+             chai.expect(window.zeta()).to.equal(4);
          });
     });
     describe("HTML Rule", function() {

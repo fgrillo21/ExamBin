@@ -1,0 +1,30 @@
+<!-- Modal for visualize info about how to create file for validation -->
+<div class="modal fade" id="modalInfoFileValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header btn-info">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalFileValidationTitle">Info su come creare file per validazione</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Informazioni su come creare file per validazione</h3>
+                <p>Nella creazione del file per la validazione, viene messo a disposizione il DOM del compito all'interno di una variabile denominata "window",
+                    quindi se nel test, si vuole accedere ad una certa variabile o una funzione del DOM, bisogna scrivere: window.nomeVariabile o window.nomeFunzione;
+                    questo tipo di istruzione funzionerà anche se provate il vostro test client side nel vostro browser, poichè anche nel browser il DOM è caricato
+                    nella variabile window.</p>
+                <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
+                    quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
+                    all'interno del test: chai.expect(window.i).to.equal(10); </p>
+                <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
+                <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
+                <p>Per visualizzare il file di default presente nel sistema a livello di validazione custom (se ne è già stato caricato uno, sarà l'ultimo caricato) basta
+                    premere sull'apposito pulsante in arancio denominato "default file".</p>
+                <p><mark>Infine, per abilitare questo tipo di validazione, bisogna selezionare il checkbox sotto questo pulsante.</mark></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

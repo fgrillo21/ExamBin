@@ -132,6 +132,9 @@ mark {
 .btn-default {
     color: #333;
     background-color: buttonface;
+
+}
+.btn {
     margin-top: 10px;
 }
 #secFinishExam {

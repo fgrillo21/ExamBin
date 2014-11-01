@@ -70,6 +70,7 @@ td:last-child, th:last-child {
 }
 .pointer {
     cursor: pointer;
+    text-decoration: underline;
 }
 
 fieldset {

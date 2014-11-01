@@ -12,7 +12,7 @@
     </head>
     <body>
         <div id="wrap">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="center">
                     <h1>
                         <a id="linkToPanelProf" class="btn btn-danger" href="{{static}}/professor" ><i class="fa fa-home"></i>&nbsp;Home</a>
@@ -20,16 +20,22 @@
                     </h1>
                 </div>
                 <section id="secLoadWeigthInformation">
-                    <h2 align="center">Sezione relativa al caricamento delle informazioni per <mark>CORREGGERE</mark> l'esame</h2>
+                    <h2 align="center">Caricamento info per <mark>CORREGGERE</mark> l'esame</h2>
                     <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
                     <div class="wrapper">
                         <section id="secUploadFileExam">
-                            <h3 align="center" ><i class="fa fa-file-text-o"></i>&nbsp;Gestione File validazione CUSTOM compito</h3>
+                            <h3 align="center" >
+                                <i class="fa fa-file-text-o"></i>
+                                &nbsp;Gestione File validazione CUSTOM compito&nbsp;
+                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoFileValidation">
+                                    <i class="fa fa-info"></i>
+                                </button>
+                            </h3>
                             <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data">
                                 <fieldset>
-                                    <legend>form in cui caricare il test mocha personalizzato</legend>
+                                    <legend>form test mocha personalizzato</legend>
                                     <div id="divUploadHtml">
-                                        <label>Choose File Mocha validation</label>
+                                        <label>File Custom Validation</label>
                                         <input type='file'  id='fileMochaUpload' name='fileMochaUpload' />
                                     </div>
                                     <div class="center">
@@ -38,20 +44,21 @@
                                     </div>
                                 </fieldset>
                             </form>
-                            <div class="center">
-                                <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoFileValidation">
-                                    Info Creazione File Validazione
-                                </button>
-                            </div >
                             <div id="allowCustomValidation" class="center" >
-                                <input type="checkbox" id="checkboxCustomValidation"/>
+
                                 <button class="btn btn-danger" id="btnAllowCustomValidation">
-                                    <span><b>Abilita Validazione Custom</b></span>
+                                    <span><b>Disabilita Validazione Custom</b></span>
                                 </button>
                             </div>
                         </section>
                         <section id="clock">
-                            <h3 align="center" ><i class="fa fa-calculator"></i>&nbsp;Gestione Pesi per proposta di voto</h3>
+                            <h3 align="center" >
+                                <i class="fa fa-calculator"></i>
+                                &nbsp;Gestione Pesi per proposta di voto
+                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoWeightValidation">
+                                    <i class="fa fa-info"></i>
+                                </button>
+                            </h3>
                             <form id="formVoteWeight" class="form" method='post' action='/correction/setWeightValidation'>
                                 <fieldset>
                                     <legend>form setup pesi validazione
@@ -82,11 +89,6 @@
                                     </div>
                                 </fieldset>
                             </form>
-                            <div class="center">
-                                <button class="btn btn-info" data-toggle="modal" data-target="#modalInfoWeightValidation">
-                                    Info utilizzo pesi validazione
-                                </button>
-                            </div>
                         </section>
                     </div>
                 </section>
@@ -102,6 +104,15 @@
                         </button>
                     </div>
 
+                    <div id="divProgressBar" class="progress" style="display: none">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                            validation in progress...
+                        </div>
+                    </div>
+
+                    <div id="divErrorValidation" class="center" style="display: none">
+
+                    </div>
 
                     <div id="divExamReport" style="display: none">
                         <table id="tableExamReport" border="1">
@@ -125,87 +136,12 @@
             </div>
         </div>
 
-        <!-- Modal for visualize error -->
-        <div class="modal fade" id="myModalError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header btn-warning">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalErrorTitle"></h4>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{> modal_error}}
 
-        <!-- Modal for visualize info about how to create file for validation -->
-        <div class="modal fade" id="modalInfoFileValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header btn-info">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalFileValidationTitle">Info su come creare file per validazione</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h3>Informazioni su come creare file per validazione</h3>
-                        <p>Nella creazione del file per la validazione, viene messo a disposizione il DOM del compito all'interno di una variabile denominata "window",
-                        quindi se nel test, si vuole accedere ad una certa variabile o una funzione del DOM, bisogna scrivere: window.nomeVariabile o window.nomeFunzione;
-                        questo tipo di istruzione funzionerà anche se provate il vostro test client side nel vostro browser, poichè anche nel browser il DOM è caricato
-                        nella variabile window.</p>
-                        <p>Inoltre per effettuare qualsiasi tipo di asserzione complessa, viene messo a disposizione un oggetto chai in una variabile denominata appunto "chai";
-                        quindi se si vuole ad esempio controllare se il valore della variabile i del DOM a livello di codice javascript ha un valore pari a 10, basterà scrivere
-                        all'interno del test: chai.expect(window.i).to.equal(10); </p>
-                        <p>N.B. Anche per accedere all'oggetto dollaro ($) di Jquery è necessario scrivere : window.$</p>
-                        <p>Per semplicità ecco link ad un file di esempio: <a href="{{static}}/professor/correction/exampleCustomValidation" target="_blank">File Esempio validazione custom</a></p>
-                        <p>Per visualizzare il file di default presente nel sistema a livello di validazione custom (se ne è già stato caricato uno, sarà l'ultimo caricato) basta
-                        premere sull'apposito pulsante in arancio denominato "default file".</p>
-                        <p><mark>Infine, per abilitare questo tipo di validazione, bisogna selezionare il checkbox sotto questo pulsante.</mark></p>
-                    </div>
+        {{> modal_info_file_validation}}
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{> modal_info_weight}}
 
-        <!-- Modal for visualize info about how to create file for validation -->
-        <div class="modal fade" id="modalInfoWeightValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header btn-info">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalWeightValidationTitle">Info su come vengono utilizzati i pesi a livello di validazione</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h3>Informazioni su come vengono utilizzati i pesi a livello di validazione</h3>
-                        <p>Nella creazione del voto proposto dal sistema relativamente ad ogni prova di esame, un fattore importante è rappresentato dai pesi attribuiti
-                        ad ogni singolo errore identificato a livello di validazione del compito</p>
-                        <p>Ciò che viene richiesto nella compilazione del form relativo ai pesi da utilizzare nella proposta di voto, è il singolo peso di ogni errore, sia esso ottenuto a livello
-                        di validazione di html standard, css standard, javascript più o meno standard (il modulo esprima utilizzato internamente al server, tiene conto anche della semantica) e
-                        riguardo la validazione cosidetta "custom", (decisa dal professore e uploadata tramite il form sulla sinistra). </p>
-                        <p>Ogni errore riscontrato verrà moltiplicato per il proprio peso e il valore ottenuto, verrà sottratto al voto di partenza (anch'esso deciso dal professore in questo form),
-                        in modo tale da ottenere il voto finale, che sarà presentato al docente a correzzione avvenuta</p>
-<pre>Esempio:
-Peso validazione HTML standard = 0.5      errori HTML standard = 1
-Peso validazione CSS standard = 0.5       errori CSS standard = 2
-Peso validazione JS standard = 1          errori JS standard = 0
-Peso validazione CUSTOM standard = 2      errori CUSTOM standard = 1
-Voto di partenza = 30
-
-Voto finale = 30 - (0.5 * 1 + 0.5 * 2 + 1 * 0 + 2 * 1) = 26.5</pre>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </body>
     <script src="{{static}}/js/vendor/jquery-1.11.0.min.js"></script>
     <script src="{{static}}/js/vendor/bootstrap.min.js"></script>

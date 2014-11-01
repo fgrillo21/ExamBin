@@ -102,7 +102,7 @@ function mainFunction() {
         var confirmRequest = true;
 
         var optionSelected = $( "#selectExamDate" ).val();
-        var customValidation = $('#checkboxCustomValidation').is(':checked');
+        var customValidation = $('#btnAllowCustomValidation').hasClass('btn-danger');
         console.log(customValidation);
 
         if (!fileValidationUploaded || !voteWeightUploaded || optionSelected === "---"){
@@ -112,7 +112,7 @@ function mainFunction() {
                 message += "- nessuna data dell'esame selezionata\n";
                 alert(message);
                 confirmRequest = false;
-            } else {
+            } /*else {
 
                 if (!fileValidationUploaded) {
                     message += "- testo validazione custom non caricato\n";
@@ -122,7 +122,7 @@ function mainFunction() {
                 }
                 message += "\n\nPremendo OK verrà effettuata la validazione\ncon le impostazioni di default del sistema\n";
                 confirmRequest = confirm(message);
-            }
+            }*/
         }
 
         var dataToSend = {
@@ -132,13 +132,23 @@ function mainFunction() {
 
         if (confirmRequest) {
 
+            $('#divProgressBar').show();
+            $('#divExamReport').hide();
+
             $.ajax({
                 url: "/correction/validateExams",
                 dataType: "json",
                 data: dataToSend,
                 success: function (res) {
+                    $('#divProgressBar').hide();
+                    $('#divErrorValidation').hide();
                     console.log(res);
                     alert(res);
+                    if (res.exception){
+                        $('#divErrorValidation').html("<p>"+res.typeOfException+"</p>");
+                        $('#divErrorValidation').show();
+                        return;
+                    }
                     validateExamsArray = res;
                     var $divExamReport = $("#divExamReport");
                     var $thead = $("#tableExamReport thead");
@@ -179,10 +189,16 @@ function mainFunction() {
     });
 
     $("#btnAllowCustomValidation").click(function() {
-        if ($('#checkboxCustomValidation').is(':checked')){
-            $('#checkboxCustomValidation').prop('checked', false);
+        if ($('#btnAllowCustomValidation').hasClass('btn-danger')){
+            $('#formValidationFile').hide();
+            $('#btnAllowCustomValidation').removeClass('btn-danger');
+            $('#btnAllowCustomValidation').addClass('btn-success');
+            $('#btnAllowCustomValidation span b').text('Abilita validazione Custom');
         } else {
-            $('#checkboxCustomValidation').prop('checked', true);
+            $('#formValidationFile').show();
+            $('#btnAllowCustomValidation').removeClass('btn-success');
+            $('#btnAllowCustomValidation').addClass('btn-danger');
+            $('#btnAllowCustomValidation span b').text('Disabilita validazione Custom');
         }
     });
 

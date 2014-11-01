@@ -12,9 +12,9 @@
         <div id="wrap">
             <div class="container">
                 <header>
-                    <button id="btnHelpProf" class="btn btn-warning"  data-toggle="modal" data-target="#modalHelpProf" >Guida</button>
-                    <i class="fa fa-home"></i><span class="title">&nbsp; Pannello di controllo del Professore</span>
-                    <a id="linkToCorrectionPanelProf" class="btn btn-success" href="{{static}}/professor/correction" >Pagina di Correzione</a>
+                    <button id="btnHelpProf" class="btn btn-warning"  data-toggle="modal" data-target="#modalHelpProf" >{{data.guide}}</button>
+                    <i class="fa fa-home"></i><span class="title">&nbsp;{{data.title}}</span>
+                    <a id="linkToCorrectionPanelProf" class="btn btn-success" href="{{static}}/professor/correction" >{{data.linkToCorrection}}</a>
                 </header>
                 <!-- Nav tabs -->
 
@@ -51,14 +51,12 @@
                                                     <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' />
                                                 </div>
                                                 <div class="center">
-                                                    <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Aggiorna file del Compito"/>
+                                                    <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Aggiorna"/>
+                                                    <a id="linkViewExam" class="btn btn-warning" href="{{static}}" target="_blank">Attuale</a>
+                                                    <button id="btnClearExamFile" class="btn btn-danger" >Pulisci</button>
                                                 </div>
                                             </fieldset>
                                         </form>
-                                        <div class="center">
-                                            <a id="linkViewExam" class="btn btn-info" href="{{static}}" target="_blank">Attuale schermata esame</a>
-                                            <button id="btnClearExamFile" class="btn btn-warning" >Pulisci file compito</button>
-                                        </div>
                                     </section>
                                     <section id="clock">
                                         <h3 align="center" ><i class="fa fa-clock-o"></i>&nbsp;Gestione Temporizzazione compito</h3>
@@ -128,40 +126,8 @@
                         </div>
                     </div>
 
-                <!-- Modal for visualize info about how to create file for validation -->
-                <div class="modal fade" id="modalHelpProf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header btn-warning">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h2 class="modal-title" id="myModalFileValidationTitle">Guida al Professore</h2>
-                            </div>
-                            <div class="modal-body">
-                                <h3>Informazioni su come gestire una sessione d'esame</h3>
-                                <p>Come si può notare, la navigazione è governata da tre tab nella parte superiore della pagina (setup, start ed exam info).
-                                    Inizialmente solo una delle tab è abilitata, in base allo stato interno del clock del sistema.
-                                    La navigazione tra le tab è sequenziale, quindi terminata un'operazione si passa alla tab successiva,
-                                    e la precedente non è più visibile.</p>
+                {{> modal_guide}}
 
-                                <h4>Demo sessione d'esame</h4>
-                                <ol>
-                                    <li>
-                                        <h5>Prima fase: setup</h5>
-                                    </li>
-                                    <li>
-                                        <h5>Seconda fase: start</h5>
-                                    </li>
-                                    <li>
-                                        <h5>Terza fase: info sessione d'esame</h5>
-                                    </li>
-                                </ol>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div id="push"></div>
             </div>
         </div>

@@ -1,25 +1,25 @@
 [
     {
-        "id": 76,
-        "javascript": "var borghi = 22;\nvar x = 11;\t  \nfunction zeta() {\n    return 3;\n}",
-        "html": "<!DOCTYPE html>\n<html>\n    <head>\n      <meta charset=\"utf-8\">\n      <title>JS Bin</title>\n    </head>\n    <body>\n        <p>HTML 5 Boiler Template</p>\n\n    </body>\n</html>",
-        "created": "2014-10-28T10:52:40.000Z",
-        "last_viewed": "2014-10-28T10:52:33.000Z",
-        "url": "2014-10-28_matteo_borghi_123_76_finish",
+        "id": 78,
+        "javascript": "var borghi = 22;\nvar x = 11;\t  \nfunction zeta() {\n   \n  alert('go');\n   return 3;\n}",
+        "html": "<!DOCTYPE html>\n<html>\n    <head>\n      <meta charset=\"utf-8\">\n      <title>JS Bin</title>\n    </head>\n    <body>\n        <p onClick=\"zeta()\">HTML 5 Boiler Template</p>\n <p>HTML 5 Boiler Template</p>\n    </body>\n</html>",
+        "created": "2014-10-30T15:43:57.000Z",
+        "last_viewed": "2014-10-30T15:42:22.000Z",
+        "url": "2014-10-30_an_a_56757657_78_finish",
         "active": "y",
         "reported": null,
         "streaming": "n",
-        "streaming_key": "906875d1de6c80267cb1350384b9394f",
+        "streaming_key": "74e7dd8072139da9df72ec9b1d28e795",
         "streaming_read_key": "",
         "active_tab": "",
         "active_cursor": 0,
         "revision": 1,
-        "css": "p:first-child {\r\n color:blue;\r\n}\r\np {\r\n  color:red;\r\n}",
+        "css": "p:first-child {\n color:yellow;\n}\np {\n  color:red;\n}",
         "settings": "{\"processors\":{\"html\":\"html\",\"css\":\"css\",\"javascript\":\"javascript\"}}",
-        "name": "matteo",
-        "surname": "borghi",
-        "matricola": "123",
-        "examUrl": "<a href='http://localhost:7002/2014-10-28_matteo_borghi_123_76_finish/1/edit' target='_blank'>http://localhost:7002/2014-10-28_matteo_borghi_123_76_finish/1/edit</a>",
+        "name": "an",
+        "surname": "a",
+        "matricola": "56757657",
+        "examUrl": "<a href='http://localhost:7002/2014-10-30_an_a_56757657_78_finish/1/edit' target='_blank'>Show Exam</a>",
         "error_Html_messages": [],
         "error_Html": 0,
         "error_Css_messages": [],
@@ -27,16 +27,16 @@
         "error_Javascript_messages": [],
         "error_Javascript": 0,
         "failure_Mocha_messages": [
-            "La variabile i dovrebbe avere il valore 10"
+            "La variabile i dovrebbe avere il valore 10",
+            "La funzione z() dovrebbe ritornare il valore 4"
         ],
-        "failure_Mocha": 1,
+        "failure_Mocha": 2,
         "pass_Mocha_messages": [
             "La variabile denominata 'borghi' dovrebbe avere il valore 22",
-            "La funzione z() dovrebbe ritornare il valore 3",
             "Nessun elemento html dovrebbe contenere l'atrtibuto class",
             "Nessun elemento html dovrebbe contenere l'atrtibuto id"
         ],
-        "pass_Mocha": 4,
+        "pass_Mocha": 3,
         "proposal_vote": 28
     }
 ]
