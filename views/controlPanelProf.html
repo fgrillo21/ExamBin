@@ -34,7 +34,12 @@
                                 <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
                                 <div class="wrapper">
                                     <section id="secUploadFileExam">
-                                        <h3 align="center" ><i class="fa fa-file-code-o"></i>&nbsp;Gestione File compito</h3>
+                                        <h3 align="center" >
+                                            <i class="fa fa-file-code-o"></i>&nbsp;Gestione File compito
+                                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoFileCompito">
+                                                <i class="fa fa-info"></i>
+                                            </button>
+                                        </h3>
                                         <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
                                             <fieldset>
                                                 <legend>form in cui caricare i dati relativi al compito</legend>
@@ -59,7 +64,12 @@
                                         </form>
                                     </section>
                                     <section id="clock">
-                                        <h3 align="center" ><i class="fa fa-clock-o"></i>&nbsp;Gestione Temporizzazione compito</h3>
+                                        <h3 align="center" >
+                                            <i class="fa fa-clock-o"></i>&nbsp;Gestione Temporizzazione compito
+                                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoTemporizzazione">
+                                                <i class="fa fa-info"></i>
+                                            </button>
+                                        </h3>
                                         <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
                                             <fieldset>
                                                 <legend>form setup clock compito</legend>
@@ -127,6 +137,10 @@
                     </div>
 
                 {{> modal_guide}}
+
+                {{> modal_info_file_compito}}
+
+                {{> modal_info_temporizzazione}}
 
                 <div id="push"></div>
             </div>

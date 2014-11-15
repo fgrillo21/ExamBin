@@ -137,6 +137,10 @@ mark {
 .btn {
     margin-top: 10px;
 }
+button.btn-info{
+    margin-top: 0px;
+}
+
 #secFinishExam {
     margin: 20px;
     padding: 10px;

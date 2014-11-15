@@ -26,8 +26,22 @@
         "error_Css": 0,
         "error_Javascript_messages": [],
         "error_Javascript": 0,
-        "failure_Mocha": "Disabilitata",
-        "pass_Mocha": "Disabilitata",
-        "proposal_vote": 30
+        "failure_Mocha_messages": [
+            "La variabile i dovrebbe avere il valore 10",
+            "ciao bell",
+            "ciao bell",
+            "La funzione z() dovrebbe ritornare il valore 4",
+            "ciao bell",
+            "ciao bell",
+            "ciao bell"
+        ],
+        "failure_Mocha": 7,
+        "pass_Mocha_messages": [
+            "La variabile denominata 'borghi' dovrebbe avere il valore 22",
+            "Nessun elemento html dovrebbe contenere l'atrtibuto class",
+            "Nessun elemento html dovrebbe contenere l'atrtibuto id"
+        ],
+        "pass_Mocha": 3,
+        "proposal_vote": 23
     }
 ]

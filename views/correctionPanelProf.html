@@ -26,12 +26,12 @@
                         <section id="secUploadFileExam">
                             <h3 align="center" >
                                 <i class="fa fa-file-text-o"></i>
-                                &nbsp;Gestione File validazione CUSTOM compito&nbsp;
+                                &nbsp File validazione CUSTOM&nbsp;
                                 <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoFileValidation">
                                     <i class="fa fa-info"></i>
                                 </button>
                             </h3>
-                            <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data">
+                            <form id="formValidationFile" class="form" method='post' action='/correction/uploadFileCustom' enctype="multipart/form-data" style="display: none" >
                                 <fieldset>
                                     <legend>form test mocha personalizzato</legend>
                                     <div id="divUploadHtml">
@@ -40,14 +40,13 @@
                                     </div>
                                     <div class="center">
                                         <input class="btn btn-default" type='submit' value="Aggiorna File"/>
-                                        <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Default File Validazione Custom</a>
+                                        <a class="btn btn-warning" href="{{static}}/professor/correction/currentCustomValidation" target="_blank">Default</a>
                                     </div>
                                 </fieldset>
                             </form>
-                            <div id="allowCustomValidation" class="center" >
-
-                                <button class="btn btn-danger" id="btnAllowCustomValidation">
-                                    <span><b>Disabilita Validazione Custom</b></span>
+                            <div id="allowCustomValidation" class="center">
+                                <button class="btn btn-success" id="btnAllowCustomValidation" disabled="disabled">
+                                    <span><b>Abilita Validazione Custom</b></span>
                                 </button>
                             </div>
                         </section>
