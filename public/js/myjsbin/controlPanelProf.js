@@ -8,6 +8,7 @@ var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
 var countdownTime = 0;
+var clickPulisci = false;
 var headersTableReport = [
     "name",
     "surname",
@@ -37,18 +38,16 @@ function mainFunction() {
     });
 
     //gestione submit form upload file per esame
-    $("#formExamFile").submit(function(event) {
+    $("#btnSubmitExamFile").click(function(event) {
         event.preventDefault();
-        var $form = $( this ),
-            url = $form.attr( 'action' );
-        var formData = new FormData($(this)[0]);
-
+        var formData = new FormData($("#formExamFile")[0]);
+        console.log(formData);
         var confirmInput = validateInputFile();
 
 //        awesome, with this ajax call I update the exam's file choose by the professor
         if (confirmInput) {
             $.ajax({
-                url: url,
+                url: "uploadFileCustom",
                 data: formData,
                 type: 'POST',
                 cache: false,
@@ -63,7 +62,7 @@ function mainFunction() {
                     }
                 },
                 error: function () {
-                    alert("Si è verificato un problema contattando il server al servizio \n"+url);
+                    alert("Si è verificato un problema contattando il server al servizio \nuploadFileCustom");
                 }
             });
         } else {
@@ -149,7 +148,7 @@ function mainFunction() {
 
     //handle the request by the professor for clear all of the exam's text file
     $("#btnClearExamFile").click(function (){
-
+        event.preventDefault();
         var message = "Sei sicuro di voler pulire i file del compito?\n" +
             "in questo modo le schermate dello studente relative a:\n > html\n > javascript\n > css\n" +
             "saranno completamente vuote";
@@ -167,7 +166,7 @@ function mainFunction() {
                     if (response.ok){
                         alert(response.message);
                     } else {
-                        alert("Si è verificato un errore nel passaggio allo stato di : "+data.status.toUpperCase());
+                        alert("Si è verificato un errore nel passaggio allo stato di : ");
                     }
                 },
 
