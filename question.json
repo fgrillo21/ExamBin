@@ -1,0 +1,19 @@
+{
+  "nome": "Prova del 12/5/2014",
+  "durata": 120,
+  "svolto": "12/5/2014",
+  "copertina": [
+    "<h1>Esame di Tecnologie Web del 14/7/2014</h1>",
+    "<h2>Corso di laurea in Informatica A.A. 2014-15</h2>"
+  ],
+  "domande": [
+    {
+      "testo": ["Quanto fa cinque per quattro?"]
+    },{
+      "testo": ["Come si fa un paragrafo in HTML?"],
+      "HTML": ["<p>Ciao mamma</p>"]
+    },{
+      "testo": ["Creare un documento HTML+CSS con grassetti e corsivi"]
+    }
+  ]
+}
