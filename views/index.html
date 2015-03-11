@@ -6,7 +6,8 @@
   <link rel="icon" href="{{static}}/images/favicon.png">
   <link rel="stylesheet" href="{{static}}/css/style.css{{cacheBust}}">
   <link rel="stylesheet" href="{{static}}/css/flat-ui.css{{cacheBust}}">
-    <link rel="stylesheet" href="{{static}}/css/myjsbin/index.css">
+  <link rel="stylesheet" href="{{static}}/css/myjsbin/index.css">
+  <link rel="stylesheet" href="{{static}}/css/myjsbin/menu.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   {{#if custom_css}}<link rel="stylesheet" href="{{static}}/{{custom_css}}{{cacheBust}}">{{/if}}
   {{#equal editorLayout "0"}}{{else}}<link rel="stylesheet" href="{{static}}/css/editor-layout.css{{cacheBust}}">{{/equal}}
@@ -98,7 +99,15 @@ if(top != self) {
           </span>
         </div>-->
 
-      <!-- NON PIACE AL PROF L'IDEA DI FAR VEDERE DA QUI IL TESTO DEL COMPITO AGLI STUDENTI-->
+      <!-- TASTI PER LA SELEZIONE SEQUENZIALE -->
+      {{#if notProfessor}}
+      <div class="menu">
+        <span id="prevQuestion" class="button">Domanda Precedente</span>
+      </div>
+      <div class="menu">
+        <span id="nextQuestion" class="button">Domanda Successiva</span>
+      </div>
+      {{/if}}
 
       <!--<div class="menu">
           <span class="button group">

@@ -6,7 +6,42 @@
 }
 
 #btnFinish:hover {
-    background-color: green;
+    background: -webkit-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -moz-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -o-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    color: lightslategray;
+}
+
+#prevQuestion{
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    background-color: white;
+}
+
+#prevQuestion:hover{
+    background: -webkit-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -moz-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -o-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    color: lightslategray;
+}
+
+#nextQuestion{
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+}
+
+#nextQuestion:hover{
+    background: -webkit-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -moz-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -o-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #f7fbfc 10%, lightcoral 100%);
+    color: lightslategray;
 }
 
 /*

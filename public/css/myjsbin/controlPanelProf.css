@@ -105,9 +105,7 @@ div.center {
     margin-top:5px;
 }
 
-button[id^='btnClock'] {
-    margin:20px;
-}
+button[id^='btnClock'] {}
 
 table {
     width: 100%;
@@ -197,4 +195,120 @@ li > a {
 .nav-tabs>li.active>a:hover {
     border: 2px solid #46b8da;
     border-bottom-color: transparent;
+}
+
+#linkToNext{
+    margin-bottom: 5px;
+    float:left;
+    display: auto;
+}
+
+#linkToPrec{
+    margin-bottom: 5px;
+    float:right;
+    display:none;
+}
+
+#linkToNext::after {
+    content: ' →';
+}
+
+#linkToPrec::before {
+    content: ' ←';
+}
+
+#formExamNumber{
+    display: auto;
+}
+
+#formExamFile{
+    display: none;
+}
+
+/* allineamento div nelle 3 sezioni (html, css, javascript)*/
+.align{
+    float:left;
+    display: block;
+    width: 50%;
+    padding: 10px;
+}
+.clearBoth{
+    clear:both;
+}
+
+/***********************************/
+/************ TAB MENU *************/
+/***********************************/
+#formExamFile > fieldset > ul.nav-tabs{
+    border-bottom: 1px solid lightgray;
+}
+#formExamFile > fieldset > .nav-tabs>li.active>a {
+    border-top: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+}
+
+#formExamFile > fieldset > div.tab-content{
+    border: hidden;
+}
+
+/* NEW GRAPHICS */
+
+#divSetup{
+    width: 80%;
+    border-left: 2px solid lightgray;
+    float:left;
+    padding: 10px;
+}
+
+#divList{
+    width: 20%;
+    float:left;
+    padding:5px
+}
+
+.border{
+    border: 1px solid lightgray;
+    border-radius:2px;
+    padding: 5px;
+}
+
+.margin{
+    margin-bottom: 10px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.right{
+    float:right;
+}
+
+
+.align-btn{
+    float: right;
+    width: auto;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+#list{
+    list-style-type: none; /* nessun elemento come marcatore */
+    padding-left: 0;       /* padding nullo */
+    margin-left: 0;        /* margine nullo */
 }

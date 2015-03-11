@@ -3,12 +3,14 @@
  */
 
 var MILLIS2SEC = 1000;
-var MINUTE2MILLIS = 60000;
 var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
+var numberOk = false;
+var count = 2;
+var len = 1;
+var createFile = false;
 var countdownTime = 0;
-var clickPulisci = false;
 var headersTableReport = [
     "name",
     "surname",
@@ -30,6 +32,8 @@ var headersTableReport = [
 $(document).ready(mainFunction);
 
 function mainFunction() {
+
+    appendFilePresent();
 
     $('li[id$="-tab"]').click(function(event){
         if ($(this).hasClass('disabled')) {
@@ -67,6 +71,65 @@ function mainFunction() {
             });
         } else {
             alert("attenzione!!! estensione file errata");
+        }
+    });
+
+    /* creazione file json - da sistemare */
+    $("#btnSave").click(function(){
+        var obj = getValueToInput();
+        var json = JSON.stringify(obj);
+        alert(json);
+        $.ajax({
+            url: "createFileJson",
+            data: json,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                console.log(response);
+                if (response.ok){
+                    appendLastFile(response.path, response.name);
+                } else {
+                    alert("Si è verificato un problema nel creare il file Json\n ");
+                }
+            },
+
+            error: function () {
+                alert("Si è verificato un problema (json file)");
+            }
+        });
+    });
+
+    //gestione submit form domande richieste nel compito
+    $("#formExamNumber").submit(function(event) {
+        event.preventDefault();
+        var $form = $( this ),
+            url = $form.attr( 'action' );
+        var formData = new FormData($(this)[0]);
+
+        var confirmInput = validateNumberInput();
+
+        if (confirmInput) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.ok) {
+                        numberOk = true;
+                        alert("Valori numerici aggiornati con successo");
+                    } else {
+                        alert("Non è stato possibile aggiornare i valori numerici");
+                    }
+                },
+                error: function () {
+                    alert("Si è verificato un problema contattando il server al servizio \n"+url);
+                }
+            });
+        } else {
+            alert("Attenzione!!! \nInserire dei valori numerici nei campi del form");
         }
     });
 
@@ -120,13 +183,16 @@ function mainFunction() {
         var confirmRequest = true;
 
         if (this.value === "setup"){
-            if (!fileUploaded || !clockUploaded){
+            if (!fileUploaded || !clockUploaded || !numberOk){
                 var message = "ATTENZIONE\n\n";
                 if (!fileUploaded){
                     message += "- testo esami non caricato\n";
                 }
                 if (!clockUploaded){
                     message += "- durata esame non caricata\n";
+                }
+                if (!numberOk){
+                    message += "- numero domande esame non caricato\n";
                 }
                 message += "\nIn caso di conferma, il compito inizierà\n" +
                     "con i valori di Default visibili\n" +
@@ -139,11 +205,73 @@ function mainFunction() {
         }
     });
 
+    /* cancellazione domanda */
+    $(document).on('click','.remove',function(){
+        var button = $(this);
+        $.ajax({
+            url: "remove", //this is the right route
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                console.log(response);
+                if (response.ok){
+                    remove(button);
+                } else {
+                    alert("Si è verificato nella richiesta\n ");
+                }
+            },
+            error: function(){
+                alert("Si è verificato un problema");
+            }
+        });
+    });
+
+    /* aggiunta domanda */
+    $(document).on('click','#btnAdd',function(){
+        $.ajax({
+            url: "cloneDivQuestion", //this is the right route
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                console.log(response);
+                if (response.ok){
+                    cloneDivQuestion();
+                } else {
+                    alert("Si è verificato nella richiesta\n ");
+                }
+            },
+            error: function(){
+                alert("Si è verificato un problema");
+            }
+        });
+    });
+
     $("#btnResetExamSession").click(function() {
         var data = {
             status: "notest"
         };
         setClockAulaStatus(data);
+        $.ajax({
+            url: "clearQuestionFile", //this is the right route
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                console.log(response);
+                /* azzero il valore dei campi di input */
+                $("#fileHtmlUpload").val("");
+                $("#fileCssUpload").val("");
+                $("#fileJavascriptUpload").val("");
+                if (response.ok){
+                    alert(response.message);
+                } else {
+                    alert("Si è verificato nella richiesta\n ");
+                }
+            },
+
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
     });
 
     //handle the request by the professor for clear all of the exam's text file
@@ -225,9 +353,6 @@ function mainFunction() {
             }
         })
     });
-}
-function htmlEntities(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function callForClockAulaStatus() {
@@ -311,8 +436,11 @@ function setClockAulaStatus(data) {
                         $("#examInfo-tab").attr('class', 'disabled');
                         $('div[class*="tab-pane"]').removeClass("active in");
                         $('#setup').addClass('in active');
+                        $('#text1').addClass('in active');
                         fileUploaded = false;
                         clockUploaded = false;
+                        numberOk = false;
+                        createFile = false;
                         $("#divRestartExamSession").hide();
                         break;
                 }
@@ -323,6 +451,51 @@ function setClockAulaStatus(data) {
 
         error: function () {
             alert("Si è verificato un problema");
+        }
+    });
+}
+
+function appendLastFile(path, name){
+    $.ajax({
+        url: "appendFile", //this is the right route
+        dataType: "json",
+        type: "POST",
+
+        success: function (response) {
+            console.log(response);
+            if (response.ok){
+                $("#list").append("<li><a href="+path+">"+name+"</a></li>");
+            } else {
+                alert("Si è verificato un errore");
+            }
+        },
+
+        error: function () {
+            alert("Errore nella append");
+        }
+    });
+}
+
+function appendFilePresent(){
+    $.ajax({
+        url: "appendFile", //this is the right route
+        dataType: "json",
+        type: "POST",
+
+        success: function (response) {
+            console.log(response);
+            if (response){
+                var i;
+                for(i=0; i<response.len; i++) {
+                    $("#list").append("<li><a href="+response.result[i]+">"+response.file[i]+"</a></li>");
+                }
+            } else {
+                alert("Si è verificato un errore");
+            }
+        },
+
+        error: function () {
+            alert("Errore nella append");
         }
     });
 }
@@ -341,6 +514,18 @@ function validateInputFile(){
     return ok;
 }
 
+function validateNumberInput(){
+    var ok = false;
+    var qp = $("#inputNumberQuestionP").val();
+    var qt = $("#inputNumberQuestionT").val();
+    if (qp !== "" && qp >= 0 ){
+        if (qt !== "" && qt >= 0){
+            ok = true;
+        }
+    }
+    return ok;
+}
+
 function validateClockInput(){
 
     var ok = false;
@@ -352,6 +537,103 @@ function validateClockInput(){
         }
     }
     return ok;
+}
+
+function getValueToInput(){
+    var objJson = {};
+    var q = [];
+    var name = document.getElementById("inputNameExam").value;
+    var cover = document.getElementById("inputCoverExam").value;
+    var objName= name;
+    var objCover= cover.split("\n");
+    JSON.stringify(objName);
+    JSON.stringify(objCover);
+    objJson.name = objName;
+    objJson.cover = objCover;
+
+    var i;
+    for(i=1; i<=len; i++){
+        var idText = "inputText"+i;
+        var idHtml = "inputHtml"+i;
+        var idCss = "inputCss"+i;
+        var idJavascript = "inputJavascript"+i;
+        var text = document.getElementById(idText).value;
+        var html = document.getElementById(idHtml).value;
+        var css = document.getElementById(idCss).value;
+        var javascript = document.getElementById(idJavascript).value;
+        var objQuestion = {
+            text: text.split("\n"),
+            html: html.split("\n"),
+            css: css.split("\n"),
+            javascript: javascript.split("\n")
+        };
+        JSON.stringify(objQuestion);
+        objJson.question = q;
+        q.push(objQuestion);
+    }
+
+    console.log("JSON: ", objJson);
+    return objJson;
+}
+
+function cloneDivQuestion(){
+    /* salvo e clono il primo elemento ogni volta */
+    var itm = document.getElementById("question1");
+    var cln = itm.cloneNode(true);
+    /* appendo l'elemento clonato alla fine */
+    document.getElementById("formQuestion").appendChild(cln);
+    /* MODIFICO gli ID nel nuovo elemento */
+    updateId(cln);
+    len++;
+}
+
+function remove(button){
+    var divToRemove = button.parent().parent().parent();
+    var idDivToRemove = button.parent().parent().parent().attr('id');
+    var sliceId = idDivToRemove.slice(-1);
+    count = parseInt(sliceId);
+
+    /* Ciclo per aggiornare i valori e gli id dei div successivi, esempio:
+     * Domanda 1
+     * Domanda 2
+     * Domanda 3
+     * Domanda 4
+     * Se viene cancellata la domanda 2, allora la 3 diventa la 2, la 4 diventa la 3, ecc. */
+    var i;
+    for(i=count; i<len; i++){
+        var idNextDiv = count+1;
+        var nextDiv = document.getElementById("question"+idNextDiv);
+        updateId(nextDiv);
+    }
+    /* una volta aggiornati i valori cancello il div selezionato all'inizio */
+    divToRemove.remove();
+    len--;
+}
+
+function updateId(element){
+    /* id e name */
+    element.id = "question"+count;
+    var currentDivId = element.id;
+    console.log("div "+currentDivId);
+    /* label */
+    element.getElementsByTagName("label")[0].id = "label"+count;
+    element.getElementsByTagName("label")[0].innerHTML = "Domanda n."+count;
+    /* Ancore */
+    element.getElementsByTagName("a")[0].href = "text"+count;
+    element.getElementsByTagName("a")[1].href = "html"+count;
+    element.getElementsByTagName("a")[2].href = "css"+count;
+    element.getElementsByTagName("a")[3].href = "javascript"+count;
+    /* id tab menu */
+    element.getElementsByTagName("div")[2].id = "text"+count;
+    element.getElementsByTagName("div")[3].id = "html"+count;
+    element.getElementsByTagName("div")[4].id = "css"+count;
+    element.getElementsByTagName("div")[5].id = "javascript"+count;
+    /* textarea question */
+    element.getElementsByTagName("textarea")[0].id = "inputText" + count;
+    element.getElementsByTagName("textarea")[1].id = "inputHtml"+count;
+    element.getElementsByTagName("textarea")[2].id = "inputCss"+count;
+    element.getElementsByTagName("textarea")[3].id = "inputJavascript"+count;
+    count++;
 }
 
 function createCountdownObject(millisec){

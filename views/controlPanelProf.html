@@ -20,8 +20,8 @@
 
                     <ul id="prof-tab" class="nav nav-tabs" role="tablist">
                         <li id="setup-tab" class="active" ><a href="#setup" role="tab" data-toggle="tab"><i class="fa fa-cogs fa-fw"></i>&nbsp; Setup</a></li>
-                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered fa-fw"></i>&nbsp;Start</a></li>
-                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab"><i class="fa fa-info-circle fa-fw"></i>&nbsp;Exam Info</a></li>
+                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered fa-fw"></i>&nbsp; Inizio Prova</a></li>
+                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab"><i class="fa fa-info-circle fa-fw"></i>&nbsp; Fine Prova</a></li>
                     </ul>
 
 
@@ -30,30 +30,79 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="setup">
                             <section id="secLoadExamInformation">
-                                <h1 align="center">caricamento delle informazioni per INIZIARE l'esame</h1>
-                                <!-- I insert this div to try to personalize position of countdown element ==> and I Win -->
+                                <!--
+                                <button id="linkToNext" class="btn btn-success" type="button"> Avanti </button>
+                                <button id="linkToPrec" class="btn btn-danger" type="button"> Indietro </button>
                                 <div class="wrapper">
                                     <section id="secUploadFileExam">
-                                        <h3 align="center" >
-                                            <i class="fa fa-file-code-o"></i>&nbsp;Gestione File compito
+                                        <h3 id="config" align="center" >
+                                            <i class="fa fa-file-code-o"></i>&nbsp;Configurazione Compito
                                             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoFileCompito">
                                                 <i class="fa fa-info"></i>
                                             </button>
                                         </h3>
+                                        <form id="formExamNumber" class="form" method="post" action="/setQuestionNumber" enctype="multipart/form-data">
+                                            <fieldset>
+                                                <legend>form in cui caricare il numero di domande</legend>
+                                                <div id="divQuestionP">
+                                                    <label>Domande pratica</label>
+                                                    <input type='number' id='inputNumberQuestionP' name='inputNumberQuestionP' value="{{numQuestionP}}" />
+                                                </div>
+                                                <div id="divQuestionT">
+                                                    <label>Domande teoria</label>
+                                                    <input type='number' id='inputNumberQuestionT' name='inputNumberQuestionT' value="{{numQuestionT}}" />
+                                                </div>
+                                                <div class="center">
+                                                    <input id="btnConferma" class="btn btn-default" type='submit' value="Conferma"/>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+
                                         <form id="formExamFile" class="form" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
                                             <fieldset>
                                                 <legend>form in cui caricare i dati relativi al compito</legend>
-                                                <div id="divUploadHtml">
-                                                    <label>File Html</label>
-                                                    <input type='file'  id='fileHtmlUpload' name='fileHtmlUpload' />
-                                                </div>
-                                                <div id="divUploadCss">
-                                                    <label>File Css</label>
-                                                    <input type='file' id='fileCssUpload' name='fileCssUpload' />
-                                                </div>
-                                                <div id="divUploadJavascript">
-                                                    <label>File Javascript</label>
-                                                    <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' />
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="active">
+                                                        <a href="#html" role="tab" data-toggle="tab">HTML</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#css" role="tab" data-toggle="tab">CSS</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#javascript" role="tab" data-toggle="tab">JAVASCRIPT</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade active in" id="html">
+                                                        <div class="align" id="divTextHtml">
+                                                            <textarea class="form-control" id="textAreaHtml" rows="8"></textarea>
+                                                        </div>
+                                                        <div class="align" id="divUploadHtml">
+                                                            <label>File Html</label>
+                                                            <input type='file' id='fileHtmlUpload' name='fileHtmlUpload' value=" "/>
+                                                        </div>
+                                                        <div class="clearBoth"></div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="css">
+                                                        <div class="align" id="divTextCss">
+                                                            <textarea class="form-control" id="textAreaCss" rows="8"></textarea>
+                                                        </div>
+                                                        <div class="align" id="divUploadCss">
+                                                            <label>File Css</label>
+                                                            <input type='file' id='fileCssUpload' name='fileCssUpload' value=" "/>
+                                                        </div>
+                                                        <div class="clearBoth"></div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="javascript">
+                                                        <div class="align" id="divTextJavascript">
+                                                            <textarea class="form-control" id="textAreaJavascript" rows="8"></textarea>
+                                                        </div>
+                                                        <div class="align" id="divUploadJavascript">
+                                                            <label>File Javascript</label>
+                                                            <input type='file' id='fileJavascriptUpload' name='fileJavascriptUpload' value=" "/>
+                                                        </div>
+                                                        <div class="clearBoth"></div>
+                                                    </div>
                                                 </div>
                                                 <div class="center">
                                                     <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Aggiorna"/>
@@ -65,7 +114,7 @@
                                     </section>
                                     <section id="clock">
                                         <h3 align="center" >
-                                            <i class="fa fa-clock-o"></i>&nbsp;Gestione Temporizzazione compito
+                                            <i class="fa fa-clock-o"></i>&nbsp;Temporizzazione compito
                                             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalInfoTemporizzazione">
                                                 <i class="fa fa-info"></i>
                                             </button>
@@ -91,6 +140,77 @@
                                 </div>
                                 <div class="center">
                                     <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" >Permetti agli studenti di Loggarsi</button>
+                                </div>-->
+                                <div class="wrapper">
+                                    <div id="divList">
+                                        <label> Lista Prove </label>
+                                        <ul id="list">
+                                        </ul>
+                                    </div>
+                                    <div id="divSetup">
+                                        <form role="form" class="form-horizontal">
+                                            <div class="btn-group margin">
+                                                <span class="btn btn-default btn-file"> Carica Json <input type="file"></span>
+                                                <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Salva Json"/>
+                                            </div>
+                                            <div class="right">
+                                                <a id="linkViewExam" class="btn btn-default" href="{{static}}/professor/previewFile" target="_blank">Anteprima</a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" id="nameExam" name="nameExam">Nome prova</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputNameExam" name="inputNameExam" placeholder="Prova del GG_MM_AAAA">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Copertina</label>
+                                                <div class="col-sm-10 border">
+                                                        <label>Inserisci l'HTML della copertina</label>
+                                                    <textarea id="inputCoverExam" name="inputCoverExam" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- DOMANDE -->
+                                            <div class="form-group" id="formQuestion">
+                                                <div id="question1">
+                                                    <label class="col-md-2 control-label" id="label1">Domanda n.1</label>
+                                                    <div class="col-md-9 border">
+                                                        <ul class="nav nav-tabs" role="tablist">
+                                                            <li class="active"><a href="#text1" role="tab" data-toggle="tab">Domanda</a></li>
+                                                            <li><a href="#html1" role="tab" data-toggle="tab">HTML</a></li>
+                                                            <li><a href="#css1" role="tab" data-toggle="tab">CSS</a></li>
+                                                            <li><a href="#javascript1" role="tab" data-toggle="tab">JAVASCRIPT</a></li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane fade active in" id="text1">
+                                                                <textarea class="form-control" id="inputText1" rows="6"></textarea>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="html1">
+                                                                <textarea class="form-control" id="inputHtml1" rows="6"></textarea>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="css1">
+                                                                <textarea class="form-control" id="inputCss1" rows="6"></textarea>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="javascript1">
+                                                                <textarea class="form-control" id="inputJavascript1" rows="6"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="align-btn">
+                                                        <div><button type="button" class="btn btn-default switchUp1"><i class="fa fa-caret-square-o-up"></i></button></div>
+                                                        <div><button type="button" class="btn btn-default remove"><i class="fa fa-times"></i></button></div>
+                                                        <div><button type="button" class="btn btn-default switchDown1"><i class="fa fa-caret-square-o-down"></i></button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <!-- tasti fine pagina -->
+                                        <div class="center">
+                                            <button id="btnAdd" class="btn btn-primary" value="add" >Aggiungi</button>
+                                            <button id="btnSave" class="btn btn-primary" value="setup" >Salva</button>
+                                            <button id="btnCopy" class="btn btn-primary" value="copy" >Crea copia</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                         </div>
@@ -148,7 +268,7 @@
         </div>
         <div id="footer">
             <div class="container">
-                <p class="muted credit">Powered by Matteo Borghi ©</p>
+                <p class="muted credit">Powered by Matteo Borghi, Francesca Grillo ©</p>
             </div>
         </div>
     </body>

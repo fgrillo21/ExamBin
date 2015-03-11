@@ -12,11 +12,11 @@ describe("Validate Exam", function() {
          });
     });
     describe("HTML Rule", function() {
-        it("Nessun elemento html dovrebbe contenere l'atrtibuto class", function() {
+        it("Nessun elemento html dovrebbe contenere l'attributo class", function() {
             var numElementClass  = window.$("[class]").length;
             chai.expect(numElementClass).to.equal(0);
         });
-        it("Nessun elemento html dovrebbe contenere l'atrtibuto id", function() {
+        it("Nessun elemento html dovrebbe contenere l'attributo id", function() {
             var numElementId  = window.$("[id]").length;
             chai.expect(numElementId).to.equal(0);
         });
