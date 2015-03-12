@@ -144,14 +144,15 @@
                                 <div class="wrapper">
                                     <div id="divList">
                                         <label> Lista Prove </label>
-                                        <ul id="list">
-                                        </ul>
+                                        <select size=30 class="listSelect" id="list"></select>
                                     </div>
                                     <div id="divSetup">
-                                        <form role="form" class="form-horizontal">
+                                        <form role="form" id="formExam" class="form-horizontal" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
                                             <div class="btn-group margin">
-                                                <span class="btn btn-default btn-file"> Carica Json <input type="file"></span>
-                                                <input id="btnSubmitExamFile" class="btn btn-default" type='submit' value="Salva Json"/>
+                                                <span class="btn btn-default btn-file"> Carica Json
+                                                    <input type='file' id='fileJsonUpload' name='fileJsonUpload' value=" "/>
+                                                </span>
+                                                <input id="btnExamFile" class="btn btn-default" type='submit' value="Salva Json"/>
                                             </div>
                                             <div class="right">
                                                 <a id="linkViewExam" class="btn btn-default" href="{{static}}/professor/previewFile" target="_blank">Anteprima</a>
@@ -165,7 +166,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Copertina</label>
                                                 <div class="col-sm-10 border">
-                                                        <label>Inserisci l'HTML della copertina</label>
+                                                    <label>Inserisci l'HTML della copertina</label>
                                                     <textarea id="inputCoverExam" name="inputCoverExam" class="form-control" rows="3"></textarea>
                                                 </div>
                                             </div>
@@ -196,9 +197,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="align-btn">
-                                                        <div><button type="button" class="btn btn-default switchUp1"><i class="fa fa-caret-square-o-up"></i></button></div>
+                                                        <div><button type="button" class="btn btn-default switchUp"><i class="fa fa-caret-square-o-up"></i></button></div>
                                                         <div><button type="button" class="btn btn-default remove"><i class="fa fa-times"></i></button></div>
-                                                        <div><button type="button" class="btn btn-default switchDown1"><i class="fa fa-caret-square-o-down"></i></button></div>
+                                                        <div><button type="button" class="btn btn-default switchDown"><i class="fa fa-caret-square-o-down"></i></button></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -207,7 +208,7 @@
                                         <!-- tasti fine pagina -->
                                         <div class="center">
                                             <button id="btnAdd" class="btn btn-primary" value="add" >Aggiungi</button>
-                                            <button id="btnSave" class="btn btn-primary" value="setup" >Salva</button>
+                                            <button id="btnClocksetup" class="btn btn-primary" value="setup" >Salva</button>
                                             <button id="btnCopy" class="btn btn-primary" value="copy" >Crea copia</button>
                                         </div>
                                     </div>

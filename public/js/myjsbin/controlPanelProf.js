@@ -6,10 +6,9 @@ var MILLIS2SEC = 1000;
 var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
-var numberOk = false;
 var count = 2;
 var len = 1;
-var createFile = false;
+var createObjJson = false;
 var countdownTime = 0;
 var headersTableReport = [
     "name",
@@ -42,9 +41,9 @@ function mainFunction() {
     });
 
     //gestione submit form upload file per esame
-    $("#btnSubmitExamFile").click(function(event) {
+    $("#btnExamFile").click(function(event) {
         event.preventDefault();
-        var formData = new FormData($("#formExamFile")[0]);
+        var formData = new FormData($("#formExam")[0]);
         console.log(formData);
         var confirmInput = validateInputFile();
 
@@ -60,6 +59,7 @@ function mainFunction() {
                 success: function (res) {
                     if (res.ok) {
                         fileUploaded = true;
+                        appendLastFile(res.path, res.name);
                         alert(res.string);
                     } else {
                         alert(res);
@@ -75,62 +75,37 @@ function mainFunction() {
     });
 
     /* creazione file json - da sistemare */
-    $("#btnSave").click(function(){
+    $("#btnClocksetup").click(function(){
         var obj = getValueToInput();
         var json = JSON.stringify(obj);
-        alert(json);
-        $.ajax({
-            url: "createFileJson",
-            data: json,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            type: "POST",
-            success: function (response) {
-                console.log(response);
-                if (response.ok){
-                    appendLastFile(response.path, response.name);
-                } else {
-                    alert("Si è verificato un problema nel creare il file Json\n ");
-                }
-            },
-
-            error: function () {
-                alert("Si è verificato un problema (json file)");
-            }
-        });
-    });
-
-    //gestione submit form domande richieste nel compito
-    $("#formExamNumber").submit(function(event) {
-        event.preventDefault();
-        var $form = $( this ),
-            url = $form.attr( 'action' );
-        var formData = new FormData($(this)[0]);
-
-        var confirmInput = validateNumberInput();
-
-        if (confirmInput) {
+        if(createObjJson) {
+            alert(json);
             $.ajax({
-                url: url,
+                url: "createFileJson",
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
                 type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
                 success: function (response) {
+                    console.log(response);
                     if (response.ok) {
-                        numberOk = true;
-                        alert("Valori numerici aggiornati con successo");
+                        appendLastFile(response.path, response.name);
                     } else {
-                        alert("Non è stato possibile aggiornare i valori numerici");
+                        alert("Si è verificato un problema nel creare il file Json\n ");
                     }
                 },
+
                 error: function () {
-                    alert("Si è verificato un problema contattando il server al servizio \n"+url);
+                    alert("Si è verificato un problema (json file)");
                 }
             });
-        } else {
-            alert("Attenzione!!! \nInserire dei valori numerici nei campi del form");
         }
+    });
+
+    $('select').on('change', function(e){
+        var path = $('option:selected', this).data('link');
+
+
     });
 
     //gestione submit form caricamento duranta esame e tempo di over time (quanto è di manica larga il professore)
@@ -183,67 +158,55 @@ function mainFunction() {
         var confirmRequest = true;
 
         if (this.value === "setup"){
-            if (!fileUploaded || !clockUploaded || !numberOk){
-                var message = "ATTENZIONE\n\n";
+            var message = "RIEPILOGO\n\n";
+            if (fileUploaded === false && createObjJson === false) {
+                alert("\nAttenzione, per procedere:\n - caricare un file json o \n - compilare il form con gli opportuni valori!");
+            }
+            else{
                 if (!fileUploaded){
-                    message += "- testo esami non caricato\n";
+                    message += "- File json non caricato\n";
                 }
-                if (!clockUploaded){
-                    message += "- durata esame non caricata\n";
+                else{
+                    message += "- File json caricato\n";
                 }
-                if (!numberOk){
-                    message += "- numero domande esame non caricato\n";
+                if (!createObjJson){
+                    message += "- Oggetto json non creato\n";
                 }
-                message += "\nIn caso di conferma, il compito inizierà\n" +
-                    "con i valori di Default visibili\n" +
-                    "nella schermata";
+                else{
+                    message += "- Oggetto json creato\n";
+                }
+
                 confirmRequest = confirm(message);
             }
+
         }
         if (confirmRequest) {
             setClockAulaStatus(data);
         }
     });
 
+    /* inverte la domanda corrente con quella subito prima se esiste */
+    $(document).on('click','.switchUp', function(){
+        var button = $(this);
+        switchUpQuestion(button);
+    });
+
+    /* inverte la domanda corrente con quella subito dopo se esiste */
+    $(document).on('click','.switchDown', function(){
+        var button = $(this);
+        switchDownQuestion(button);
+    });
+
     /* cancellazione domanda */
     $(document).on('click','.remove',function(){
         var button = $(this);
-        $.ajax({
-            url: "remove", //this is the right route
-            dataType: "json",
-            type: "POST",
-            success: function (response) {
-                console.log(response);
-                if (response.ok){
-                    remove(button);
-                } else {
-                    alert("Si è verificato nella richiesta\n ");
-                }
-            },
-            error: function(){
-                alert("Si è verificato un problema");
-            }
-        });
+        remove(button);
     });
 
     /* aggiunta domanda */
     $(document).on('click','#btnAdd',function(){
-        $.ajax({
-            url: "cloneDivQuestion", //this is the right route
-            dataType: "json",
-            type: "POST",
-            success: function (response) {
-                console.log(response);
-                if (response.ok){
-                    cloneDivQuestion();
-                } else {
-                    alert("Si è verificato nella richiesta\n ");
-                }
-            },
-            error: function(){
-                alert("Si è verificato un problema");
-            }
-        });
+        cloneDivQuestion();
+
     });
 
     $("#btnResetExamSession").click(function() {
@@ -405,54 +368,52 @@ function callForClockAulaStatus() {
 }
 
 function setClockAulaStatus(data) {
-
-    $.ajax({
-        url: "setClockAula", //this is the right route
-        dataType: "json",
-        type: "POST",
-        data: data,
-        success: function (response) { //TODO here I need a switch block to manage different clock status
-            console.log(response);
-            //$("#spanStatusClock").text(response.status);
-            //REMEMBER I only switch between two state, setup and ready, the two states that are manageable by the professor
-            if (response.ok){
-                switch (data.status){
-                    case "setup":
-                        $("#setup-tab").attr('class', 'disabled');
-                        $("#start-tab").attr('class', 'active');
-                        $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#start').addClass('in active');
-                        break;
-                    case "ready":
-                        $("#setup-tab").attr('class', 'disabled');
-                        $("#start-tab").attr('class', 'disabled');
-                        $("#examInfo-tab").attr('class', 'active');
-                        $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#examInfo').addClass('in active');
-                        break;
-                    case "notest":
-                        $("#setup-tab").attr('class', 'active');
-                        $("#start-tab").attr('class', 'disabled');
-                        $("#examInfo-tab").attr('class', 'disabled');
-                        $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#setup').addClass('in active');
-                        $('#text1').addClass('in active');
-                        fileUploaded = false;
-                        clockUploaded = false;
-                        numberOk = false;
-                        createFile = false;
-                        $("#divRestartExamSession").hide();
-                        break;
+    if (fileUploaded === true || createObjJson === true) {
+        $.ajax({
+            url: "setClockAula", //this is the right route
+            dataType: "json",
+            type: "POST",
+            data: data,
+            success: function (response) { //TODO here I need a switch block to manage different clock status
+                console.log(response);
+                if (response.ok) {
+                    switch (data.status) {
+                        case "setup":
+                            $("#setup-tab").attr('class', 'disabled');
+                            $("#start-tab").attr('class', 'active');
+                            $('div[class*="tab-pane"]').removeClass("active in");
+                            $('#start').addClass('in active');
+                            break;
+                        case "ready":
+                            $("#setup-tab").attr('class', 'disabled');
+                            $("#start-tab").attr('class', 'disabled');
+                            $("#examInfo-tab").attr('class', 'active');
+                            $('div[class*="tab-pane"]').removeClass("active in");
+                            $('#examInfo').addClass('in active');
+                            break;
+                        case "notest":
+                            $("#setup-tab").attr('class', 'active');
+                            $("#start-tab").attr('class', 'disabled');
+                            $("#examInfo-tab").attr('class', 'disabled');
+                            $('div[class*="tab-pane"]').removeClass("active in");
+                            $('div[id*="text"]').addClass("active in");
+                            $('#setup').addClass('in active');
+                            fileUploaded = false;
+                            clockUploaded = false;
+                            createObjJson = false;
+                            $("#divRestartExamSession").hide();
+                            break;
+                    }
+                } else {
+                    alert("Si è verificato un errore nel passaggio allo stato di : " + data.status.toUpperCase());
                 }
-            } else {
-                alert("Si è verificato un errore nel passaggio allo stato di : "+data.status.toUpperCase());
-            }
-        },
+            },
 
-        error: function () {
-            alert("Si è verificato un problema");
-        }
-    });
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
+    }
 }
 
 function appendLastFile(path, name){
@@ -464,12 +425,12 @@ function appendLastFile(path, name){
         success: function (response) {
             console.log(response);
             if (response.ok){
-                $("#list").append("<li><a href="+path+">"+name+"</a></li>");
+                //$("#list").append("<li><a href="+path+"> Prova del "+name+"</a></li>");
+                $('#list').append("<option data-link=\""+path+"\"> Prova del "+name+"</option>");
             } else {
                 alert("Si è verificato un errore");
             }
         },
-
         error: function () {
             alert("Errore nella append");
         }
@@ -487,13 +448,13 @@ function appendFilePresent(){
             if (response){
                 var i;
                 for(i=0; i<response.len; i++) {
-                    $("#list").append("<li><a href="+response.result[i]+">"+response.file[i]+"</a></li>");
+                    //$("#list").append("<li><a href="+response.result[i]+">Prova del "+response.file[i]+"</a></li>");
+                    $('#list').append("<option data-link=\""+response.result[i]+"\"> Prova del "+response.file[i]+"</option>");
                 }
             } else {
                 alert("Si è verificato un errore");
             }
         },
-
         error: function () {
             alert("Errore nella append");
         }
@@ -504,24 +465,8 @@ function validateInputFile(){
 
     var ok = false;
 
-    if ($("#fileHtmlUpload").val().split('.').pop() === "html"){
-        if ($("#fileCssUpload").val().split('.').pop() === "css"){
-            if ($("#fileJavascriptUpload").val().split('.').pop() === "js"){
-                ok = true;
-            }
-        }
-    }
-    return ok;
-}
-
-function validateNumberInput(){
-    var ok = false;
-    var qp = $("#inputNumberQuestionP").val();
-    var qt = $("#inputNumberQuestionT").val();
-    if (qp !== "" && qp >= 0 ){
-        if (qt !== "" && qt >= 0){
-            ok = true;
-        }
+    if ($("#fileJsonUpload").val().split('.').pop() === "json"){
+        ok = true;
     }
     return ok;
 }
@@ -543,37 +488,101 @@ function getValueToInput(){
     var objJson = {};
     var q = [];
     var name = document.getElementById("inputNameExam").value;
-    var cover = document.getElementById("inputCoverExam").value;
-    var objName= name;
-    var objCover= cover.split("\n");
-    JSON.stringify(objName);
-    JSON.stringify(objCover);
-    objJson.name = objName;
-    objJson.cover = objCover;
+    if(name !== ""){
+        var cover = document.getElementById("inputCoverExam").value;
+        var objName= name;
+        var objCover= cover.split("\n");
+        JSON.stringify(objName);
+        JSON.stringify(objCover);
+        objJson.name = objName;
+        objJson.cover = objCover;
 
-    var i;
-    for(i=1; i<=len; i++){
-        var idText = "inputText"+i;
-        var idHtml = "inputHtml"+i;
-        var idCss = "inputCss"+i;
-        var idJavascript = "inputJavascript"+i;
-        var text = document.getElementById(idText).value;
-        var html = document.getElementById(idHtml).value;
-        var css = document.getElementById(idCss).value;
-        var javascript = document.getElementById(idJavascript).value;
-        var objQuestion = {
-            text: text.split("\n"),
-            html: html.split("\n"),
-            css: css.split("\n"),
-            javascript: javascript.split("\n")
-        };
-        JSON.stringify(objQuestion);
-        objJson.question = q;
-        q.push(objQuestion);
+        var i;
+        for(i=1; i<=len; i++){
+            var idText = "inputText"+i;
+            var idHtml = "inputHtml"+i;
+            var idCss = "inputCss"+i;
+            var idJavascript = "inputJavascript"+i;
+            var text = document.getElementById(idText).value;
+            var html = document.getElementById(idHtml).value;
+            var css = document.getElementById(idCss).value;
+            var javascript = document.getElementById(idJavascript).value;
+            var objQuestion = {
+                text: text.split("\n"),
+                html: html.split("\n"),
+                css: css.split("\n"),
+                javascript: javascript.split("\n")
+            };
+            JSON.stringify(objQuestion);
+            objJson.question = q;
+            q.push(objQuestion);
+        }
+        createObjJson = true;
+        console.log("JSON: ", objJson);
+        return objJson;
     }
+}
 
-    console.log("JSON: ", objJson);
-    return objJson;
+function switchUpQuestion(button){
+    var currentDivId = button.parent().parent().parent().attr('id');
+    var sliceId = parseInt(currentDivId.slice(-1));
+
+    var precId = sliceId - 1;
+    var precDiv = document.getElementById("question"+precId);
+    if(precDiv){
+        /* salvo i valori della domanda corrente */
+        var textCurrent = document.getElementById("inputText"+sliceId).value;
+        var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
+        var cssCurrent = document.getElementById("inputCss"+sliceId).value;
+        var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
+        /* salvo i valori della domanda precendente */
+        var textPrec = document.getElementById("inputText"+precId).value;
+        var htmlPrec = document.getElementById("inputHtml"+precId).value;
+        var cssPrec = document.getElementById("inputCss"+precId).value;
+        var javascriptPrec = document.getElementById("inputJavascript"+precId).value;
+
+        /* la domanda corrente assume i valori di quella precedente e viceveresa */
+        document.getElementById("inputText"+sliceId).value = textPrec;
+        document.getElementById("inputHtml"+sliceId).value = htmlPrec;
+        document.getElementById("inputCss"+sliceId).value = cssPrec;
+        document.getElementById("inputJavascript"+sliceId).value = javascriptPrec;
+
+        document.getElementById("inputText"+precId).value = textCurrent;
+        document.getElementById("inputHtml"+precId).value = htmlCurrent;
+        document.getElementById("inputCss"+precId).value = cssCurrent;
+        document.getElementById("inputJavascript"+precId).value = javascriptCurrent;
+    }
+}
+
+function switchDownQuestion(button){
+    var currentDivId = button.parent().parent().parent().attr('id');
+    var sliceId = parseInt(currentDivId.slice(-1));
+
+    var succId = sliceId + 1;
+    var succDiv = document.getElementById("question"+succId);
+    if(succDiv){
+        /* salvo i valori della domanda corrente */
+        var textCurrent = document.getElementById("inputText"+sliceId).value;
+        var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
+        var cssCurrent = document.getElementById("inputCss"+sliceId).value;
+        var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
+        /* salvo i valori della domanda precendente */
+        var textSucc = document.getElementById("inputText"+succId).value;
+        var htmlSucc = document.getElementById("inputHtml"+succId).value;
+        var cssSucc = document.getElementById("inputCss"+succId).value;
+        var javascriptSucc = document.getElementById("inputJavascript"+succId).value;
+
+        /* la domanda corrente assume i valori di quella successiva e viceveresa */
+        document.getElementById("inputText"+sliceId).value = textSucc;
+        document.getElementById("inputHtml"+sliceId).value = htmlSucc;
+        document.getElementById("inputCss"+sliceId).value = cssSucc;
+        document.getElementById("inputJavascript"+sliceId).value = javascriptSucc;
+
+        document.getElementById("inputText"+succId).value = textCurrent;
+        document.getElementById("inputHtml"+succId).value = htmlCurrent;
+        document.getElementById("inputCss"+succId).value = cssCurrent;
+        document.getElementById("inputJavascript"+succId).value = javascriptCurrent;
+    }
 }
 
 function cloneDivQuestion(){
