@@ -142,9 +142,9 @@
                                     <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" >Permetti agli studenti di Loggarsi</button>
                                 </div>-->
                                 <div class="wrapper">
-                                    <div id="divList">
+                                    <div class="divList">
                                         <label> Lista Prove </label>
-                                        <select size=30 class="listSelect" id="list"></select>
+                                        <select size=30 class="listSelect list"></select>
                                     </div>
                                     <div id="divSetup">
                                         <form role="form" id="formExam" class="form-horizontal" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
@@ -216,10 +216,57 @@
                             </section>
                         </div>
                         <div class="tab-pane fade" id="start">
-                            <button id="btnClockNotest" class="btn btn-warning" value="notest">Ritorna al Setup</button>
+                            <!--<button id="btnClockNotest" class="btn btn-warning" value="notest">Ritorna al Setup</button>-->
                             <section id="examStartSession">
-                                <div class="center">
-                                    <button id="btnClockready" class="btn btn-primary btn-lg" value="ready">Inizia Il Compito</button>
+                                <div class="wrapper">
+                                    <div class="divList">
+                                        <label> Lista Prove </label>
+                                        <select size=30 class="listSelect list"></select>
+                                    </div>
+                                    <div id="divStartExam">
+                                        <div class="center">
+                                            <h1> Prova esame del GG_MM_AAAA</h1>
+                                            <p> Studenti loggati. Postazioni disponibili.</p>
+                                            <table class="table table-hover table-bordered" id="tableStartExam">
+                                                <thead>
+                                                    <tr>
+                                                        <th>stato</th>
+                                                        <th>postazione</th>
+                                                        <th>studente</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td>fila A - computer 1</td>
+                                                        <td>Mario Rossi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td>fila A - computer 2</td>
+                                                        <td> --- </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td>fila B - computer 1</td>
+                                                        <td>Pinco Pallino</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <form id="formSetupClock" class="form" method='post' action='/setDataClockAula'>
+                                                <div id="divInputClock">
+                                                    <label>Durata esame (in minuti)</label>
+                                                    <input type='number'  id='inputDurationTest' name='inputDurationTest' value="{{durationExam}}" />
+                                                </div>
+                                                <div id="divButtonClock">
+                                                    <input id="btnSubmitClockData" class="btn btn-default" type='submit' value="Aggiorna valori Clock del compito"/>
+                                                </div>
+                                            </form>
+                                            <div id="divButtonStartExam">
+                                                <button id="btnClockready" class="btn btn-primary btn-lg" value="ready">Inizia Il Compito</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                         </div>

@@ -10,40 +10,6 @@ function mainFunction() {
 
     callForClockAulaStatus();
 
-    /*$("#formLogin").submit(function(event) {
-        *//* stop form from submitting normally *//*
-        event.preventDefault();
-
-        *//* get some values from elements on the page: *//*
-        var $form = $( this ),
-            url = $form.attr( 'action' );
-        var formData = new FormData($(this)[0]);
-        console.log(formData);
-        var confirmInput = true;
-
-//        awesome, with this ajax call I update the exam's file choose by the professor
-        if (confirmInput) {
-            $.ajax({
-                url: url,
-                data: formData,
-                type: 'POST',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    console.log(res);
-                    fileUploaded = true;
-                    alert(res);
-                },
-                error: function () {
-                    alert("Si è verificato un problema");
-                }
-            });
-        } else {
-            alert("attenzione!!! estensione file errata");
-        }
-    });*/
-
     cookieJsbin = getCookie("jsbin");
     console.log(cookieJsbin);
 }

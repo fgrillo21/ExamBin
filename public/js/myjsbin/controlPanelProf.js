@@ -237,37 +237,6 @@ function mainFunction() {
         });
     });
 
-    //handle the request by the professor for clear all of the exam's text file
-    $("#btnClearExamFile").click(function (){
-        event.preventDefault();
-        var message = "Sei sicuro di voler pulire i file del compito?\n" +
-            "in questo modo le schermate dello studente relative a:\n > html\n > javascript\n > css\n" +
-            "saranno completamente vuote";
-        var confirmRequest = confirm(message);
-
-        if (confirmRequest) {
-            $.ajax({
-                url: "clearDefaultFile", //this is the right route
-                dataType: "json",
-                type: "POST",
-                success: function (response) { //TODO here I need a switch block to manage different clock status
-                    console.log(response);
-                    //$("#spanStatusClock").text(response.status);
-                    //REMEMBER I only switch between two state, setup and ready, the two states that are manageable by the professor
-                    if (response.ok){
-                        alert(response.message);
-                    } else {
-                        alert("Si è verificato un errore nel passaggio allo stato di : ");
-                    }
-                },
-
-                error: function () {
-                    alert("Si è verificato un problema");
-                }
-            });
-        }
-    });
-
     //gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
     $("#btnGetFinishStudent").click(function() {
         //call the service that return all student that have finish
@@ -426,7 +395,7 @@ function appendLastFile(path, name){
             console.log(response);
             if (response.ok){
                 //$("#list").append("<li><a href="+path+"> Prova del "+name+"</a></li>");
-                $('#list').append("<option data-link=\""+path+"\"> Prova del "+name+"</option>");
+                $('.list').append("<option data-link=\""+path+"\"> Prova del "+name+"</option>");
             } else {
                 alert("Si è verificato un errore");
             }
@@ -449,7 +418,7 @@ function appendFilePresent(){
                 var i;
                 for(i=0; i<response.len; i++) {
                     //$("#list").append("<li><a href="+response.result[i]+">Prova del "+response.file[i]+"</a></li>");
-                    $('#list').append("<option data-link=\""+response.result[i]+"\"> Prova del "+response.file[i]+"</option>");
+                    $('.list').append("<option data-link=\""+response.result[i]+"\"> Prova del "+response.file[i]+"</option>");
                 }
             } else {
                 alert("Si è verificato un errore");
@@ -477,9 +446,7 @@ function validateClockInput(){
     var durationTest = $("#inputDurationTest").val();
     var durationOverTime = $("#inputDurationOverTimeTest").val();
     if (durationTest !== "" && durationTest > 0 ){
-        if (durationOverTime !== "" && durationOverTime >= 0){
-            ok = true;
-        }
+        ok = true;
     }
     return ok;
 }
