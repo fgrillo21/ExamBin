@@ -83,17 +83,6 @@ label {
     display: inline-block;
     width: 50%;
 }
-#examSessionInfo > div.cell {
-    display: inline-block;
-    width: 48%;
-    text-align: center;
-}
-#examSessionInfo {
-    margin: 20px;
-    padding: 10px;
-    border-radius:8px;
-    border: 2px solid orange;
-}
 
 .center {
     text-align: center;
@@ -151,6 +140,10 @@ th {
     background-color: lightblue;
 }
 
+#tableEndExam > thead > tr > th{
+    background-color: lightblue;
+}
+
 #linkToCorrectionPanelProf::after {
     content: ' →';
 }
@@ -187,6 +180,8 @@ li > a {
     border-left: 2px solid #46b8da;
     border-right: 2px solid #46b8da;
     border-bottom: 2px solid #46b8da;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 10px;
 }
 
@@ -256,7 +251,7 @@ li > a {
 
 /* NEW GRAPHICS */
 
-#divSetup, #divStartExam{
+.divConfig{
     width: 80%;
     border-left: 2px solid lightgray;
     float:left;
@@ -297,10 +292,43 @@ li > a {
     display: block;
 }
 
-.right{
+.rightClock{
     float:right;
+    clear: right;
+    margin-bottom: 5px;
+    border: 1px solid black;
+}
+.right{
+    float: right;
 }
 
+.left{
+    float: left;
+}
+
+.align-btn-reset{
+    float:right;
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.align-btn-reset > input{
+    width: 350px;
+    height: 100px;
+}
+
+.align-btn-time{
+    float:left;
+    margin-top: 20px;
+    padding: 15px;
+    clear:both;
+}
+
+.align-btn-time > input{
+    clear: left;
+    float: left;
+    width: 300px;
+}
 
 .align-btn{
     float: right;

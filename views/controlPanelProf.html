@@ -144,9 +144,9 @@
                                 <div class="wrapper">
                                     <div class="divList">
                                         <label> Lista Prove </label>
-                                        <select size=30 class="listSelect list"></select>
+                                        <select size=27 class="listSelect list"></select>
                                     </div>
-                                    <div id="divSetup">
+                                    <div class="divConfig" id="divSetup">
                                         <form role="form" id="formExam" class="form-horizontal" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
                                             <div class="btn-group margin">
                                                 <span class="btn btn-default btn-file"> Carica Json
@@ -223,9 +223,9 @@
                                         <label> Lista Prove </label>
                                         <select size=30 class="listSelect list"></select>
                                     </div>
-                                    <div id="divStartExam">
+                                    <div class="divConfig" id="divStartExam">
                                         <div class="center">
-                                            <h1> Prova esame del GG_MM_AAAA</h1>
+                                            <h1 class="titleExam"> </h1>
                                             <p> Studenti loggati. Postazioni disponibili.</p>
                                             <table class="table table-hover table-bordered" id="tableStartExam">
                                                 <thead>
@@ -245,11 +245,6 @@
                                                         <td><input type="checkbox"></td>
                                                         <td>fila A - computer 2</td>
                                                         <td> --- </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input type="checkbox"></td>
-                                                        <td>fila B - computer 1</td>
-                                                        <td>Pinco Pallino</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -272,21 +267,63 @@
                         </div>
                         <div class="tab-pane fade" id="examInfo">
                             <section id="examSessionInfo">
-                                <h1 align="center"> Informazioni sull'Attuale sessione d'esame </h1>
-                                <div class="cell">
-                                    <span>Actual Status Timer inside Server : </span>
-                                    <span id="spanStatusClock"></span>
-                                </div>
-                                <div class="cell">
-                                    <div id="divCountdown"></div>
-                                </div>
-                                <div id="divRestartExamSession" class="center" style="display: none">
-                                    <button id="btnResetExamSession" class="btn btn-warning btn-lg">
-                                        Termina definitivamente la sessione di esame appena conclusa, per iniziarne una nuova.
-                                    </button>
+                                <div class="wrapper">
+                                    <div class="divList">
+                                        <label> Lista Prove </label>
+                                        <select size=30 class="listSelect list"></select>
+                                    </div>
+                                    <div class="divConfig" id="divEndExam">
+                                        <div class="center">
+                                            <h1 class="titleExam"> </h1>
+                                            <p> Postazioni attive. prove concluse e consegnate</p>
+                                            <table class="table table-hover table-bordered" id="tableEndExam">
+                                                <thead>
+                                                <tr>
+                                                    <th>postazione</th>
+                                                    <th>studente</th>
+                                                    <th>prova</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>fila A - computer 1</td>
+                                                    <td>Mario Rossi</td>
+                                                    <td>consegnata</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>fila A - computer 1</td>
+                                                    <td>Mario Rossi</td>
+                                                    <td>in elaborazione</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="left">
+                                                <p>Prova iniziata alle ore:</p>
+                                                <span id="hours"></span>
+                                            </div>
+                                            <div class="rightClock">
+                                                <span>Actual Status Timer inside Server : </span>
+                                                <span id="spanStatusClock"></span>
+                                                <div id="divCountdown"></div>
+                                            </div>
+                                            <div class="align-btn-time">
+                                                <input id="btnExstendOne" class="btn btn-default" type='submit' value="Estendi fine di 1 minuto"/>
+                                                <input id="btnExstendFive" class="btn btn-default" type='submit' value="Estendi fine di 5 minuto"/>
+                                                <input id="btnExstendUndefine" class="btn btn-default" type='submit' value="Estendi fine indefinitivamente"/>
+                                            </div>
+                                            <div class="align-btn-reset">
+                                                <input id="btnResetExamSession" class="btn btn-default btn-lg" type='submit' value="Forza fine prova adesso"/>
+                                            </div>
+                                            <!--<div id="divRestartExamSession" class="center" style="display: none">
+                                                <button id="btnResetExamSession" class="btn btn-warning btn-lg">
+                                                    Termina definitivamente la sessione di esame appena conclusa, per iniziarne una nuova.
+                                                </button>
+                                            </div>-->
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
-                            <section id="secFinishExam" class="center">
+                            <!--<section id="secFinishExam" class="center">
                                 <button id="btnGetFinishStudent" class="btn btn-success btn-lg">
                                     Studenti che hanno terminato l'esame
                                 </button>
@@ -301,7 +338,7 @@
                                 <div id="divNobodyFinishExam" class="center" style="display: none">
                                     <p>Nessuno studente ha terminato l'esame</p>
                                 </div>
-                            </section>
+                            </section>-->
                         </div>
                     </div>
 

@@ -214,27 +214,6 @@ function mainFunction() {
             status: "notest"
         };
         setClockAulaStatus(data);
-        $.ajax({
-            url: "clearQuestionFile", //this is the right route
-            dataType: "json",
-            type: "POST",
-            success: function (response) {
-                console.log(response);
-                /* azzero il valore dei campi di input */
-                $("#fileHtmlUpload").val("");
-                $("#fileCssUpload").val("");
-                $("#fileJavascriptUpload").val("");
-                if (response.ok){
-                    alert(response.message);
-                } else {
-                    alert("Si è verificato nella richiesta\n ");
-                }
-            },
-
-            error: function () {
-                alert("Si è verificato un problema");
-            }
-        });
     });
 
     //gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
@@ -298,6 +277,7 @@ function callForClockAulaStatus() {
 
                 clockStatus = data.status;
                 $("#spanStatusClock").text(data.status);
+                $(".titleExam").text("Prova esame del "+getDataItalianFormat());
 
                 switch (clockStatus){
                     case "notest":
@@ -318,6 +298,7 @@ function callForClockAulaStatus() {
                         $("#examInfo-tab").attr('class', 'active');
                         $('div[class*="tab-pane"]').removeClass("active in");
                         $('#examInfo').addClass('in active');
+                        $('#hours').text(getHours());
                         break;
 
                     case "start":
@@ -610,6 +591,22 @@ function updateId(element){
     element.getElementsByTagName("textarea")[2].id = "inputCss"+count;
     element.getElementsByTagName("textarea")[3].id = "inputJavascript"+count;
     count++;
+}
+
+function getHours(){
+    var today = new Date();
+    var hours = today.getHours()+":"+today.getMinutes();
+    return hours;
+}
+
+function getDataItalianFormat(){
+    var m_names = new Array("gennaio", "febbraio", "marzo","aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre");
+    var d = new Date();
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth();
+    var curr_year = d.getFullYear();
+    var date = curr_date + " " + m_names[curr_month] + " " + curr_year;
+    return date;
 }
 
 function createCountdownObject(millisec){
