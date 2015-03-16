@@ -7,6 +7,7 @@ var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
 var count = 2;
+var studentLog = 0;
 var len = 1;
 var createObjJson = false;
 var countdownTime = 0;
@@ -309,6 +310,8 @@ function callForClockAulaStatus() {
             }
 
             setTimeout(callForClockAulaStatus, 5000);
+            //setTimeout(updateTable, 2000);
+            updateTable();
         },
 
         error: function () {
@@ -607,6 +610,40 @@ function getDataItalianFormat(){
     var curr_year = d.getFullYear();
     var date = curr_date + " " + m_names[curr_month] + " " + curr_year;
     return date;
+}
+
+function updateTable(){
+    $.ajax({
+        url: "getDataStudent", //this is the right route
+        dataType: "json",
+        success: function (data){
+            //console.log("RISULTATIIIII " + data.studentName + data.studentSurname);
+            if(data.studentName !== null && data.studentSurname !== null){
+                console.log("STUDENTLOGBEFORE "+studentLog);
+                if(data.newStudent === 1) {
+                    studentLog++;
+                    console.log("STUDENTLOG "+studentLog);
+                    var $tbody = $("#tableStartExam tbody");
+                    var $spanStudentLog = $("#studentLog");
+                    var tableHeader = "<tr>";
+                    tableHeader += "<td><input type='checkbox'></td>";
+                    tableHeader += "<td>" + data.studentPost + "</td>";
+                    tableHeader += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
+                    tableHeader += "</tr>";
+                    $tbody.append(tableHeader);
+                    console.log("STUDENTLOG "+studentLog);
+                    $spanStudentLog.text(studentLog);
+                }
+            }
+            else{
+                var $tbody = $("#divStartExam tbody");
+                $tbody.empty();
+            }
+        },
+        error: function () {
+            alert("Errore nella updateTable");
+        }
+    });
 }
 
 function createCountdownObject(millisec){

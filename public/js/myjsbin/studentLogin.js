@@ -9,7 +9,6 @@ var timeout = 3000 + Math.floor(Math.random()*2000); //set the timeout for make 
 function mainFunction() {
 
     callForClockAulaStatus();
-
     cookieJsbin = getCookie("jsbin");
     console.log(cookieJsbin);
 }
