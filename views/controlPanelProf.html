@@ -20,8 +20,8 @@
 
                     <ul id="prof-tab" class="nav nav-tabs" role="tablist">
                         <li id="setup-tab" class="active" ><a href="#setup" role="tab" data-toggle="tab"><i class="fa fa-cogs fa-fw"></i>&nbsp; Setup</a></li>
-                        <li id="start-tab" class="disabled" ><a href="#start" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered fa-fw"></i>&nbsp; Inizio Prova</a></li>
-                        <li id="examInfo-tab" class="disabled" ><a href="#examInfo" role="tab" data-toggle="tab"><i class="fa fa-info-circle fa-fw"></i>&nbsp; Fine Prova</a></li>
+                        <li id="start-tab"><a href="#start" role="tab" data-toggle="tab"><i class="fa fa-flag-checkered fa-fw"></i>&nbsp; Inizio Prova</a></li>
+                        <li id="examInfo-tab"><a href="#examInfo" role="tab" data-toggle="tab"><i class="fa fa-info-circle fa-fw"></i>&nbsp; Fine Prova</a></li>
                     </ul>
 
 
@@ -153,25 +153,27 @@
                                                     <input type='file' id='fileJsonUpload' name='fileJsonUpload' value=" "/>
                                                 </span>
                                                 <input id="btnExamFile" class="btn btn-default" type='submit' value="Salva Json"/>
+                                                <!--<a id="linkViewExam" class="btn btn-default" href="{{static}}/professor/previewFile" target="_blank">Anteprima</a>-->
                                             </div>
                                             <div class="right">
-                                                <a id="linkViewExam" class="btn btn-default" href="{{static}}/professor/previewFile" target="_blank">Anteprima</a>
+                                                <button id="btnSave" class="btn btn-default" value="setup" >Salva Configurazione</button>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" id="nameExam" name="nameExam">Nome prova</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputNameExam" name="inputNameExam" placeholder="Prova del GG_MM_AAAA">
+                                            <div id="divValue">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" id="nameExam" name="nameExam">Nome prova</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="inputNameExam" name="inputNameExam" placeholder="Prova del GG_MM_AAAA">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Copertina</label>
-                                                <div class="col-sm-10 border">
-                                                    <label>Inserisci l'HTML della copertina</label>
-                                                    <textarea id="inputCoverExam" name="inputCoverExam" class="form-control" rows="3"></textarea>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Copertina</label>
+                                                    <div class="col-sm-10 border">
+                                                        <label>Inserisci l'HTML della copertina</label>
+                                                        <textarea id="inputCoverExam" name="inputCoverExam" class="form-control" rows="3"></textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <!-- DOMANDE -->
-                                            <div class="form-group" id="formQuestion">
+                                                <!-- DOMANDE -->
+                                                <div class="form-group" id="formQuestion">
                                                 <div id="question1">
                                                     <label class="col-md-2 control-label" id="label1">Domanda n.1</label>
                                                     <div class="col-md-9 border">
@@ -203,12 +205,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
                                         </form>
 
                                         <!-- tasti fine pagina -->
                                         <div class="center">
                                             <button id="btnAdd" class="btn btn-primary" value="add" >Aggiungi</button>
-                                            <button id="btnClocksetup" class="btn btn-primary" value="setup" >Salva</button>
                                             <button id="btnCopy" class="btn btn-primary" value="copy" >Crea copia</button>
                                         </div>
                                     </div>
@@ -248,6 +250,7 @@
                                                 </div>
                                             </form>
                                             <div id="divButtonStartExam">
+                                                <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" > Permetti Login</button>
                                                 <button id="btnClockready" class="btn btn-primary btn-lg" value="ready">Inizia Il Compito</button>
                                             </div>
                                         </div>
@@ -292,7 +295,7 @@
                                                 <span id="hours"></span>
                                             </div>
                                             <div class="rightClock">
-                                                <span>Actual Status Timer inside Server : </span>
+                                                <span>Stato attuale del server: </span>
                                                 <span id="spanStatusClock"></span>
                                                 <div id="divCountdown"></div>
                                             </div>

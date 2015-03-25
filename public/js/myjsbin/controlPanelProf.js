@@ -6,11 +6,13 @@ var MILLIS2SEC = 1000;
 var clockStatus = null;
 var fileUploaded = false;
 var clockUploaded = false;
-var count = 2;
+var fileSelect = false;
+var count = 2; /* contatore degli id delle domande, parte da due perché la prima è già presente */
 var studentLog = 0;
-var len = 1;
+var len = 1; /*numero di div (domande) presenti*/
 var createObjJson = false;
 var countdownTime = 0;
+var selectNumber = 1;
 var headersTableReport = [
     "name",
     "surname",
@@ -48,7 +50,6 @@ function mainFunction() {
         console.log(formData);
         var confirmInput = validateInputFile();
 
-//        awesome, with this ajax call I update the exam's file choose by the professor
         if (confirmInput) {
             $.ajax({
                 url: "uploadFileCustom",
@@ -75,12 +76,12 @@ function mainFunction() {
         }
     });
 
-    /* creazione file json - da sistemare */
-    $("#btnClocksetup").click(function(){
+    /* creazione file json */
+    $("#btnSave").click(function(){
         var obj = getValueToInput();
         var json = JSON.stringify(obj);
         if(createObjJson) {
-            alert(json);
+            //alert(json);
             $.ajax({
                 url: "createFileJson",
                 data: json,
@@ -103,11 +104,35 @@ function mainFunction() {
         }
     });
 
-    $('select').on('change', function(e){
-        var path = $('option:selected', this).data('link');
+    /* gestione selezione di un file dalla lista */
+   $('select').on('change', function(e){
+       var path = $('option:selected', this).data('link');
+       var obj = {};
+       obj.linkTo = JSON.stringify(path);
+       //alert(json);
+       $.ajax({
+           url: "getValueFileJson",
+           data: obj,
+           dataType: "json",
+           type: "POST",
+           success: function (response) {
+               console.log(response);
+               if (response.ok) {
+                   //alert(response.content);
+                   var res = JSON.parse(response.content);
+                   getFromFile(res.name, res.cover, res.question);
+                   fileSelect = true;
 
+               } else {
+                   alert("errore getValueFileJson\n ");
+               }
+           },
 
-    });
+           error: function () {
+               alert("Si è verificato un problema nel recupero dei dati dal json");
+           }
+       });
+   });
 
     //gestione submit form caricamento duranta esame e tempo di over time (quanto è di manica larga il professore)
     $("#formSetupClock").submit(function(event) {
@@ -161,7 +186,8 @@ function mainFunction() {
         if (this.value === "setup"){
             var message = "RIEPILOGO\n\n";
             if (fileUploaded === false && createObjJson === false) {
-                alert("\nAttenzione, per procedere:\n - caricare un file json o \n - compilare il form con gli opportuni valori!");
+                alert("\nAttenzione:\n - caricare un file json o \n - compilare il form con gli opportuni valori!\n");
+                confirmRequest = false;
             }
             else{
                 if (!fileUploaded){
@@ -207,7 +233,36 @@ function mainFunction() {
     /* aggiunta domanda */
     $(document).on('click','#btnAdd',function(){
         cloneDivQuestion();
+    });
 
+    $("#btnCopy").click(function() {
+        if (fileSelect){
+            var obj = getValueToInput();
+            var json = JSON.stringify(obj);
+            $.ajax({
+                url: "createCopy",
+                data: json,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                success: function (response) {
+                    console.log(response);
+                    if (response.ok) {
+                        //alert(response.message);
+                        appendLastFile(response.path, response.name);
+                    } else {
+                        alert("Si è verificato un problema nel creare la copia del file Json\n ");
+                    }
+                },
+                error: function () {
+                    alert("Selezionare dalla lista il file del quale si vuole fare\n una copia ed eventualmente modificarlo");
+                }
+            });
+        }
+        else{
+            alert("Per creare una copia bisogna selezionare un file\n dalla lista, se invece si vogliono inserire dei valori\n e poi salvarli il" +
+            "tasto giusto è 'salva configurazione'");
+        }
     });
 
     $("#btnResetExamSession").click(function() {
@@ -284,21 +339,21 @@ function callForClockAulaStatus() {
                     case "notest":
                         break;
                     case "setup":
-                        $("#setup-tab").attr('class', 'disabled');
+                       /* $("#setup-tab").attr('class', 'disabled');
                         $("#start-tab").attr('class', 'active');
                         $('div[class*="tab-pane"]').removeClass("active in");
                         $('#start').addClass('in active');
-                        break;
+                        break;*/
                     case "over":
                         $("#divRestartExamSession").show();
                     case "almostover":
                     case "overtime":
                     case "ready":
-                        $("#setup-tab").attr('class', 'disabled');
+                        /*$("#setup-tab").attr('class', 'disabled');
                         $("#start-tab").attr('class', 'disabled');
                         $("#examInfo-tab").attr('class', 'active');
                         $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#examInfo').addClass('in active');
+                        $('#examInfo').addClass('in active');*/
                         $('#hours').text(getHours());
                         break;
 
@@ -321,37 +376,37 @@ function callForClockAulaStatus() {
 }
 
 function setClockAulaStatus(data) {
-    if (fileUploaded === true || createObjJson === true) {
+    //if (fileUploaded === true || createObjJson === true) {
         $.ajax({
             url: "setClockAula", //this is the right route
             dataType: "json",
             type: "POST",
             data: data,
-            success: function (response) { //TODO here I need a switch block to manage different clock status
+            success: function (response) {
                 console.log(response);
                 if (response.ok) {
                     switch (data.status) {
                         case "setup":
-                            $("#setup-tab").attr('class', 'disabled');
+                            /*$("#setup-tab").attr('class', 'disabled');
                             $("#start-tab").attr('class', 'active');
                             $('div[class*="tab-pane"]').removeClass("active in");
                             $('#start').addClass('in active');
-                            break;
+                            break;*/
                         case "ready":
-                            $("#setup-tab").attr('class', 'disabled');
+                            /*$("#setup-tab").attr('class', 'disabled');
                             $("#start-tab").attr('class', 'disabled');
                             $("#examInfo-tab").attr('class', 'active');
                             $('div[class*="tab-pane"]').removeClass("active in");
                             $('#examInfo').addClass('in active');
-                            break;
+                            break;*/
                         case "notest":
-                            $("#setup-tab").attr('class', 'active');
+                            /*$("#setup-tab").attr('class', 'active');
                             $("#start-tab").attr('class', 'disabled');
                             $("#examInfo-tab").attr('class', 'disabled');
                             $('div[class*="tab-pane"]').removeClass("active in");
-                            $('div[id*="text"]').addClass("active in");
-                            $('#setup').addClass('in active');
+                            $('#setup').addClass('in active');*/
                             fileUploaded = false;
+                            fileSelect = false;
                             clockUploaded = false;
                             createObjJson = false;
                             $("#divRestartExamSession").hide();
@@ -366,7 +421,7 @@ function setClockAulaStatus(data) {
                 alert("Si è verificato un problema");
             }
         });
-    }
+    //}
 }
 
 function appendLastFile(path, name){
@@ -378,8 +433,7 @@ function appendLastFile(path, name){
         success: function (response) {
             console.log(response);
             if (response.ok){
-                //$("#list").append("<li><a href="+path+"> Prova del "+name+"</a></li>");
-                $('.list').append("<option data-link=\""+path+"\"> Prova del "+name+"</option>");
+                $('.list').append("<option id=\"select"+selectNumber+"\" data-link=\""+path+"\">"+name+"</option>");
             } else {
                 alert("Si è verificato un errore");
             }
@@ -392,7 +446,7 @@ function appendLastFile(path, name){
 
 function appendFilePresent(){
     $.ajax({
-        url: "appendFile", //this is the right route
+        url: "appendFile",
         dataType: "json",
         type: "POST",
 
@@ -401,8 +455,7 @@ function appendFilePresent(){
             if (response){
                 var i;
                 for(i=0; i<response.len; i++) {
-                    //$("#list").append("<li><a href="+response.result[i]+">Prova del "+response.file[i]+"</a></li>");
-                    $('.list').append("<option data-link=\""+response.result[i]+"\"> Prova del "+response.file[i]+"</option>");
+                    $('.list').append("<option id=\"select"+selectNumber+"\" data-link=\""+response.result[i]+"\">"+response.file[i]+"</option>");
                 }
             } else {
                 alert("Si è verificato un errore");
@@ -502,6 +555,65 @@ function switchUpQuestion(button){
         document.getElementById("inputHtml"+precId).value = htmlCurrent;
         document.getElementById("inputCss"+precId).value = cssCurrent;
         document.getElementById("inputJavascript"+precId).value = javascriptCurrent;
+    }
+}
+
+/* questa funzione prende in input i valori presenti nel file selezionato, rispettivamente dei campi: "nome della prova", "copertina per lo studente"
+ * "array di domande". questi valori vengono trasferiti nei rispettivi campi di input */
+function getFromFile(name, cover, question){
+    var i,j;
+    /* vengono creati tanti div quante sono le domande all'interno del file selezionato */
+    for(i=1; i<question.length; i++){
+        cloneDivQuestion();
+    }
+
+    /* se precedentemente era stato selezionato un altro file, questa funzione permette di cancellare i dati già presenti prima di caricare i nuovi */
+    clearInput(question.length);
+
+    document.getElementById("inputNameExam").value = name;
+    for(i=0; i<cover.length; i++) {
+        document.getElementById("inputCoverExam").value += cover[i] + "\n";
+    }
+    for(i=0; i<question.length; i++){
+        var z = (i+1);
+        for(j=0; j<question[i].text.length; j++) {
+            document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+        }
+        for(j=0; j<question[i].html.length; j++) {
+            document.getElementById("inputHtml" + z).value += question[i].html[j] + "\n";
+        }
+        for(j=0; j<question[i].css.length; j++) {
+            document.getElementById("inputCss" + z).value += question[i].css[j] + "\n";
+        }
+        for(j=0; j<question[i].javascript.length; j++) {
+            document.getElementById("inputJavascript" + z).value += question[i].javascript[j] + "\n";
+        }
+    }
+}
+
+/* questa funzione prende in input il numero di domande presenti nel file selezionato e svuota i campi di input */
+function clearInput(length){
+    var i;
+    /* numero di div (domande) già presenti nella schermata */
+    var totDiv = $('div[id^="question"]').length;
+    /* se il numero di domande prensenti nel file è minore del numero di div presenti vengono cancellati i div che non sono necessari */
+    if(length < totDiv){
+        for(i=totDiv; i>length; i--) {
+            $("#question" + i).remove();
+            len--;
+            count--;
+        }
+    }
+
+    document.getElementById("inputNameExam").value = '';
+    document.getElementById("inputCoverExam").value = '';
+    for(i=0; i<=length; i++){
+        var z = 1;
+        document.getElementById("inputText" + z).value = '';
+        document.getElementById("inputHtml" + z).value = '';
+        document.getElementById("inputCss" + z).value = '';
+        document.getElementById("inputJavascript" + z).value = '';
+        z++;
     }
 }
 
@@ -619,7 +731,7 @@ function updateTable(){
         success: function (data){
             //console.log("RISULTATIIIII " + data.studentName + data.studentSurname);
             if(data.studentName !== null && data.studentSurname !== null){
-                console.log("STUDENTLOGBEFORE "+studentLog);
+                //console.log("STUDENTLOGBEFORE "+studentLog);
                 if(data.newStudent === 1) {
                     studentLog++;
                     console.log("STUDENTLOG "+studentLog);
@@ -631,7 +743,7 @@ function updateTable(){
                     tableHeader += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
                     tableHeader += "</tr>";
                     $tbody.append(tableHeader);
-                    console.log("STUDENTLOG "+studentLog);
+                    //console.log("STUDENTLOG "+studentLog);
                     $spanStudentLog.text(studentLog);
                 }
             }
