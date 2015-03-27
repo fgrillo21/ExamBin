@@ -9,15 +9,16 @@ var examUrl = null;
 
 function mainFunction() {
     callForClockAulaStatus();
+    setupLoginStudent();
 }
 
 function callForClockAulaStatus() {
 
     $.ajax({
-        url: "getClockAula", //this is the right route
+        url: "getClockAula",
         dataType: "json",
-        success: function (data) { //TODO here I need a switch block to manage different clock status
-            console.log("dati arrivati")
+        success: function (data) {
+            console.log("dati arrivati");
             console.log(data);
             if (data.status !== clockStatus){
                 clockStatus = data.status;
@@ -33,12 +34,30 @@ function callForClockAulaStatus() {
                 }
             }
             var cookie = document.cookie;
-            console.log(cookie);
+            console.log("COOOKIIIIE "+cookie);
             setTimeout(callForClockAulaStatus, timeout);
         },
 
         error: function () {
             alert("Si è verificato un problema");
+        }
+    });
+}
+
+function setupLoginStudent(){
+    $.ajax({
+        url: "setupLoginStudent",
+        datatype: "json",
+        type: "POST",
+        success:function(data){
+            if(data.ok){
+                //alert(data.content);
+                var res = JSON.parse(data.content);
+                $('.studentLog').append(res.cover);
+            }
+        },
+        error: function () {
+            alert("Errore setup Login Student");
         }
     });
 }

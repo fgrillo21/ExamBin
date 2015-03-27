@@ -99,16 +99,6 @@ if(top != self) {
           </span>
         </div>-->
 
-      <!-- TASTI PER LA SELEZIONE SEQUENZIALE -->
-      {{#if notProfessor}}
-      <div class="menu">
-        <span id="prevQuestion" class="button">Domanda Precedente</span>
-      </div>
-      <div class="menu">
-        <span id="nextQuestion" class="button">Domanda Successiva</span>
-      </div>
-      {{/if}}
-
       <!--<div class="menu">
           <span class="button group">
               <a href="{{static}}/examText" target="_blank">Testo Esame</a>
@@ -158,7 +148,8 @@ if(top != self) {
           <a href="{{code_id_path}}/save" class="save button group">Start saving your work</a>
         </div>
       {{/if}}
-      <div id="panels"></div>
+      <div id="panels">
+      </div>
       <div class="help">
         {{#unless embed}}
           {{#if home}}

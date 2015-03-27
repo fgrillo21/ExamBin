@@ -44,7 +44,7 @@ function mainFunction() {
     });
 
     //gestione submit form upload file per esame
-    $("#btnExamFile").click(function(event) {
+    $(document).on('click','#btnExamFile', function(event){
         event.preventDefault();
         var formData = new FormData($("#formExam")[0]);
         console.log(formData);
@@ -77,7 +77,7 @@ function mainFunction() {
     });
 
     /* creazione file json */
-    $("#btnSave").click(function(){
+    $(document).on('click','#btnSave', function(){
         var obj = getValueToInput();
         var json = JSON.stringify(obj);
         if(createObjJson) {
@@ -90,8 +90,9 @@ function mainFunction() {
                 type: "POST",
                 success: function (response) {
                     console.log(response);
-                    if (response.ok) {
+                    if (response.ok){
                         appendLastFile(response.path, response.name);
+                        alert("File json creato con successo");
                     } else {
                         alert("Si è verificato un problema nel creare il file Json\n ");
                     }
