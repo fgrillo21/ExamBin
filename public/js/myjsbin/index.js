@@ -4,10 +4,6 @@
 
 var myCountdown;
 var clockStatus = null;
-var numberQuestionP;
-var numberQuestionT;
-var totQuestion;
-var increment = 1;
 
 $(document).ready(mainFunction);
 
@@ -15,31 +11,6 @@ $(document).ready(mainFunction);
 function mainFunction() {
 
     createCountdownElement();
-    callForTotQuestion();
-
-    /* SELEZIONE SEQUENZIALE DELLE DOMANDE */
-    //console.log(increment);
-    $("#prevQuestion").click(function() {
-        increment--;
-        //console.log(increment);
-        if(increment === 1)
-            $('#prevQuestion').css("display","none");
-        else{
-            $('#nextQuestion').css("display","inline-block");
-        }
-    });
-
-    $("#nextQuestion").click(function() {
-        increment++;
-        //console.log(increment);
-        if(totQuestion === 1)
-            alert("Non ci sono domande a seguire");
-        else{
-            $('#prevQuestion').css("display","inline-block");
-            if(increment === totQuestion)
-                $('#nextQuestion').css("display","none");
-        }
-    });
 
     $("#btnFinish").click(function() {
         var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler consegnare il tuo esame???\n\n cliccando su OK consegnerai il tuo elaborato definitivamente,\ne questa sarà la versione che verrà corretta");
@@ -49,33 +20,6 @@ function mainFunction() {
     });
 
     callForClockAulaStatus();
-}
-
-/* recupero i valori inseriti in fase di configurazione dal professore */
-function callForTotQuestion(){
-    $.ajax({
-        url: "/getQuestionNumber", //this is the right route
-        dataType: "json",
-        success: function (data) {
-            storeQuestion(data);
-        },
-        error: function () {
-            alert("Si è verificato un problema");
-        }
-    });
-}
-
-function storeQuestion(data){
-    /* Example: json = '{"numQuestionP": 2,"numberQuestionT":3}'*/
-    var json = JSON.stringify(data);
-    var obj = JSON.parse(json);
-    /*for(var index in obj){
-        console.log(obj[index]);
-    }*/
-    /* bisogna fare il parse in intero altrimenti la somma dei numeri non è 5, ma 23 */
-    numberQuestionP = parseInt(obj.numQuestionP);
-    numberQuestionT = parseInt(obj.numQuestionT);
-    totQuestion = numberQuestionP+numberQuestionT;
 }
 
 function callForClockAulaStatus(){
@@ -122,7 +66,7 @@ function createCountdownElement(){
             hideLabels	: true,
             target: "spanCountdown",
             onComplete: function(){
-                alert("time is up");
+                //alert("time is up");
                 $("div[id^='Container_jbeeb']").css("background-color", "red");
             },
             hideLine: true,

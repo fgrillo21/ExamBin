@@ -12,6 +12,7 @@ var studentLog = 0;
 var len = 1; /*numero di div (domande) presenti*/
 var createObjJson = false;
 var countdownTime = 0;
+var overTime = 0;
 var selectNumber = 1;
 var headersTableReport = [
     "name",
@@ -213,6 +214,47 @@ function mainFunction() {
         }
     });
 
+    /*gestione bottoni per estendere la durata della prova d'esame */
+    $(document).on('click','#btnExstendOne', function(){
+        $.ajax({
+            url: "setDataOverTimeOne",
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                if (response.ok) {
+                    overTime += 1;
+                    $("#divInfoTime").show();
+                    $("#spanInfoTime").text(overTime);
+                } else {
+                    alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
+                }
+            },
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
+    });
+
+    $(document).on('click','#btnExstendFive', function(){
+        $.ajax({
+            url: "setDataOverTimeFive",
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                if (response.ok) {
+                    overTime += 5;
+                    $("#divInfoTime").show();
+                    $("#spanInfoTime").text(overTime);
+                } else {
+                    alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
+                }
+            },
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
+    });
+
     /* inverte la domanda corrente con quella subito prima se esiste */
     $(document).on('click','.switchUp', function(){
         var button = $(this);
@@ -329,7 +371,7 @@ function callForClockAulaStatus() {
         url: "getClockAula", //this is the right route
         dataType: "json",
         success: function (data) { //TODO here I need a switch block to manage different clock status
-            console.log(data);
+            console.log("GETCLOCKDATA "+data);
             if (data.status !== clockStatus){
 
                 clockStatus = data.status;
@@ -346,16 +388,18 @@ function callForClockAulaStatus() {
                         $('#start').addClass('in active');
                         break;*/
                     case "over":
+                        $("#divInfoTime").hide();
                         $("#divRestartExamSession").show();
                     case "almostover":
                     case "overtime":
+                        countdownTime = data.durationOverTime;
+                        createCountdownObject(countdownTime);
                     case "ready":
                         /*$("#setup-tab").attr('class', 'disabled');
                         $("#start-tab").attr('class', 'disabled');
                         $("#examInfo-tab").attr('class', 'active');
                         $('div[class*="tab-pane"]').removeClass("active in");
                         $('#examInfo').addClass('in active');*/
-                        $('#hours').text(getHours());
                         break;
 
                     case "start":
@@ -400,6 +444,8 @@ function setClockAulaStatus(data) {
                             $('div[class*="tab-pane"]').removeClass("active in");
                             $('#examInfo').addClass('in active');
                             break;*/
+                            $('#hours').text(getHours());
+                            break;
                         case "notest":
                             /*$("#setup-tab").attr('class', 'active');
                             $("#start-tab").attr('class', 'disabled');
@@ -711,7 +757,14 @@ function updateId(element){
 
 function getHours(){
     var today = new Date();
-    var hours = today.getHours()+":"+today.getMinutes();
+    var minutes = today.getMinutes();
+    var hours;
+    if(minutes >= 0 && minutes < 10) {
+        hours = today.getHours() + ":0" + minutes;
+    }
+    else{
+        hours = today.getHours() + ":" + minutes;
+    }
     return hours;
 }
 
@@ -724,7 +777,7 @@ function getDataItalianFormat(){
     var date = curr_date + " " + m_names[curr_month] + " " + curr_year;
     return date;
 }
-
+a
 function updateTable(){
     $.ajax({
         url: "getDataStudent", //this is the right route
@@ -760,9 +813,7 @@ function updateTable(){
 }
 
 function createCountdownObject(millisec){
-
     var second = millisec / MILLIS2SEC;
-    console.log(second);
     $("#divCountdown").empty();
 
     var myCountdown2 = new Countdown({
@@ -773,7 +824,6 @@ function createCountdownObject(millisec){
         inline:true,
         hideLine: true,
         onComplete: function(second){
-          alert("time is up");
           $("div[id^='Container_jbeeb']").css("background-color", "red");
         },
         target: "divCountdown", // perfetc, with this property I can set the father element where attach th countdown element, created from library

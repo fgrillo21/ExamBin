@@ -318,12 +318,11 @@ li > a {
 
 .align-btn-time{
     float:left;
-    margin-top: 20px;
     padding: 15px;
     clear:both;
 }
 
-.align-btn-time > input{
+.align-btn-time > button{
     clear: left;
     float: left;
     width: 300px;
@@ -360,4 +359,10 @@ li > a {
 
 #divButtonStartExam{
     margin-top: 100px;
+}
+
+#divInfoTime{
+    clear: both;
+    margin-top: 150px;
+    display: none;
 }

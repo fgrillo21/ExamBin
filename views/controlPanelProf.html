@@ -299,10 +299,13 @@
                                                 <span id="spanStatusClock"></span>
                                                 <div id="divCountdown"></div>
                                             </div>
+                                            <div id="divInfoTime">
+                                                <p>Il tempo regolamentare verrà esteso di: <span id="spanInfoTime"> </span> minuti</p>
+                                            </div>
                                             <div class="align-btn-time">
-                                                <input id="btnExstendOne" class="btn btn-default" type='submit' value="Estendi fine di 1 minuto"/>
-                                                <input id="btnExstendFive" class="btn btn-default" type='submit' value="Estendi fine di 5 minuto"/>
-                                                <input id="btnExstendUndefine" class="btn btn-default" type='submit' value="Estendi fine indefinitivamente"/>
+                                                <button id="btnExstendOne" class="btn btn-default btnExstend" value="one" > Estendi fine di 1 minuto</button>
+                                                <button id="btnExstendFive" class="btn btn-default btnExstend" value="five">Estendi fine di 5 minuti</button>
+                                                <button id="btnExstendUndefine" class="btn btn-default btnExstend" value="undefine">Estendi fine indefinitivamente</button>
                                             </div>
                                             <div class="align-btn-reset">
                                                 <input id="btnResetExamSession" class="btn btn-default btn-lg" type='submit' value="Forza fine prova adesso"/>
