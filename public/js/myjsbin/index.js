@@ -24,12 +24,10 @@ function mainFunction() {
 
 function callForClockAulaStatus(){
     $.ajax({
-        url: "/getClockAula", //this is the right route
+        url: "/getClockAula",
         dataType: "json",
-        success: function (data) { //todo, qui penso ad un bello switch probabilmente
-
+        success: function (data) {
             if (data.status !== clockStatus){
-
                 clockStatus = data.status;
 
                 switch (clockStatus){
@@ -38,18 +36,13 @@ function callForClockAulaStatus(){
                     case "overtime":
                     case "setup":
                     case "ready":
-                        //$('#btnLogin').prop('disabled', true);
-                        break;
-
                     case "over":
                         deliveryExam();
                         break;
                 }
             }
-
             setTimeout(callForClockAulaStatus, 5000);
         },
-
         error: function () {
             alert("Si è verificato un problema");
         }
@@ -73,7 +66,7 @@ function createCountdownElement(){
             numbers		: 	{
             font 	: "Arial",
                 color	: "#FFFFFF",
-                bkgd	: "#ff8f00",
+                bkgd	: "#1E90FF",
                 rounded	: 0.15,
                 shadow	: {
                 x : 0,

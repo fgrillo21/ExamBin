@@ -17,7 +17,9 @@ var selectNumber = 1;
 var headersTableReport = [
     "name",
     "surname",
-    "matricola"/*,
+    "matricola",
+    "postazione"
+    /*,
     "html",
     "javascript",
     "css",
@@ -278,6 +280,7 @@ function mainFunction() {
         cloneDivQuestion();
     });
 
+    /* crea una copia dell'esame */
     $("#btnCopy").click(function() {
         if (fileSelect){
             var obj = getValueToInput();
@@ -308,6 +311,7 @@ function mainFunction() {
         }
     });
 
+    /* Forza terminazione esame */
     $("#btnResetExamSession").click(function() {
         var data = {
             status: "notest"
@@ -315,54 +319,6 @@ function mainFunction() {
         setClockAulaStatus(data);
     });
 
-    //gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
-    $("#btnGetFinishStudent").click(function() {
-        //call the service that return all student that have finish
-        $.ajax({
-            url: "/getFinishStudent",
-            dataType: "json",
-            success: function (res) {
-                console.log(res);
-                alert(res);
-                if (!res.length) {
-                    $("#divNobodyFinishExam").show();
-                } else {
-                    $("#divNobodyFinishExam").hide();
-                    var $divExamReport = $("#divExamReport");
-                    var $thead = $("#tableExamReport thead");
-                    var $tbody = $("#tableExamReport tbody");
-                    $thead.empty();
-                    $tbody.empty();
-
-                    var tmp;
-                    var tableHeader = "<tr>";
-                    for (var y = 0; y < headersTableReport.length; y++) {
-                        tableHeader += "<th>" + headersTableReport[y].replace("_", " ") + "</th>";
-                    }
-                    tableHeader += "</tr>";
-                    $thead.append(tableHeader);
-
-                    var tableRow;
-                    for (var i = 0; i < res.length; i++) {
-                        tmp = res[i];
-                        tableRow = "<tr>";
-
-                        for (var z = 0; z < headersTableReport.length; z++) {
-                            //tableRow += "<td>"+  htmlEntities(tmp[headersTableReport[z]])+"</td>";
-                            tableRow += "<td>" + tmp[headersTableReport[z]] + "</td>";
-                        }
-                        tableRow += "</tr>";
-                        $tbody.append(tableRow);
-                    }
-                    $divExamReport.show();
-
-                }
-            },
-            error: function () {
-                alert("Si è verificato un problema");
-            }
-        })
-    });
 }
 
 function callForClockAulaStatus() {
@@ -370,8 +326,7 @@ function callForClockAulaStatus() {
     $.ajax({
         url: "getClockAula", //this is the right route
         dataType: "json",
-        success: function (data) { //TODO here I need a switch block to manage different clock status
-            console.log("GETCLOCKDATA "+data);
+        success: function (data) {
             if (data.status !== clockStatus){
 
                 clockStatus = data.status;
@@ -389,7 +344,7 @@ function callForClockAulaStatus() {
                         break;*/
                     case "over":
                         $("#divInfoTime").hide();
-                        $("#divRestartExamSession").show();
+                        //$("#divRestartExamSession").show();
                     case "almostover":
                     case "overtime":
                         countdownTime = data.durationOverTime;
@@ -410,6 +365,7 @@ function callForClockAulaStatus() {
             }
 
             setTimeout(callForClockAulaStatus, 5000);
+            setTimeout(updateTableFinish,5000);
             //setTimeout(updateTable, 2000);
             updateTable();
         },
@@ -456,7 +412,8 @@ function setClockAulaStatus(data) {
                             fileSelect = false;
                             clockUploaded = false;
                             createObjJson = false;
-                            $("#divRestartExamSession").hide();
+                            createCountdownObject(0);
+                            //$("#divRestartExamSession").hide();
                             break;
                     }
                 } else {
@@ -515,9 +472,7 @@ function appendFilePresent(){
 }
 
 function validateInputFile(){
-
     var ok = false;
-
     if ($("#fileJsonUpload").val().split('.').pop() === "json"){
         ok = true;
     }
@@ -525,10 +480,8 @@ function validateInputFile(){
 }
 
 function validateClockInput(){
-
     var ok = false;
     var durationTest = $("#inputDurationTest").val();
-    var durationOverTime = $("#inputDurationOverTimeTest").val();
     if (durationTest !== "" && durationTest > 0 ){
         ok = true;
     }
@@ -574,36 +527,6 @@ function getValueToInput(){
     }
 }
 
-function switchUpQuestion(button){
-    var currentDivId = button.parent().parent().parent().attr('id');
-    var sliceId = parseInt(currentDivId.slice(-1));
-
-    var precId = sliceId - 1;
-    var precDiv = document.getElementById("question"+precId);
-    if(precDiv){
-        /* salvo i valori della domanda corrente */
-        var textCurrent = document.getElementById("inputText"+sliceId).value;
-        var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
-        var cssCurrent = document.getElementById("inputCss"+sliceId).value;
-        var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
-        /* salvo i valori della domanda precendente */
-        var textPrec = document.getElementById("inputText"+precId).value;
-        var htmlPrec = document.getElementById("inputHtml"+precId).value;
-        var cssPrec = document.getElementById("inputCss"+precId).value;
-        var javascriptPrec = document.getElementById("inputJavascript"+precId).value;
-
-        /* la domanda corrente assume i valori di quella precedente e viceveresa */
-        document.getElementById("inputText"+sliceId).value = textPrec;
-        document.getElementById("inputHtml"+sliceId).value = htmlPrec;
-        document.getElementById("inputCss"+sliceId).value = cssPrec;
-        document.getElementById("inputJavascript"+sliceId).value = javascriptPrec;
-
-        document.getElementById("inputText"+precId).value = textCurrent;
-        document.getElementById("inputHtml"+precId).value = htmlCurrent;
-        document.getElementById("inputCss"+precId).value = cssCurrent;
-        document.getElementById("inputJavascript"+precId).value = javascriptCurrent;
-    }
-}
 
 /* questa funzione prende in input i valori presenti nel file selezionato, rispettivamente dei campi: "nome della prova", "copertina per lo studente"
  * "array di domande". questi valori vengono trasferiti nei rispettivi campi di input */
@@ -661,6 +584,37 @@ function clearInput(length){
         document.getElementById("inputCss" + z).value = '';
         document.getElementById("inputJavascript" + z).value = '';
         z++;
+    }
+}
+
+function switchUpQuestion(button){
+    var currentDivId = button.parent().parent().parent().attr('id');
+    var sliceId = parseInt(currentDivId.slice(-1));
+
+    var precId = sliceId - 1;
+    var precDiv = document.getElementById("question"+precId);
+    if(precDiv){
+        /* salvo i valori della domanda corrente */
+        var textCurrent = document.getElementById("inputText"+sliceId).value;
+        var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
+        var cssCurrent = document.getElementById("inputCss"+sliceId).value;
+        var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
+        /* salvo i valori della domanda precendente */
+        var textPrec = document.getElementById("inputText"+precId).value;
+        var htmlPrec = document.getElementById("inputHtml"+precId).value;
+        var cssPrec = document.getElementById("inputCss"+precId).value;
+        var javascriptPrec = document.getElementById("inputJavascript"+precId).value;
+
+        /* la domanda corrente assume i valori di quella precedente e viceveresa */
+        document.getElementById("inputText"+sliceId).value = textPrec;
+        document.getElementById("inputHtml"+sliceId).value = htmlPrec;
+        document.getElementById("inputCss"+sliceId).value = cssPrec;
+        document.getElementById("inputJavascript"+sliceId).value = javascriptPrec;
+
+        document.getElementById("inputText"+precId).value = textCurrent;
+        document.getElementById("inputHtml"+precId).value = htmlCurrent;
+        document.getElementById("inputCss"+precId).value = cssCurrent;
+        document.getElementById("inputJavascript"+precId).value = javascriptCurrent;
     }
 }
 
@@ -777,7 +731,7 @@ function getDataItalianFormat(){
     var date = curr_date + " " + m_names[curr_month] + " " + curr_year;
     return date;
 }
-a
+
 function updateTable(){
     $.ajax({
         url: "getDataStudent", //this is the right route
@@ -786,17 +740,18 @@ function updateTable(){
             //console.log("RISULTATIIIII " + data.studentName + data.studentSurname);
             if(data.studentName !== null && data.studentSurname !== null){
                 //console.log("STUDENTLOGBEFORE "+studentLog);
+                var tableRow;
                 if(data.newStudent === 1) {
                     studentLog++;
                     console.log("STUDENTLOG "+studentLog);
                     var $tbody = $("#tableStartExam tbody");
                     var $spanStudentLog = $("#studentLog");
-                    var tableHeader = "<tr>";
-                    tableHeader += "<td><input type='checkbox'></td>";
-                    tableHeader += "<td>" + data.studentPost + "</td>";
-                    tableHeader += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
-                    tableHeader += "</tr>";
-                    $tbody.append(tableHeader);
+                    tableRow = "<tr>";
+                    tableRow += "<td><input type='checkbox'></td>";
+                    tableRow += "<td>" + data.studentPost + "</td>";
+                    tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
+                    tableRow += "</tr>";
+                    $tbody.append(tableRow);
                     //console.log("STUDENTLOG "+studentLog);
                     $spanStudentLog.text(studentLog);
                 }
@@ -808,6 +763,45 @@ function updateTable(){
         },
         error: function () {
             alert("Errore nella updateTable");
+        }
+    });
+}
+
+function updateTableFinish() {
+//gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
+    //call the service that return all student that have finish
+    $.ajax({
+        url: "/getFinishStudent",
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+            if (!res.length) {
+                console.log("nessuno ha consegnato");
+            } else {
+                var $divExamReport = $("#divEndExam");
+                //var $thead = $("#tableEndExam thead");
+                var $tbody = $("#tableEndExam tbody");
+                //$thead.empty();
+                $tbody.empty();
+
+                var tmp;
+
+                var tableRow;
+                for (var i = 0; i < res.length; i++) {
+                    tmp = res[i];
+                    tableRow = "<tr>";
+                    tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
+                    tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
+                    tableRow += "<td>" + "Consegnata" + "</td>";
+                    tableRow += "</tr>";
+                    $tbody.append(tableRow);
+                }
+                $divExamReport.show();
+
+            }
+        },
+        error: function () {
+            alert("Si è verificato un problema");
         }
     });
 }
@@ -826,11 +820,11 @@ function createCountdownObject(millisec){
         onComplete: function(second){
           $("div[id^='Container_jbeeb']").css("background-color", "red");
         },
-        target: "divCountdown", // perfetc, with this property I can set the father element where attach th countdown element, created from library
+        target: "divCountdown",
         numbers		: 	{
             font 	: "Arial",
             color	: "#FFFFFF",
-            bkgd	: "#ff8f00",
+            bkgd	: "#1E90FF",
             rounded	: 0.15,
             shadow	: {
                 x : 0,
