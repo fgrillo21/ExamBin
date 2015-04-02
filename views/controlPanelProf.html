@@ -144,7 +144,7 @@
                                 <div class="wrapper">
                                     <div class="divList">
                                         <label> Lista Prove </label>
-                                        <select size=27 class="listSelect list"></select>
+                                        <select size=20 class="listSelect list"></select>
                                     </div>
                                     <div class="divConfig" id="divSetup">
                                         <form role="form" id="formExam" class="form-horizontal" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
@@ -178,10 +178,10 @@
                                                     <label class="col-md-2 control-label" id="label1">Domanda n.1</label>
                                                     <div class="col-md-9 border">
                                                         <ul class="nav nav-tabs" role="tablist">
-                                                            <li class="active"><a href="#text1" role="tab" data-toggle="tab">Domanda</a></li>
-                                                            <li><a href="#html1" role="tab" data-toggle="tab">HTML</a></li>
-                                                            <li><a href="#css1" role="tab" data-toggle="tab">CSS</a></li>
-                                                            <li><a href="#javascript1" role="tab" data-toggle="tab">JAVASCRIPT</a></li>
+                                                            <li class="active litext"><a href="#text1" role="tab" data-toggle="tab">Domanda</a></li>
+                                                            <li class="lihtml"><a href="#html1" role="tab" data-toggle="tab">HTML</a></li>
+                                                            <li class="licss"><a href="#css1" role="tab" data-toggle="tab">CSS</a></li>
+                                                            <li class="lijavascript"><a href="#javascript1" role="tab" data-toggle="tab">JAVASCRIPT</a></li>
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane fade active in" id="text1">
@@ -223,7 +223,7 @@
                                 <div class="wrapper">
                                     <div class="divList">
                                         <label> Lista Prove </label>
-                                        <select size=30 class="listSelect list"></select>
+                                        <select size=20 class="listSelect list"></select>
                                     </div>
                                     <div class="divConfig" id="divStartExam">
                                         <div class="center">
@@ -251,7 +251,7 @@
                                             </form>
                                             <div id="divButtonStartExam">
                                                 <button id="btnClocksetup" class="btn btn-primary btn-lg" value="setup" > Permetti Login</button>
-                                                <button id="btnClockready" class="btn btn-primary btn-lg" value="ready">Inizia Il Compito</button>
+                                                <button id="btnClockready" class="btn btn-primary btn-lg disabled" value="ready">Inizia Il Compito</button>
                                             </div>
                                         </div>
                                     </div>
@@ -263,34 +263,13 @@
                                 <div class="wrapper">
                                     <div class="divList">
                                         <label> Lista Prove </label>
-                                        <select size=30 class="listSelect list"></select>
+                                        <select size=20 class="listSelect list"></select>
                                     </div>
                                     <div class="divConfig" id="divEndExam">
                                         <div class="center">
                                             <h1 class="titleExam"> </h1>
                                             <p> Postazioni attive. prove concluse e consegnate</p>
                                             <table class="table table-hover table-bordered" id="tableEndExam">
-                                                <!--
-                                                <thead>
-                                                    <tr>
-                                                        <th>postazione</th>
-                                                        <th>studente</th>
-                                                        <th>prova</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>fila A - computer 1</td>
-                                                        <td>Mario Rossi</td>
-                                                        <td>consegnata</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>fila A - computer 1</td>
-                                                        <td>Mario Rossi</td>
-                                                        <td>in elaborazione</td>
-                                                    </tr>
-                                                </tbody>
-                                                -->
                                                 <thead>
                                                     <tr>
                                                         <th>postazione</th>
@@ -321,32 +300,10 @@
                                             <div class="align-btn-reset">
                                                 <input id="btnResetExamSession" class="btn btn-default btn-lg" type='submit' value="Forza fine prova adesso"/>
                                             </div>
-                                            <!--<div id="divRestartExamSession" class="center" style="display: none">
-                                                <button id="btnResetExamSession" class="btn btn-warning btn-lg">
-                                                    Termina definitivamente la sessione di esame appena conclusa, per iniziarne una nuova.
-                                                </button>
-                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
                             </section>
-                            <!--<section id="secFinishExam" class="center">
-                                <button id="btnGetFinishStudent" class="btn btn-success btn-lg">
-                                    Studenti che hanno terminato l'esame
-                                </button>
-                                <div id="divExamReport" style="display: none">
-                                    <table id="tableExamReport" border="1">
-                                        <thead>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                -->
-                                <div id="divNobodyFinishExam" class="center" style="display: none">
-                                    <p>Nessuno studente ha terminato l'esame</p>
-                                </div>
-                            <!--</section>-->
                         </div>
                     </div>
 

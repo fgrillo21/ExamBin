@@ -185,13 +185,12 @@ function mainFunction() {
             status: this.value
         };
 
-        var confirmRequest = true;
+        var confirmRequest = false;
 
         if (this.value === "setup"){
             var message = "RIEPILOGO\n\n";
             if (fileUploaded === false && createObjJson === false) {
                 alert("\nAttenzione:\n - caricare un file json o \n - compilare il form con gli opportuni valori!\n");
-                confirmRequest = false;
             }
             else{
                 if (!fileUploaded){
@@ -214,6 +213,74 @@ function mainFunction() {
         if (confirmRequest) {
             setClockAulaStatus(data);
         }
+    });
+
+    /* gestione click sul tab "domanda" */
+    $(document).on('click','li.litext', function(){
+        var href = $(this).children().attr("href");
+        var idtext = "text"+href.slice(-1);
+        var idhtml = "html"+href.slice(-1);
+        var idcss = "css"+href.slice(-1);
+        var idjavascript = "javascript"+href.slice(-1);
+        var text = document.getElementById(idtext);
+        var html = document.getElementById(idhtml);
+        var css = document.getElementById(idcss);
+        var javascript = document.getElementById(idjavascript);
+        $(text).addClass("active in");
+        $(html).removeClass("active in");
+        $(css).removeClass("active in");
+        $(javascript).removeClass("active in");
+    });
+
+    /* gestione click sul tab "html" */
+    $(document).on('click','li.lihtml', function(){
+        var href = $(this).children().attr("href");
+        var idtext = "text"+href.slice(-1);
+        var idhtml = "html"+href.slice(-1);
+        var idcss = "css"+href.slice(-1);
+        var idjavascript = "javascript"+href.slice(-1);
+        var text = document.getElementById(idtext);
+        var html = document.getElementById(idhtml);
+        var css = document.getElementById(idcss);
+        var javascript = document.getElementById(idjavascript);
+        $(text).removeClass("active in");
+        $(html).addClass("active in");
+        $(css).removeClass("active in");
+        $(javascript).removeClass("active in");
+    });
+
+    /* gestione click sul tab "css" */
+    $(document).on('click','li.licss', function(){
+        var href = $(this).children().attr("href");
+        var idtext = "text"+href.slice(-1);
+        var idhtml = "html"+href.slice(-1);
+        var idcss = "css"+href.slice(-1);
+        var idjavascript = "javascript"+href.slice(-1);
+        var text = document.getElementById(idtext);
+        var html = document.getElementById(idhtml);
+        var css = document.getElementById(idcss);
+        var javascript = document.getElementById(idjavascript);
+        $(text).removeClass("active in");
+        $(html).removeClass("active in");
+        $(css).addClass("active in");
+        $(javascript).removeClass("active in");
+    });
+
+    /* gestione click sul tab "javascript" */
+    $(document).on('click','li.lijavascript', function(){
+        var href = $(this).children().attr("href");
+        var idtext = "text"+href.slice(-1);
+        var idhtml = "html"+href.slice(-1);
+        var idcss = "css"+href.slice(-1);
+        var idjavascript = "javascript"+href.slice(-1);
+        var text = document.getElementById(idtext);
+        var html = document.getElementById(idhtml);
+        var css = document.getElementById(idcss);
+        var javascript = document.getElementById(idjavascript);
+        $(text).removeClass("active in");
+        $(html).removeClass("active in");
+        $(css).removeClass("active in");
+        $(javascript).addClass("active in");
     });
 
     /*gestione bottoni per estendere la durata della prova d'esame */
@@ -311,6 +378,18 @@ function mainFunction() {
         }
     });
 
+    $("#btnClockready").click(function() {
+        if(studentLog > 0){
+            var data = {
+                status: "ready"
+            };
+            setClockAulaStatus(data);
+        }
+        else{
+            alert("Attendere il login di almeno uno studente prima di poter dare il via alla prova!");
+        }
+    });
+
     /* Forza terminazione esame */
     $("#btnResetExamSession").click(function() {
         var data = {
@@ -339,12 +418,14 @@ function callForClockAulaStatus() {
                     case "setup":
                        /* $("#setup-tab").attr('class', 'disabled');
                         $("#start-tab").attr('class', 'active');
-                        $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#start').addClass('in active');
-                        break;*/
+                        $('div[class*="tab-pane"]').removeClass("active in");*/
+                        $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
+                        break;
                     case "over":
                         $("#divInfoTime").hide();
-                        //$("#divRestartExamSession").show();
+                        $('#btnSubmitClockData').attr('class', 'btn btn-default active');
+                        $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
+                        $("#setup-tab").attr('class', 'active');
                     case "almostover":
                     case "overtime":
                         countdownTime = data.durationOverTime;
@@ -360,6 +441,10 @@ function callForClockAulaStatus() {
                     case "start":
                         countdownTime = data.timeout;
                         createCountdownObject(countdownTime);
+                        $('#btnSubmitClockData').attr('class', 'btn btn-default disabled');
+                        $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg disabled');
+                        $('#btnClockready').attr('class', 'btn btn-primary btn-lg disabled');
+                        $("#setup-tab").attr('class', 'disabled');
                         break;
                 }
             }
@@ -774,9 +859,9 @@ function updateTableFinish() {
         url: "/getFinishStudent",
         dataType: "json",
         success: function (res) {
-            console.log(res);
+            //console.log(res);
             if (!res.length) {
-                console.log("nessuno ha consegnato");
+                //console.log("nessuno ha consegnato");
             } else {
                 var $divExamReport = $("#divEndExam");
                 //var $thead = $("#tableEndExam thead");

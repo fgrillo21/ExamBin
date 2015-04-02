@@ -194,34 +194,6 @@ li > a {
     border-bottom-color: transparent;
 }
 
-#linkToNext{
-    margin-bottom: 5px;
-    float:left;
-    display: auto;
-}
-
-#linkToPrec{
-    margin-bottom: 5px;
-    float:right;
-    display:none;
-}
-
-#linkToNext::after {
-    content: ' →';
-}
-
-#linkToPrec::before {
-    content: ' ←';
-}
-
-#formExamNumber{
-    display: auto;
-}
-
-#formExamFile{
-    display: none;
-}
-
 /* allineamento div nelle 3 sezioni (html, css, javascript)*/
 .align{
     float:left;
@@ -231,22 +203,6 @@ li > a {
 }
 .clearBoth{
     clear:both;
-}
-
-/***********************************/
-/************ TAB MENU *************/
-/***********************************/
-#formExamFile > fieldset > ul.nav-tabs{
-    border-bottom: 1px solid lightgray;
-}
-#formExamFile > fieldset > .nav-tabs>li.active>a {
-    border-top: 1px solid lightgray;
-    border-right: 1px solid lightgray;
-    border-left: 1px solid lightgray;
-}
-
-#formExamFile > fieldset > div.tab-content{
-    border: hidden;
 }
 
 /* NEW GRAPHICS */
@@ -345,7 +301,7 @@ li > a {
     border:0px;
     outline:0px;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     width:100%;
 }
 
