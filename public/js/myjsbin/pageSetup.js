@@ -29,7 +29,7 @@ function callForClockAulaStatus() {
                         break;
                     case "start":
                         examUrl = data.url;
-                        window.location.href = examUrl;
+                        //window.location.href = examUrl;
                         break;
                 }
             }
