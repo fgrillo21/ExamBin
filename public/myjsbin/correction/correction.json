@@ -1,42 +1,60 @@
 [
     {
-        "id": 78,
-        "javascript": "var borghi = 22;\nvar x = 11;\t  \nfunction zeta() {\n   \n  alert('go');\n   return 3;\n}",
-        "html": "<!DOCTYPE html>\n<html>\n    <head>\n      <meta charset=\"utf-8\">\n      <title>JS Bin</title>\n    </head>\n    <body>\n        <p onClick=\"zeta()\">HTML 5 Boiler Template</p>\n <p>HTML 5 Boiler Template</p>\n    </body>\n</html>",
-        "created": "2014-10-30T15:43:57.000Z",
-        "last_viewed": "2014-10-30T15:42:22.000Z",
-        "url": "2014-10-30_an_a_56757657_78_finish",
+        "id": 7,
+        "javascript": "",
+        "html": "<html>\r\n    <head>\r\n\r\n    </head>\r\n    <body>\r\n\r\n    </body>\r\n</html>\r\n",
+        "created": "2015-02-26T14:02:12.000Z",
+        "last_viewed": "2015-02-26T14:02:12.000Z",
+        "url": "2015-02-26_u_u_3_7_finish",
         "active": "y",
         "reported": null,
         "streaming": "n",
-        "streaming_key": "74e7dd8072139da9df72ec9b1d28e795",
+        "streaming_key": "173b3982a547455658a8834b968bb819",
         "streaming_read_key": "",
         "active_tab": "",
         "active_cursor": 0,
         "revision": 1,
-        "css": "p:first-child {\n color:yellow;\n}\np {\n  color:red;\n}",
+        "css": "#id{\r\n  \r\n\tborder: 1px;\r\n}\r\n",
         "settings": "{\"processors\":{\"html\":\"html\",\"css\":\"css\",\"javascript\":\"javascript\"}}",
-        "name": "an",
-        "surname": "a",
-        "matricola": "56757657",
-        "examUrl": "<a href='http://localhost:7002/2014-10-30_an_a_56757657_78_finish/1/edit' target='_blank'>Show Exam</a>",
-        "error_Html_messages": [],
-        "error_Html": 0,
+        "name": "u",
+        "surname": "u",
+        "matricola": "3",
+        "postazione": "7",
+        "examUrl": "<a href='http://localhost:7002/2015-02-26_u_u_3_7_finish/1/edit' target='_blank'>Show Exam</a>",
+        "error_Html_messages": [
+            {
+                "lastLine": 1,
+                "lastColumn": 1,
+                "message": "no document type declaration; implying \"<!DOCTYPE HTML SYSTEM>\"",
+                "messageid": "344",
+                "explanation": "    <p class=\"helpwanted\">\n      <a\n        href=\"feedback.html?uri=;errmsg_id=344#errormsg\"\n\ttitle=\"Suggest improvements on this error message through our feedback channels\" \n      >&#x2709;</a>\n    </p>\n\n    <div class=\"ve mid-344\">\n    <p>\n\tThe checked page did not contain a document type (\"DOCTYPE\") declaration.\n\tThe Validator has tried to validate with a fallback DTD,\n        but this is quite likely to be incorrect and will generate a large number\n        of incorrect error messages. It is highly recommended that you insert the\n\tproper DOCTYPE declaration in your document -- instructions for doing this\n\tare given above -- and it is necessary to have this declaration before the\n \tpage can be declared to be valid.\n    </p>\n  </div>\n",
+                "type": "error"
+            },
+            {
+                "lastLine": 4,
+                "lastColumn": 11,
+                "message": "end tag for \"HEAD\" which is not finished",
+                "messageid": "73",
+                "explanation": "    <p class=\"helpwanted\">\n      <a\n        href=\"feedback.html?uri=;errmsg_id=73#errormsg\"\n\ttitle=\"Suggest improvements on this error message through our feedback channels\" \n      >&#x2709;</a>\n    </p>\n\n    <div class=\"ve mid-73\">\n    <p>\n      Most likely, you nested tags and closed them in the wrong order. For \n      example &lt;p&gt;&lt;em&gt;...&lt;/p&gt; is not acceptable, as &lt;em&gt;\n      must be closed before &lt;p&gt;. Acceptable nesting is: \n      &lt;p&gt;&lt;em&gt;...&lt;/em&gt;&lt;/p&gt;  \n    </p>\n    <p>\n      Another possibility is that you used an element which requires\n      a child element that you did not include. Hence the parent element\n      is \"not finished\", not complete. For instance, in HTML the &lt;head&gt;\n      element must contain a &lt;title&gt; child element, lists require\n      appropriate list items (&lt;ul&gt; and &lt;ol&gt; require &lt;li&gt;;\n      &lt;dl&gt; requires &lt;dt&gt; and &lt;dd&gt;), and so on.\n    </p>\n  </div>\n",
+                "type": "error"
+            }
+        ],
+        "error_Html": 2,
         "error_Css_messages": [],
         "error_Css": 0,
         "error_Javascript_messages": [],
         "error_Javascript": 0,
         "failure_Mocha_messages": [
             "La variabile i dovrebbe avere il valore 10",
+            "La variabile denominata 'borghi' dovrebbe avere il valore 22",
             "La funzione z() dovrebbe ritornare il valore 4"
         ],
-        "failure_Mocha": 2,
+        "failure_Mocha": 3,
         "pass_Mocha_messages": [
-            "La variabile denominata 'borghi' dovrebbe avere il valore 22",
             "Nessun elemento html dovrebbe contenere l'atrtibuto class",
             "Nessun elemento html dovrebbe contenere l'atrtibuto id"
         ],
-        "pass_Mocha": 3,
-        "proposal_vote": 28
+        "pass_Mocha": 2,
+        "proposal_vote": 26
     }
 ]

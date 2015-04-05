@@ -1,0 +1,15 @@
+.center{
+    border: 2px solid #00008b;
+    border-radius: 3px;
+    text-align: center;
+    padding: 10px;
+}
+
+.question{
+    /*text-align: left;*/
+    font-size: 15px;
+}
+
+textarea{
+    width: 50%;
+}

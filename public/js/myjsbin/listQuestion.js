@@ -1,11 +1,49 @@
 $(document).ready(mainFunction);
-
-var clockStatus = null;
-var timeout = 3000 + Math.floor(Math.random()*2000); //set the timeout for make the ajax request for the state of the classroom clock;
 var examUrl = null;
+var clockStatus = null;
+var timeout;
+var MILLIS2SEC = 1000;
 
 function mainFunction() {
     callForClockAulaStatus();
+    loadQuestion();
+}
+
+function createCountdownElement(millisec){
+    var second = millisec / MILLIS2SEC;
+    $("#divCountdown").empty();
+    myCountdown = new Countdown({
+        time: second,
+        width:200,
+        height:25,
+        inline:true,
+        hideLabels	: true,
+        target: "Countdown",
+        onComplete: function(){
+            //alert("time is up");
+            $("div[id^='Container_jbeeb']").css("background-color", "red");
+        },
+        hideLine: true,
+        numbers		: 	{
+            font 	: "Arial",
+            color	: "#FFFFFF",
+            bkgd	: "#1E90FF",
+            rounded	: 0.15,
+            shadow	: {
+                x : 0,
+                y : 3,
+                s : 4,
+                c : "#000000",
+                a : 0.4
+            }
+        },
+        labels : {
+            font   : "Arial",
+            color  : "#a8a8a8",
+            weight : "normal" // < - no comma on last item!
+        },
+        rangeHi:"hour"	// <- no comma on last item!
+    });
 }
 
 function callForClockAulaStatus() {
@@ -15,29 +53,83 @@ function callForClockAulaStatus() {
         dataType: "json",
         success: function (data) {
             console.log("dati arrivati");
-            console.log(data);
             if (data.status !== clockStatus){
+                console.log("list "+data.status);
                 clockStatus = data.status;
                 switch (clockStatus){
-                    case "ready":
-                        timeout = 500 + Math.floor(Math.random()*500);
-                        console.log("READY "+data.url);
-                        examUrl = data.url;
-                        break;
                     case "start":
+                        timeout = data.timeout;
+                        createCountdownElement(timeout);
                         examUrl = data.url;
-                        console.log("START "+data.url);
-                        window.location.href = examUrl;
+                        /*console.log("START "+data.url);
+                        window.location.href = examUrl;*/
                         break;
                 }
             }
-            var cookie = document.cookie;
-            console.log("COOOKIIIIE "+cookie);
-            setTimeout(callForClockAulaStatus, timeout);
+            //setTimeout(callForClockAulaStatus, 5000);
         },
 
         error: function () {
             alert("Si è verificato un problema");
         }
     });
+}
+
+function loadQuestion(){
+    $.ajax({
+        url: "loadQuestion",
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+            var res = JSON.parse(data.content);
+            add(res.question);
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
+}
+
+function add(question){
+    var i, j, link, v;
+    for(i=0; i<question.length; i++) {
+        var z = (i+1) + ". ";
+        var x = i+1;
+        var para = document.createElement("P");                          // Create a <p> node
+        var number =  document.createTextNode(z);
+        para.appendChild(number);
+        for (j = 0; j < question[i].text.length; j++) {
+            var t = document.createTextNode(question[i].text[j] + "\n");        // Create a text node
+            para.appendChild(t);                                        // Append the text to <p>
+            var newLine = document.createElement('br');
+            para.appendChild(newLine);
+        }
+        if(question[i].html.length === 1 && question[i].css.length === 1 && question[i].javascript.length === 1){
+            if(question[i].html[0] === '' && question[i].css[0] === '' && question[i].javascript[0] === '') {
+                var textarea = document.createElement("textarea");
+                para.appendChild(textarea);
+            }
+            else{
+                link = document.createElement("a");
+                link.setAttribute("href", examUrl);
+                link.setAttribute("target", "_black");
+                link.setAttribute("id", "link"+x);
+                v = document.createTextNode("JSBIN");
+                link.appendChild(v);
+                para.appendChild(link);
+            }
+        }
+        else{
+            link = document.createElement("a");
+            link.setAttribute("href", examUrl);
+            link.setAttribute("target", "_black");
+            link.setAttribute("id", "link"+x);
+            v = document.createTextNode("JSBIN");
+            link.appendChild(v);
+            para.appendChild(link);
+        }
+        para.setAttribute("class", "question");                         // Add class to node p
+        document.getElementById("divQuestion").appendChild(para);        // Append node p to div*/
+    }
 }

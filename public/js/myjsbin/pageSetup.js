@@ -25,11 +25,11 @@ function callForClockAulaStatus() {
                 switch (clockStatus){
                     case "ready":
                         timeout = 500 + Math.floor(Math.random()*500);
-                        examUrl = data.url;
                         break;
                     case "start":
                         examUrl = data.url;
                         //window.location.href = examUrl;
+                        $('#btnList').css('display', 'inline-block');
                         break;
                 }
             }
@@ -53,7 +53,7 @@ function setupLoginStudent(){
             if(data.ok){
                 //alert(data.content);
                 var res = JSON.parse(data.content);
-                $('.studentLog').append(res.cover);
+                $('.log').append(res.cover);
             }
         },
         error: function () {

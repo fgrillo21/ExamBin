@@ -3,13 +3,19 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>list Question</title>
+    <link rel="stylesheet" href="{{static}}/css/myjsbin/bootstrap.min.css">
     <link rel="stylesheet" href="{{static}}/css/myjsbin/listQuestion.css">
 </head>
 <body>
-<div>
+<div class="center">
+    <div class="divCountDown">
+        <span id="Countdown" class="button">Tempo rimasto:</span>
+    </div>
     <h1>LISTA DOMANDE</h1>
+    <div id="divQuestion"></div>
 </div>
 </body>
+<script src="{{static}}/js/myjsbin/countdown_v5.0/countdown.js"></script>
 <script src="{{static}}/js/vendor/jquery-1.11.0.min.js"></script>
 <script src="{{static}}/js/myjsbin/listQuestion.js"></script>
 </html>

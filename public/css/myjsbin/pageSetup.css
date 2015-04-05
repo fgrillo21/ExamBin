@@ -12,3 +12,13 @@
     height:auto;
 
 }
+
+#divList {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#btnList{
+    margin: 10px;
+    display: none;
+}

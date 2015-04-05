@@ -627,21 +627,38 @@ function getFromFile(name, cover, question){
 
     document.getElementById("inputNameExam").value = name;
     for(i=0; i<cover.length; i++) {
-        document.getElementById("inputCoverExam").value += cover[i] + "\n";
+        if(i !== cover.length -1)
+            document.getElementById("inputCoverExam").value += cover[i] + "\n";
+        else {
+            /* se è l'ultimo elemento l'andata a capo non viene aggiunta */
+            document.getElementById("inputCoverExam").value += cover[i];
+        }
     }
     for(i=0; i<question.length; i++){
         var z = (i+1);
         for(j=0; j<question[i].text.length; j++) {
-            document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+            if (j !== question[i].text.length -1)
+                document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+            else
+                document.getElementById("inputText" + z).value += question[i].text[j];
         }
         for(j=0; j<question[i].html.length; j++) {
-            document.getElementById("inputHtml" + z).value += question[i].html[j] + "\n";
+            if (j !== question[i].html.length -1)
+                document.getElementById("inputHtml" + z).value += question[i].html[j] + "\n";
+            else
+                document.getElementById("inputHtml" + z).value += question[i].html[j];
         }
         for(j=0; j<question[i].css.length; j++) {
-            document.getElementById("inputCss" + z).value += question[i].css[j] + "\n";
+            if (j !== question[i].css.length -1)
+                document.getElementById("inputCss" + z).value += question[i].css[j] + "\n";
+            else
+                document.getElementById("inputCss" + z).value += question[i].css[j];
         }
         for(j=0; j<question[i].javascript.length; j++) {
-            document.getElementById("inputJavascript" + z).value += question[i].javascript[j] + "\n";
+            if (j !== question[i].javascript.length -1)
+                document.getElementById("inputJavascript" + z).value += question[i].javascript[j] + "\n";
+            else
+                document.getElementById("inputJavascript" + z).value += question[i].javascript[j];
         }
     }
 }
