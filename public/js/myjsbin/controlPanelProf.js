@@ -416,26 +416,17 @@ function callForClockAulaStatus() {
                     case "notest":
                         break;
                     case "setup":
-                       /* $("#setup-tab").attr('class', 'disabled');
-                        $("#start-tab").attr('class', 'active');
-                        $('div[class*="tab-pane"]').removeClass("active in");*/
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         break;
                     case "over":
                         $("#divInfoTime").hide();
                         $('#btnSubmitClockData').attr('class', 'btn btn-default active');
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
-                        $("#setup-tab").attr('class', 'active');
                     case "almostover":
                     case "overtime":
                         countdownTime = data.durationOverTime;
                         createCountdownObject(countdownTime);
                     case "ready":
-                        /*$("#setup-tab").attr('class', 'disabled');
-                        $("#start-tab").attr('class', 'disabled');
-                        $("#examInfo-tab").attr('class', 'active');
-                        $('div[class*="tab-pane"]').removeClass("active in");
-                        $('#examInfo').addClass('in active');*/
                         break;
 
                     case "start":
@@ -444,7 +435,6 @@ function callForClockAulaStatus() {
                         $('#btnSubmitClockData').attr('class', 'btn btn-default disabled');
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg disabled');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg disabled');
-                        $("#setup-tab").attr('class', 'disabled');
                         break;
                 }
             }
@@ -462,55 +452,36 @@ function callForClockAulaStatus() {
 }
 
 function setClockAulaStatus(data) {
-    //if (fileUploaded === true || createObjJson === true) {
-        $.ajax({
-            url: "setClockAula", //this is the right route
-            dataType: "json",
-            type: "POST",
-            data: data,
-            success: function (response) {
-                console.log(response);
-                if (response.ok) {
-                    switch (data.status) {
-                        case "setup":
-                            /*$("#setup-tab").attr('class', 'disabled');
-                            $("#start-tab").attr('class', 'active');
-                            $('div[class*="tab-pane"]').removeClass("active in");
-                            $('#start').addClass('in active');
-                            break;*/
-                        case "ready":
-                            /*$("#setup-tab").attr('class', 'disabled');
-                            $("#start-tab").attr('class', 'disabled');
-                            $("#examInfo-tab").attr('class', 'active');
-                            $('div[class*="tab-pane"]').removeClass("active in");
-                            $('#examInfo').addClass('in active');
-                            break;*/
-                            $('#hours').text(getHours());
-                            break;
-                        case "notest":
-                            /*$("#setup-tab").attr('class', 'active');
-                            $("#start-tab").attr('class', 'disabled');
-                            $("#examInfo-tab").attr('class', 'disabled');
-                            $('div[class*="tab-pane"]').removeClass("active in");
-                            $('#setup').addClass('in active');*/
-                            fileUploaded = false;
-                            fileSelect = false;
-                            clockUploaded = false;
-                            createObjJson = false;
-                            createCountdownObject(0);
-                            //$("#divRestartExamSession").hide();
-                            break;
-                    }
-                } else {
-                    alert("Si è verificato un errore nel passaggio allo stato di : " + data.status.toUpperCase());
+    $.ajax({
+        url: "setClockAula",
+        dataType: "json",
+        type: "POST",
+        data: data,
+        success: function (response) {
+            console.log(response);
+            if (response.ok) {
+                switch (data.status) {
+                    case "setup":
+                    case "ready":
+                        $('#hours').text(getHours());
+                        break;
+                    case "notest":
+                        fileUploaded = false;
+                        fileSelect = false;
+                        clockUploaded = false;
+                        createObjJson = false;
+                        createCountdownObject(0);
+                        break;
                 }
-            },
-
-            error: function () {
-                alert("Si è verificato un problema");
+            } else {
+                alert("Si è verificato un errore nel passaggio allo stato di : " + data.status.toUpperCase());
             }
-        });
-    //}
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
+        }
+    });
 }
 
 function appendLastFile(path, name){
@@ -522,7 +493,7 @@ function appendLastFile(path, name){
         success: function (response) {
             console.log(response);
             if (response.ok){
-                $('.list').append("<option id=\"select"+selectNumber+"\" data-link=\""+path+"\">"+name+"</option>");
+                $('.list').append("<option th=\"select"+selectNumber+"\" data-link=\""+path+"\">"+name+"</option>");
             } else {
                 alert("Si è verificato un errore");
             }
@@ -576,6 +547,7 @@ function validateClockInput(){
 function getValueToInput(){
     var objJson = {};
     var q = [];
+    var objQuestion = {};
     var name = document.getElementById("inputNameExam").value;
     if(name !== ""){
         var cover = document.getElementById("inputCoverExam").value;
@@ -586,25 +558,69 @@ function getValueToInput(){
         objJson.name = objName;
         objJson.cover = objCover;
 
-        var i;
-        for(i=1; i<=len; i++){
-            var idText = "inputText"+i;
-            var idHtml = "inputHtml"+i;
-            var idCss = "inputCss"+i;
-            var idJavascript = "inputJavascript"+i;
-            var text = document.getElementById(idText).value;
-            var html = document.getElementById(idHtml).value;
-            var css = document.getElementById(idCss).value;
-            var javascript = document.getElementById(idJavascript).value;
-            var objQuestion = {
-                text: text.split("\n"),
-                html: html.split("\n"),
-                css: css.split("\n"),
-                javascript: javascript.split("\n")
-            };
-            JSON.stringify(objQuestion);
-            objJson.question = q;
-            q.push(objQuestion);
+        for(var i=1; i<=len; i++) {
+            var divChoise = [];
+            var c1 = document.getElementById("choisea"+i).value;
+            var c2 = document.getElementById("choiseb"+i).value;
+            var c3 = document.getElementById("choisec"+i).value;
+            var c4 = document.getElementById("choised"+i).value;
+            divChoise.push(c1);
+            divChoise.push(c2);
+            divChoise.push(c3);
+            divChoise.push(c4);
+            var text = document.getElementById("inputText"+i).value;
+            var html = document.getElementById("inputHtml"+i).value;
+            var css = document.getElementById("inputCss"+i).value;
+            var javascript = document.getElementById("inputJavascript"+i).value;
+
+            var typeQuestion = document.getElementById("choiseTypeQuestion"+i).value;
+            /* domanda a risposta aperta */
+            if(typeQuestion === "text"){
+                objQuestion = {
+                    type: "text",
+                    text: text.split("\n")
+                };
+                objJson.question = q;
+                q.push(objQuestion);
+            }
+            /* domanda che necessita della presenza di jbin */
+            else if(typeQuestion === "jsbin"){
+                /* questo è il caso in cui il professore permette allo studente di usare jsbin per rispondere ad una domanda ma non gli da nessun
+                 * tipo di aiuto per partire */
+                if(html === '' && css === '' && javascript === ''){
+                    objQuestion = {
+                        type: "jsbin",
+                        text: text.split("\n")
+                    };
+                }
+                else {
+                    objQuestion = {
+                        type: "jsbin",
+                        text: text.split("\n"),
+                        html: html.split("\n"),
+                        css: css.split("\n"),
+                        javascript: javascript.split("\n")
+                    };
+                }
+                objJson.question = q;
+                q.push(objQuestion);
+            }
+            /* domanda a risposta multipla */
+            else if(typeQuestion === "radio"){
+                var res = validateMoreChoise(divChoise);
+                if(res === true) {
+                    objQuestion = {
+                        type: "radio",
+                        text: text.split("\n"),
+                        options: divChoise
+                    };
+                    objJson.question = q;
+                    q.push(objQuestion);
+                }
+                else{
+                    alert(res);
+                }
+            }
         }
         createObjJson = true;
         console.log("JSON: ", objJson);
@@ -612,6 +628,22 @@ function getValueToInput(){
     }
 }
 
+/* Le checkbox sono o tutte nulle o tutte inizializzate, in questo modo le domande a risposta multipla avranno sempre 4 opzioni possibili */
+function validateMoreChoise(divChoise){
+    var countNotNull = 0;
+    for (var j = 0; j < 4; j++) {
+        if (divChoise[j] !== '') {
+            countNotNull++;
+            alert("notNull");
+        }
+    }
+    if(countNotNull === 4){
+        return true;
+    }
+    else{
+        return "tutti i 4 campi devono essere riempiti";
+    }
+}
 
 /* questa funzione prende in input i valori presenti nel file selezionato, rispettivamente dei campi: "nome della prova", "copertina per lo studente"
  * "array di domande". questi valori vengono trasferiti nei rispettivi campi di input */
@@ -623,7 +655,7 @@ function getFromFile(name, cover, question){
     }
 
     /* se precedentemente era stato selezionato un altro file, questa funzione permette di cancellare i dati già presenti prima di caricare i nuovi */
-    clearInput(question.length);
+    clearInput(question);
 
     document.getElementById("inputNameExam").value = name;
     for(i=0; i<cover.length; i++) {
@@ -636,41 +668,70 @@ function getFromFile(name, cover, question){
     }
     for(i=0; i<question.length; i++){
         var z = (i+1);
-        for(j=0; j<question[i].text.length; j++) {
-            if (j !== question[i].text.length -1)
-                document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
-            else
-                document.getElementById("inputText" + z).value += question[i].text[j];
+        document.getElementById("choiseTypeQuestion"+ z).value += question[i].type;
+        if(question[i].type === "radio"){
+            for(j=0; j<question[i].text.length; j++) {
+                if (j !== question[i].text.length -1)
+                    document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+                else
+                    document.getElementById("inputText" + z).value += question[i].text[j];
+            }
+            document.getElementById("choisea" + z).value += question[i].options[0];
+            document.getElementById("choiseb" + z).value += question[i].options[1];
+            document.getElementById("choisec" + z).value += question[i].options[2];
+            document.getElementById("choised" + z).value += question[i].options[3];
         }
-        for(j=0; j<question[i].html.length; j++) {
-            if (j !== question[i].html.length -1)
-                document.getElementById("inputHtml" + z).value += question[i].html[j] + "\n";
-            else
-                document.getElementById("inputHtml" + z).value += question[i].html[j];
+        else if(question[i].type === "text"){
+            for(j=0; j<question[i].text.length; j++) {
+                if (j !== question[i].text.length -1)
+                    document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+                else
+                    document.getElementById("inputText" + z).value += question[i].text[j];
+            }
         }
-        for(j=0; j<question[i].css.length; j++) {
-            if (j !== question[i].css.length -1)
-                document.getElementById("inputCss" + z).value += question[i].css[j] + "\n";
-            else
-                document.getElementById("inputCss" + z).value += question[i].css[j];
-        }
-        for(j=0; j<question[i].javascript.length; j++) {
-            if (j !== question[i].javascript.length -1)
-                document.getElementById("inputJavascript" + z).value += question[i].javascript[j] + "\n";
-            else
-                document.getElementById("inputJavascript" + z).value += question[i].javascript[j];
+        else if(question[i].type === "jsbin") {
+            for (j = 0; j < question[i].text.length; j++) {
+                if (j !== question[i].text.length - 1)
+                    document.getElementById("inputText" + z).value += question[i].text[j] + "\n";
+                else
+                    document.getElementById("inputText" + z).value += question[i].text[j];
+            }
+            if(question[i].hasOwnProperty('html')){
+                for (j = 0; j < question[i].html.length; j++) {
+                    if (j !== question[i].html.length - 1)
+                        document.getElementById("inputHtml" + z).value += question[i].html[j] + "\n";
+                    else
+                        document.getElementById("inputHtml" + z).value += question[i].html[j];
+                }
+            }
+            if(question[i].hasOwnProperty('css')) {
+                for (j = 0; j < question[i].css.length; j++) {
+                    if (j !== question[i].css.length - 1)
+                        document.getElementById("inputCss" + z).value += question[i].css[j] + "\n";
+                    else
+                        document.getElementById("inputCss" + z).value += question[i].css[j];
+                }
+            }
+            if(question[i].hasOwnProperty('javascript')) {
+                for (j = 0; j < question[i].javascript.length; j++) {
+                    if (j !== question[i].javascript.length - 1)
+                        document.getElementById("inputJavascript" + z).value += question[i].javascript[j] + "\n";
+                    else
+                        document.getElementById("inputJavascript" + z).value += question[i].javascript[j];
+                }
+            }
         }
     }
 }
 
 /* questa funzione prende in input il numero di domande presenti nel file selezionato e svuota i campi di input */
-function clearInput(length){
+function clearInput(question){
     var i;
     /* numero di div (domande) già presenti nella schermata */
     var totDiv = $('div[id^="question"]').length;
     /* se il numero di domande prensenti nel file è minore del numero di div presenti vengono cancellati i div che non sono necessari */
-    if(length < totDiv){
-        for(i=totDiv; i>length; i--) {
+    if(question.length < totDiv){
+        for(i=totDiv; i>question.length; i--) {
             $("#question" + i).remove();
             len--;
             count--;
@@ -679,13 +740,17 @@ function clearInput(length){
 
     document.getElementById("inputNameExam").value = '';
     document.getElementById("inputCoverExam").value = '';
-    for(i=0; i<=length; i++){
-        var z = 1;
+    for(i=0; i<question.length; i++){
+        var z = i+1;
+        document.getElementById("choiseTypeQuestion"+ z).value = '';
         document.getElementById("inputText" + z).value = '';
+        document.getElementById("choisea" + z).value = '';
+        document.getElementById("choiseb" + z).value = '';
+        document.getElementById("choisec" + z).value = '';
+        document.getElementById("choised" + z).value = '';
         document.getElementById("inputHtml" + z).value = '';
         document.getElementById("inputCss" + z).value = '';
         document.getElementById("inputJavascript" + z).value = '';
-        z++;
     }
 }
 
@@ -697,23 +762,43 @@ function switchUpQuestion(button){
     var precDiv = document.getElementById("question"+precId);
     if(precDiv){
         /* salvo i valori della domanda corrente */
+        var typeCurrent = document.getElementById("choiseTypeQuestion"+sliceId).value;
         var textCurrent = document.getElementById("inputText"+sliceId).value;
+        var choiseaCurrent = document.getElementById("choisea"+sliceId).value;
+        var choisebCurrent = document.getElementById("choiseb"+sliceId).value;
+        var choisecCurrent = document.getElementById("choisec"+sliceId).value;
+        var choisedCurrent = document.getElementById("choised"+sliceId).value;
         var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
         var cssCurrent = document.getElementById("inputCss"+sliceId).value;
         var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
         /* salvo i valori della domanda precendente */
+        var typePrec = document.getElementById("choiseTypeQuestion"+precId).value;
         var textPrec = document.getElementById("inputText"+precId).value;
+        var choiseaPrec = document.getElementById("choisea"+precId).value;
+        var choisebPrec = document.getElementById("choiseb"+precId).value;
+        var choisecPrec = document.getElementById("choisec"+precId).value;
+        var choisedPrec = document.getElementById("choised"+precId).value;
         var htmlPrec = document.getElementById("inputHtml"+precId).value;
         var cssPrec = document.getElementById("inputCss"+precId).value;
         var javascriptPrec = document.getElementById("inputJavascript"+precId).value;
 
         /* la domanda corrente assume i valori di quella precedente e viceveresa */
+        document.getElementById("choiseTypeQuestion"+sliceId).value = typePrec;
         document.getElementById("inputText"+sliceId).value = textPrec;
+        document.getElementById("choisea"+sliceId).value = choiseaPrec;
+        document.getElementById("choiseb"+sliceId).value = choisebPrec;
+        document.getElementById("choisec"+sliceId).value = choisecPrec;
+        document.getElementById("choised"+sliceId).value = choisedPrec;
         document.getElementById("inputHtml"+sliceId).value = htmlPrec;
         document.getElementById("inputCss"+sliceId).value = cssPrec;
         document.getElementById("inputJavascript"+sliceId).value = javascriptPrec;
 
+        document.getElementById("choiseTypeQuestion"+precId).value = typeCurrent;
         document.getElementById("inputText"+precId).value = textCurrent;
+        document.getElementById("choisea"+precId).value = choiseaCurrent;
+        document.getElementById("choiseb"+precId).value = choisebCurrent;
+        document.getElementById("choisec"+precId).value = choisecCurrent;
+        document.getElementById("choised"+precId).value = choisedCurrent;
         document.getElementById("inputHtml"+precId).value = htmlCurrent;
         document.getElementById("inputCss"+precId).value = cssCurrent;
         document.getElementById("inputJavascript"+precId).value = javascriptCurrent;
@@ -728,23 +813,43 @@ function switchDownQuestion(button){
     var succDiv = document.getElementById("question"+succId);
     if(succDiv){
         /* salvo i valori della domanda corrente */
+        var typeCurrent = document.getElementById("choiseTypeQuestion"+sliceId).value;
         var textCurrent = document.getElementById("inputText"+sliceId).value;
+        var choiseaCurrent = document.getElementById("choisea"+sliceId).value;
+        var choisebCurrent = document.getElementById("choiseb"+sliceId).value;
+        var choisecCurrent = document.getElementById("choisec"+sliceId).value;
+        var choisedCurrent = document.getElementById("choised"+sliceId).value;
         var htmlCurrent = document.getElementById("inputHtml"+sliceId).value;
         var cssCurrent = document.getElementById("inputCss"+sliceId).value;
         var javascriptCurrent = document.getElementById("inputJavascript"+sliceId).value;
-        /* salvo i valori della domanda precendente */
+        /* salvo i valori della domanda successiva */
+        var typeSucc = document.getElementById("choiseTypeQuestion"+succId).value;
         var textSucc = document.getElementById("inputText"+succId).value;
+        var choiseaSucc = document.getElementById("choisea"+succId).value;
+        var choisebSucc = document.getElementById("choiseb"+succId).value;
+        var choisecSucc = document.getElementById("choisec"+succId).value;
+        var choisedSucc = document.getElementById("choised"+succId).value;
         var htmlSucc = document.getElementById("inputHtml"+succId).value;
         var cssSucc = document.getElementById("inputCss"+succId).value;
         var javascriptSucc = document.getElementById("inputJavascript"+succId).value;
 
         /* la domanda corrente assume i valori di quella successiva e viceveresa */
+        document.getElementById("choiseTypeQuestion"+sliceId).value = typeSucc;
         document.getElementById("inputText"+sliceId).value = textSucc;
+        document.getElementById("choisea"+sliceId).value = choiseaSucc;
+        document.getElementById("choiseb"+sliceId).value = choisebSucc;
+        document.getElementById("choisec"+sliceId).value = choisecSucc;
+        document.getElementById("choised"+sliceId).value = choisedSucc;
         document.getElementById("inputHtml"+sliceId).value = htmlSucc;
         document.getElementById("inputCss"+sliceId).value = cssSucc;
         document.getElementById("inputJavascript"+sliceId).value = javascriptSucc;
 
+        document.getElementById("choiseTypeQuestion"+succId).value = typeCurrent;
         document.getElementById("inputText"+succId).value = textCurrent;
+        document.getElementById("choisea"+succId).value = choiseaCurrent;
+        document.getElementById("choiseb"+succId).value = choisebCurrent;
+        document.getElementById("choisec"+succId).value = choisecCurrent;
+        document.getElementById("choised"+succId).value = choisedCurrent;
         document.getElementById("inputHtml"+succId).value = htmlCurrent;
         document.getElementById("inputCss"+succId).value = cssCurrent;
         document.getElementById("inputJavascript"+succId).value = javascriptCurrent;
@@ -788,8 +893,6 @@ function remove(button){
 function updateId(element){
     /* id e name */
     element.id = "question"+count;
-    var currentDivId = element.id;
-    console.log("div "+currentDivId);
     /* label */
     element.getElementsByTagName("label")[0].id = "label"+count;
     element.getElementsByTagName("label")[0].innerHTML = "Domanda n."+count;
@@ -800,11 +903,18 @@ function updateId(element){
     element.getElementsByTagName("a")[3].href = "javascript"+count;
     /* id tab menu */
     element.getElementsByTagName("div")[2].id = "text"+count;
-    element.getElementsByTagName("div")[3].id = "html"+count;
-    element.getElementsByTagName("div")[4].id = "css"+count;
-    element.getElementsByTagName("div")[5].id = "javascript"+count;
+    element.getElementsByTagName("div")[3].id = "divChoise"+count;
+    element.getElementsByTagName("div")[4].id = "html"+count;
+    element.getElementsByTagName("div")[5].id = "css"+count;
+    element.getElementsByTagName("div")[6].id = "javascript"+count;
+    /* input */
+    element.getElementsByTagName("input")[0].id = "choiseTypeQuestion"+count;
+    element.getElementsByTagName("input")[1].id = "choisea"+count;
+    element.getElementsByTagName("input")[2].id = "choiseb"+count;
+    element.getElementsByTagName("input")[3].id = "choisec"+count;
+    element.getElementsByTagName("input")[4].id = "choised"+count;
     /* textarea question */
-    element.getElementsByTagName("textarea")[0].id = "inputText" + count;
+    element.getElementsByTagName("textarea")[0].id = "inputText"+count;
     element.getElementsByTagName("textarea")[1].id = "inputHtml"+count;
     element.getElementsByTagName("textarea")[2].id = "inputCss"+count;
     element.getElementsByTagName("textarea")[3].id = "inputJavascript"+count;
@@ -836,7 +946,7 @@ function getDataItalianFormat(){
 
 function updateTable(){
     $.ajax({
-        url: "getDataStudent", //this is the right route
+        url: "getDataStudent",
         dataType: "json",
         success: function (data){
             //console.log("RISULTATIIIII " + data.studentName + data.studentSurname);

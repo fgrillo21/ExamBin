@@ -75,9 +75,6 @@ div.wrapper > section {
     width:50%;
 }
 
-label::after {
-    content: " :";
-}
 label {
     float: left;
     display: inline-block;
@@ -85,6 +82,13 @@ label {
 }
 
 .center {
+    text-align: center;
+}
+
+.verticalCenter{
+    width: 200px;
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
 }
 
@@ -206,6 +210,31 @@ li > a {
 }
 
 /* NEW GRAPHICS */
+
+.inputChoise{
+    display: inline-block;
+    width: 156px;
+    height: 34px;
+    font-size: 14px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[id^='choisea']{
+    border-color: forestgreen;
+    box-shadow: 0 0 5px rgba(20, 220, 0, 0.4);
+}
+
+input[id^='choiseTypeQuestion']{
+    border-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#choiseTypeQuestion{
+    height: 120px;
+}
 
 .divConfig{
     width: 80%;

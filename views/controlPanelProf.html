@@ -177,6 +177,7 @@
                                                 <div id="question1">
                                                     <label class="col-md-2 control-label" id="label1">Domanda n.1</label>
                                                     <div class="col-md-9 border">
+                                                        <input type="text" class="form-control" id="choiseTypeQuestion1" placeholder="Inserisci tipologia domanda (text | radio | jsbin) --- [case sensitive]"/>
                                                         <ul class="nav nav-tabs" role="tablist">
                                                             <li class="active litext"><a href="#text1" role="tab" data-toggle="tab">Domanda</a></li>
                                                             <li class="lihtml"><a href="#html1" role="tab" data-toggle="tab">HTML</a></li>
@@ -185,16 +186,23 @@
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane fade active in" id="text1">
-                                                                <textarea class="form-control" id="inputText1" rows="6"></textarea>
+                                                                <textarea class="form-control" id="inputText1" rows="3"></textarea>
+                                                                <div id="divChoise1">
+                                                                    <input type='text' class="inputChoise" id='choisea1'/>
+                                                                    <input type='text' class="inputChoise" id='choiseb1'/>
+                                                                    <input type='text' class="inputChoise" id='choisec1'/>
+                                                                    <input type='text' class="inputChoise" id='choised1'/>
+                                                                </div>
+                                                                <!--<a href="#"><span class="fa fa-refresh" id="refresh" style="display: none;"></span></a>-->
                                                             </div>
                                                             <div class="tab-pane fade" id="html1">
-                                                                <textarea class="form-control" id="inputHtml1" rows="6"></textarea>
+                                                                <textarea class="form-control" id="inputHtml1" rows="5"></textarea>
                                                             </div>
                                                             <div class="tab-pane fade" id="css1">
-                                                                <textarea class="form-control" id="inputCss1" rows="6"></textarea>
+                                                                <textarea class="form-control" id="inputCss1" rows="5"></textarea>
                                                             </div>
                                                             <div class="tab-pane fade" id="javascript1">
-                                                                <textarea class="form-control" id="inputJavascript1" rows="6"></textarea>
+                                                                <textarea class="form-control" id="inputJavascript1" rows="5"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
