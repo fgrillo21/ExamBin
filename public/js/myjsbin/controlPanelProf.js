@@ -634,7 +634,6 @@ function validateMoreChoise(divChoise){
     for (var j = 0; j < 4; j++) {
         if (divChoise[j] !== '') {
             countNotNull++;
-            alert("notNull");
         }
     }
     if(countNotNull === 4){

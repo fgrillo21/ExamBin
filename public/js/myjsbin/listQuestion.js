@@ -7,6 +7,11 @@ var MILLIS2SEC = 1000;
 function mainFunction() {
     callForClockAulaStatus();
     loadQuestion();
+
+    $(document).on('click','a[id^="link"]', function(){
+        var id = $(this).attr("id");
+        loadValueToJsbin(id.slice(-1));
+    });
 }
 
 function createCountdownElement(millisec){
@@ -91,8 +96,24 @@ function loadQuestion(){
     });
 }
 
+function loadValueToJsbin(id){
+    $.ajax({
+        url: "loadValueToJsbin",
+        dataType: "json",
+        data: {id:id},
+        type: "POST",
+        success: function (data){
+            //alert(data);
+        },
+
+        error: function () {
+            alert("Si è verificato un problema load to Jsbin");
+        }
+    });
+}
+
 function add(question){
-    var i, j, link, v;
+    var i, j, link,textarea, input,label, v;
     for(i=0; i<question.length; i++) {
         var z = (i+1) + ". ";
         var x = i+1;
@@ -105,7 +126,35 @@ function add(question){
             var newLine = document.createElement('br');
             para.appendChild(newLine);
         }
-        if(question[i].html.length === 1 && question[i].css.length === 1 && question[i].javascript.length === 1){
+        if(question[i].type === "text"){
+            textarea = document.createElement("textarea");
+            textarea.setAttribute("id", "textarea"+x);
+            para.appendChild(textarea);
+        }
+        else if(question[i].type === "radio") {
+            for (var k = 0; k < 4; k++) {
+                var textChoise = document.createTextNode(question[i].options[k] + "\n");
+                input = document.createElement("input");
+                label = document.createElement("label");
+                input.setAttribute("type", "radio");
+                input.setAttribute("id", "choisea" + k+1);
+                input.setAttribute("value", question[i].options[k]);
+                label.appendChild(textChoise);
+                para.appendChild(input);
+                para.appendChild(label);
+                para.appendChild(document.createElement("br"));
+            }
+        }
+        else{
+            link = document.createElement("a");
+            link.setAttribute("href", examUrl);
+            link.setAttribute("target", "_black");
+            link.setAttribute("id", "link"+x);
+            v = document.createTextNode("JSBIN");
+            link.appendChild(v);
+            para.appendChild(link);
+        }
+       /* if(question[i].html.length === 1 && question[i].css.length === 1 && question[i].javascript.length === 1){
             if(question[i].html[0] === '' && question[i].css[0] === '' && question[i].javascript[0] === '') {
                 var textarea = document.createElement("textarea");
                 para.appendChild(textarea);
@@ -128,7 +177,7 @@ function add(question){
             v = document.createTextNode("JSBIN");
             link.appendChild(v);
             para.appendChild(link);
-        }
+        }*/
         para.setAttribute("class", "question");                         // Add class to node p
         document.getElementById("divQuestion").appendChild(para);        // Append node p to div*/
     }

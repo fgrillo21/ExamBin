@@ -13,3 +13,10 @@
 textarea{
     width: 50%;
 }
+
+input, label {
+    display:inline-block;
+}
+label{
+    width:200px;
+}
