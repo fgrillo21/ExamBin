@@ -154,30 +154,6 @@ function add(question){
             link.appendChild(v);
             para.appendChild(link);
         }
-       /* if(question[i].html.length === 1 && question[i].css.length === 1 && question[i].javascript.length === 1){
-            if(question[i].html[0] === '' && question[i].css[0] === '' && question[i].javascript[0] === '') {
-                var textarea = document.createElement("textarea");
-                para.appendChild(textarea);
-            }
-            else{
-                link = document.createElement("a");
-                link.setAttribute("href", examUrl);
-                link.setAttribute("target", "_black");
-                link.setAttribute("id", "link"+x);
-                v = document.createTextNode("JSBIN");
-                link.appendChild(v);
-                para.appendChild(link);
-            }
-        }
-        else{
-            link = document.createElement("a");
-            link.setAttribute("href", examUrl);
-            link.setAttribute("target", "_black");
-            link.setAttribute("id", "link"+x);
-            v = document.createTextNode("JSBIN");
-            link.appendChild(v);
-            para.appendChild(link);
-        }*/
         para.setAttribute("class", "question");                         // Add class to node p
         document.getElementById("divQuestion").appendChild(para);        // Append node p to div*/
     }

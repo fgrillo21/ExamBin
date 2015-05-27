@@ -28,7 +28,6 @@ function callForClockAulaStatus() {
                         break;
                     case "start":
                         examUrl = data.url;
-                        //window.location.href = examUrl;
                         $('#btnList').css('display', 'inline-block');
                         break;
                 }
