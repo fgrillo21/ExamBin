@@ -3,6 +3,10 @@ var examUrl = null;
 var clockStatus = null;
 var timeout;
 var MILLIS2SEC = 1000;
+var check1 = 0;
+var check2 = 0;
+var check3 = 0;
+var check4 = 0;
 
 function mainFunction() {
     callForClockAulaStatus();
@@ -11,6 +15,121 @@ function mainFunction() {
     $(document).on('click','a[id^="link"]', function(){
         var id = $(this).attr("id");
         loadValueToJsbin(id.slice(-1));
+    });
+
+    /* Gestione click checkbox, di seguito viene riportata la logica implementativa solo del primo caso, in quanto tutti gli altri sono analoghi */
+    $(document).on('click','input[id^="choise"]', function(){
+        var i, ID;
+        var id = $(this).attr("id");
+        var lastCharId = id.slice(-1);
+        console.log("idvalue "+lastCharId);
+        var checked = "check"+lastCharId;
+        /* primo checkbox */
+        if(checked === "check1"){
+            /* se la variabile booleana è ad uno vuol dire che il checkbox è già stato spuntato e l'utente vuole rimuove la spunta
+             * (change your mind) */
+            if(check1 === 1) {
+                document.getElementById(id).setAttribute("checked", "false");
+                document.getElementById(id).checked = false;
+                check1 = 0;
+            }
+            /* altrimenti lo si sta checkando per la prima volta e tutti gli altri vengono disabilitati, in quanto allo studente viene concesso di
+             * scegliere solo una delle quattro opzioni */
+            else {
+                for (i = 1; i <= 4; i++) {
+                    if(i !== 1) {
+                        ID = id.slice(0,7)+i;
+                        document.getElementById(ID).setAttribute("checked", "false");
+                        document.getElementById(ID).checked = false;
+                    }
+                    else{
+                        document.getElementById(id).setAttribute("checked", "true");
+                    }
+                }
+
+                check1 = 1;
+                check2 = 0;
+                check3 = 0;
+                check4 = 0;
+            }
+        }
+        /* secondo checkbox */
+        if(checked === "check2"){
+            if(check2 === 1) {
+                document.getElementById(id).setAttribute("checked", "false");
+                document.getElementById(id).checked = false;
+                check2 = 0;
+            }
+            else {
+                for (i = 1; i <= 4; i++) {
+                    console.log("i "+i);
+                    if(i !== 2) {
+                        ID = id.slice(0,7)+i;
+                        document.getElementById(ID).setAttribute("checked", "false");
+                        document.getElementById(ID).checked = false;
+                    }
+                    else{
+                        document.getElementById(id).setAttribute("checked", "true");
+                    }
+                }
+                check1 = 0;
+                check2 = 1;
+                check3 = 0;
+                check4 = 0;
+            }
+        }
+        /* terzo checkbox */
+        if(checked === "check3"){
+            if(check3 === 1) {
+                document.getElementById(id).setAttribute("checked", "false");
+                document.getElementById(id).checked = false;
+                check3 = 0;
+            }
+            else {
+                for (i = 1; i <= 4; i++) {
+                    console.log("i "+i);
+                    if(i !== 3) {
+                        ID = id.slice(0,7)+i;
+                        document.getElementById(ID).setAttribute("checked", "false");
+                        document.getElementById(ID).checked = false;
+                    }
+                    else{
+                        document.getElementById(id).setAttribute("checked", "true");
+                    }
+                }
+
+                check1 = 0;
+                check2 = 0;
+                check3 = 1;
+                check4 = 0;
+            }
+        }
+        /* quarto checkbox */
+        if(checked === "check4"){
+            if(check4 === 1) {
+                document.getElementById(id).setAttribute("checked", "false");
+                document.getElementById(id).checked = false;
+                check4 = 0;
+            }
+            else {
+                for (i = 1; i <= 4; i++) {
+                    console.log("i "+i);
+                    if(i !== 4) {
+                        ID = id.slice(0,7)+i;
+                        document.getElementById(ID).setAttribute("checked", "false");
+                        document.getElementById(ID).checked = false;
+                    }
+                    else{
+                        document.getElementById(id).setAttribute("checked", "true");
+                    }
+                }
+
+                check1 = 0;
+                check2 = 0;
+                check3 = 0;
+                check4 = 1;
+            }
+        }
     });
 }
 
@@ -126,25 +245,36 @@ function add(question){
             var newLine = document.createElement('br');
             para.appendChild(newLine);
         }
+        /* domanda a risposta aperta */
         if(question[i].type === "text"){
             textarea = document.createElement("textarea");
             textarea.setAttribute("id", "textarea"+x);
             para.appendChild(textarea);
         }
+        /* domanda a risposta multipla */
         else if(question[i].type === "radio") {
+            var arr = [];
+            /* salvo le quattro opzioni in un array */
+            for (var y = 0; y < 4; y++){
+                arr.push(question[i].options[y]);
+            }
+            /* inserisco randomicamente le 4 opzioni eliminando ogni volta quella inserita per evitare di inserirla 2 volte */
             for (var k = 0; k < 4; k++) {
-                var textChoise = document.createTextNode(question[i].options[k] + "\n");
+                var rand = Math.round((arr.length-1)*Math.random());
+                var textChoise = document.createTextNode(arr[rand] + "\n");
                 input = document.createElement("input");
                 label = document.createElement("label");
                 input.setAttribute("type", "radio");
-                input.setAttribute("id", "choisea" + k+1);
+                input.setAttribute("id", "choisea" + (k+1));
                 input.setAttribute("value", question[i].options[k]);
                 label.appendChild(textChoise);
                 para.appendChild(input);
                 para.appendChild(label);
                 para.appendChild(document.createElement("br"));
+                arr.splice(rand, 1);
             }
         }
+        /* jsbin */
         else{
             link = document.createElement("a");
             link.setAttribute("href", examUrl);
