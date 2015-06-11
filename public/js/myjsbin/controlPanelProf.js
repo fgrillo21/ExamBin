@@ -493,7 +493,17 @@ function appendLastFile(path, name){
         success: function (response) {
             console.log(response);
             if (response.ok){
-                $('.list').append("<option th=\"select"+selectNumber+"\" data-link=\""+path+"\">"+name+"</option>");
+                var exist = false;
+                var lenSelect = document.getElementById("listSelectExam").length;
+                var e = document.getElementById("listSelectExam");
+                for(var i=0; i<lenSelect; i++) {
+                    var strUser = e.options[i].value;
+                    if(strUser === name)
+                        exist = true;
+                }
+                if(!exist)
+                    $('.list').append("<option id=\"select"+selectNumber+"\" data-link=\""+path+"\">"+name+"</option>");
+
             } else {
                 alert("Si è verificato un errore");
             }

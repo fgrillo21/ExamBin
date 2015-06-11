@@ -28,7 +28,20 @@ function callForClockAulaStatus() {
                         break;
                     case "start":
                         examUrl = data.url;
-                        $('#btnList').css('display', 'inline-block');
+                        $.ajax({
+                            url: "/list", //this is the right route
+                            dataType: "json",
+                            type: "POST",
+                            data: data,
+                            success: function (response) {
+                                console.log(response);
+                                window.location.href = response.listQuestionUrl;
+                            },
+
+                            error: function () {
+                                alert("Si è verificato un problema");
+                            }
+                        });
                         break;
                 }
             }

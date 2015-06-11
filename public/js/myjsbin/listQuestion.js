@@ -258,7 +258,7 @@ function add(question){
             for (var y = 0; y < 4; y++){
                 arr.push(question[i].options[y]);
             }
-            /* inserisco randomicamente le 4 opzioni eliminando ogni volta quella inserita per evitare di inserirla 2 volte */
+            /* inserisco randomicamente le 4 opzioni eliminando ogni volta quella inserita per evitare che si ripeta */
             for (var k = 0; k < 4; k++) {
                 var rand = Math.round((arr.length-1)*Math.random());
                 var textChoise = document.createTextNode(arr[rand] + "\n");
