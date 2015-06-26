@@ -283,7 +283,7 @@ function mainFunction() {
         $(javascript).addClass("active in");
     });
 
-    /*gestione bottoni per estendere la durata della prova d'esame */
+    /************************* gestione bottoni per estendere la durata della prova d'esame ********************************************/
     $(document).on('click','#btnExstendOne', function(){
         $.ajax({
             url: "setDataOverTimeOne",
@@ -323,6 +323,12 @@ function mainFunction() {
             }
         });
     });
+
+    $(document).on('click','#btnExstendUndefine', function(){
+            /* DA FARE PRIMA O POI */
+    });
+
+    /***********************************************************************************************************************************/
 
     /* inverte la domanda corrente con quella subito prima se esiste */
     $(document).on('click','.switchUp', function(){
