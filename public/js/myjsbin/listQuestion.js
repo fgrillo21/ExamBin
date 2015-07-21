@@ -1,6 +1,7 @@
 $(document).ready(mainFunction);
 var examUrl = null;
 var clockStatus = null;
+var countdownTime = 0;
 var timeout;
 var MILLIS2SEC = 1000;
 var check1 = 0;
@@ -14,6 +15,13 @@ var w = 1;
 function mainFunction() {
     callForClockAulaStatus();
     loadQuestion();
+
+    $("#btnFinish").click(function() {
+        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler consegnare il tuo esame???\n\n cliccando su OK consegnerai il tuo elaborato definitivamente,\ne questa sarà la versione che verrà corretta");
+        if (confirmDelivery){
+            deliveryExam();
+        }
+    });
 
     $(document).on('click','a[id^="link"]', function(){
         var id = $(this).attr("id");
@@ -138,6 +146,11 @@ function callForClockAulaStatus() {
                 console.log("list "+data.status);
                 clockStatus = data.status;
                 switch (clockStatus){
+                    case "overtime":
+                        console.log("tempoooooooooooo "+ data.durationOverTime);
+                        countdownTime = data.durationOverTime;
+                        createCountdownObject(countdownTime);
+                        break;
                     case "start":
                         timeout = data.timeout;
                         createCountdownElement(timeout);
@@ -259,6 +272,32 @@ function storeIdJsbinChecked(id){
 
         error: function () {
             alert("Si è verificato un problema (json file)");
+        }
+    });
+}
+
+
+function deliveryExam(){
+    var urlExam = location.pathname.split('/')[1];
+    var examRevision = location.pathname.split('/')[2]
+
+    var data = {
+        urlExam: urlExam,
+        examRevision: examRevision
+    };
+    $.ajax({
+        url: "/deliveryExam", //this is the right route
+        dataType: "json",
+        type: "POST",
+        data: data,
+        success: function (response) { //TODO here I need a switch block to manage different clock status
+            console.log(response);
+            alert("esame consegnato con successo");
+            window.location.href = response.finishPageUrl;
+        },
+
+        error: function () {
+            alert("Si è verificato un problema");
         }
     });
 }

@@ -324,8 +324,24 @@ function mainFunction() {
         });
     });
 
-    $(document).on('click','#btnExstendUndefine', function(){
-            /* DA FARE PRIMA O POI */
+    $(document).on('click','#btnExstendHalfHour', function(){
+        $.ajax({
+            url: "setDataOverTimeHalfHour",
+            dataType: "json",
+            type: "POST",
+            success: function (response) {
+                if (response.ok) {
+                    overTime += 30;
+                    $("#divInfoTime").show();
+                    $("#spanInfoTime").text(overTime);
+                } else {
+                    alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
+                }
+            },
+            error: function () {
+                alert("Si è verificato un problema");
+            }
+        });
     });
 
     /***********************************************************************************************************************************/

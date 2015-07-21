@@ -1,3 +1,18 @@
+#btnFinish{
+    margin-top: 50%;
+    color: royalblue;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnFinish:hover {
+    background: -webkit-radial-gradient(center, ellipse cover, #f7fbfc 10%, dodgerblue 100%);
+    background: -moz-radial-gradient(center, ellipse cover, #f7fbfc 10%, dodgerblue 100%);
+    background: -o-radial-gradient(center, ellipse cover, #f7fbfc 10%, dodgerblue 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #f7fbfc 10%, dodgerblue 100%);
+    color: slategray;
+}
+
 .center{
     border: 2px solid #00008b;
     border-radius: 3px;
