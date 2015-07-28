@@ -259,6 +259,12 @@ input[id^='choiseTypeQuestion']{
     margin-bottom: 10px;
 }
 
+#NOEDIT{
+    margin-bottom: 15px;
+    text-align: center;
+    color: red;
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;

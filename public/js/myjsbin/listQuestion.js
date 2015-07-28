@@ -17,7 +17,7 @@ function mainFunction() {
     loadQuestion();
 
     $("#btnFinish").click(function() {
-        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler consegnare il tuo esame???\n\n cliccando su OK consegnerai il tuo elaborato definitivamente,\ne questa sarà la versione che verrà corretta");
+        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler consegnare il tuo esame???\n Cliccando su OK consegnerai il tuo elaborato definitivamente,\ne questa sarà la versione che verrà corretta");
         if (confirmDelivery){
             deliveryExam();
         }
@@ -143,11 +143,10 @@ function callForClockAulaStatus() {
         success: function (data) {
             console.log("dati arrivati");
             if (data.status !== clockStatus){
-                console.log("list "+data.status);
                 clockStatus = data.status;
+                console.log("STATUS SERVER "+clockStatus);
                 switch (clockStatus){
                     case "overtime":
-                        console.log("tempoooooooooooo "+ data.durationOverTime);
                         countdownTime = data.durationOverTime;
                         createCountdownObject(countdownTime);
                         break;
@@ -156,9 +155,12 @@ function callForClockAulaStatus() {
                         createCountdownElement(timeout);
                         examUrl = data.url;
                         break;
+                    case "over":
+                        deliveryExam();
+                        break;
                 }
             }
-            //setTimeout(callForClockAulaStatus, 5000);
+            setTimeout(callForClockAulaStatus, 5000);
         },
 
         error: function () {
@@ -292,7 +294,6 @@ function deliveryExam(){
         data: data,
         success: function (response) { //TODO here I need a switch block to manage different clock status
             console.log(response);
-            alert("esame consegnato con successo");
             window.location.href = response.finishPageUrl;
         },
 

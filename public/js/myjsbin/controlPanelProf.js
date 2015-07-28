@@ -9,6 +9,9 @@ var clockUploaded = false;
 var fileSelect = false;
 var count = 2; /* contatore degli id delle domande, parte da due perché la prima è già presente */
 var studentLog = 0;
+var studentEnd = 0;
+var firstLogin = 1;
+var firstEnd = 1;
 var len = 1; /*numero di div (domande) presenti*/
 var createObjJson = false;
 var countdownTime = 0;
@@ -39,12 +42,6 @@ $(document).ready(mainFunction);
 function mainFunction() {
 
     appendFilePresent();
-
-    $('li[id$="-tab"]').click(function(event){
-        if ($(this).hasClass('disabled')) {
-            return false;
-        }
-    });
 
     //gestione submit form upload file per esame
     $(document).on('click','#btnExamFile', function(event){
@@ -415,7 +412,7 @@ function mainFunction() {
     /* Forza terminazione esame */
     $("#btnResetExamSession").click(function() {
         var data = {
-            status: "notest"
+            status: "over"
         };
         setClockAulaStatus(data);
     });
@@ -436,25 +433,31 @@ function callForClockAulaStatus() {
 
                 switch (clockStatus){
                     case "notest":
-                        break;
                     case "setup":
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         break;
                     case "over":
                         $("#divInfoTime").hide();
-                        $('#btnSubmitClockData').attr('class', 'btn btn-default active');
+                        $('#btnSave').show();
+                        $('#UPLOAD').show();
+                        $('#NOEDIT').hide();
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
+                        $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
+                        break;
                     case "almostover":
                     case "overtime":
                         countdownTime = data.durationOverTime;
                         createCountdownObject(countdownTime);
-                    case "ready":
                         break;
-
+                    case "ready":
+                        $('#btnSave').hide();
+                        $('#UPLOAD').hide();
+                        $('#NOEDIT').show();
+                        break;
                     case "start":
                         countdownTime = data.timeout;
                         createCountdownObject(countdownTime);
-                        $('#btnSubmitClockData').attr('class', 'btn btn-default disabled');
+                        $('#hours').text(getHours());
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg disabled');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg disabled');
                         break;
@@ -463,7 +466,6 @@ function callForClockAulaStatus() {
 
             setTimeout(callForClockAulaStatus, 5000);
             setTimeout(updateTableFinish,5000);
-            //setTimeout(updateTable, 2000);
             updateTable();
         },
 
@@ -484,10 +486,11 @@ function setClockAulaStatus(data) {
             if (response.ok) {
                 switch (data.status) {
                     case "setup":
-                    case "ready":
-                        $('#hours').text(getHours());
                         break;
-                    case "notest":
+                    case "ready":
+                        break;
+                    case "start":
+                    case "over":
                         fileUploaded = false;
                         fileSelect = false;
                         clockUploaded = false;
@@ -980,28 +983,30 @@ function updateTable(){
         url: "getDataStudent",
         dataType: "json",
         success: function (data){
-            //console.log("RISULTATIIIII " + data.studentName + data.studentSurname);
+            //console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
             if(data.studentName !== null && data.studentSurname !== null){
                 //console.log("STUDENTLOGBEFORE "+studentLog);
                 var tableRow;
+                var $tbody = $("#tableStartExam tbody");
+                var $spanStudentLog = $("#studentLog");
+                if(firstLogin){
+                    /* la tabella si svuota solo la prima volta */
+                    $tbody.empty();
+                    $spanStudentLog.empty();
+                    firstLogin = 0;
+                }
                 if(data.newStudent === 1) {
                     studentLog++;
                     console.log("STUDENTLOG "+studentLog);
-                    var $tbody = $("#tableStartExam tbody");
-                    var $spanStudentLog = $("#studentLog");
                     tableRow = "<tr>";
-                    tableRow += "<td><input type='checkbox'></td>";
                     tableRow += "<td>" + data.studentPost + "</td>";
                     tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
+                    tableRow += "<td>" + data.studentRegistrationNumber + "</td>";
                     tableRow += "</tr>";
                     $tbody.append(tableRow);
                     //console.log("STUDENTLOG "+studentLog);
                     $spanStudentLog.text(studentLog);
                 }
-            }
-            else{
-                var $tbody = $("#divStartExam tbody");
-                $tbody.empty();
             }
         },
         error: function () {
@@ -1017,19 +1022,21 @@ function updateTableFinish() {
         url: "/getFinishStudent",
         dataType: "json",
         success: function (res) {
-            //console.log(res);
+            console.log("BOOOOO" + res);
             if (!res.length) {
-                //console.log("nessuno ha consegnato");
+                console.log("nessuno ha consegnato");
             } else {
+                console.log("qualcuno ha consegnato");
                 var $divExamReport = $("#divEndExam");
-                //var $thead = $("#tableEndExam thead");
                 var $tbody = $("#tableEndExam tbody");
-                //$thead.empty();
-                $tbody.empty();
-
-                var tmp;
-
-                var tableRow;
+                var $spanStudentEnd= $("#studentEnd");
+                if(firstEnd){
+                    /* la tabella si svuota solo la prima volta */
+                    $tbody.empty();
+                    $spanStudentEnd.empty();
+                    firstEnd = 0;
+                }
+                var tmp, tableRow;
                 for (var i = 0; i < res.length; i++) {
                     tmp = res[i];
                     tableRow = "<tr>";
@@ -1039,8 +1046,9 @@ function updateTableFinish() {
                     tableRow += "</tr>";
                     $tbody.append(tableRow);
                 }
+                studentEnd = i;
+                $spanStudentEnd.text(studentEnd);
                 $divExamReport.show();
-
             }
         },
         error: function () {
