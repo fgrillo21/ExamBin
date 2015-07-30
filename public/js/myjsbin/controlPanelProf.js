@@ -429,7 +429,7 @@ function callForClockAulaStatus() {
 
                 clockStatus = data.status;
                 $("#spanStatusClock").text(data.status);
-                $(".titleExam").text("Prova esame del "+getDataItalianFormat());
+                $(".titleExam").text("Prova esame del 28 Luglio 2015");//+getDataItalianFormat());
 
                 switch (clockStatus){
                     case "notest":
@@ -443,6 +443,7 @@ function callForClockAulaStatus() {
                         $('#NOEDIT').hide();
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
+                        $('#btnSubmitClockData').attr('class', 'btn btn-default active');
                         break;
                     case "almostover":
                     case "overtime":
@@ -460,6 +461,7 @@ function callForClockAulaStatus() {
                         $('#hours').text(getHours());
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg disabled');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg disabled');
+                        $('#btnSubmitClockData').attr('class', 'btn btn-default disabled');
                         break;
                 }
             }
@@ -1042,6 +1044,7 @@ function updateTableFinish() {
                     tableRow = "<tr>";
                     tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
                     tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
+                    tableRow += "<td>" + tmp[headersTableReport[2]] + "</td>";
                     tableRow += "<td>" + "Consegnata" + "</td>";
                     tableRow += "</tr>";
                     $tbody.append(tableRow);
