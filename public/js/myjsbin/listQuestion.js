@@ -294,6 +294,7 @@ function deliveryExam(){
         data: data,
         success: function (response) { //TODO here I need a switch block to manage different clock status
             console.log(response);
+            //alert("URL "+response.urlExamF);
             window.location.href = response.finishPageUrl;
         },
 

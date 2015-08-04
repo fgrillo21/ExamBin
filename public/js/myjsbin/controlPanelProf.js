@@ -429,7 +429,7 @@ function callForClockAulaStatus() {
 
                 clockStatus = data.status;
                 $("#spanStatusClock").text(data.status);
-                $(".titleExam").text("Prova esame del 28 Luglio 2015");//+getDataItalianFormat());
+                $(".titleExam").text("Prova esame del" +getDataItalianFormat());
 
                 switch (clockStatus){
                     case "notest":

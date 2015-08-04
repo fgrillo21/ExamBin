@@ -13,16 +13,6 @@
 
 }
 
-#divList {
-    margin-top: 10px;
-    text-align: center;
-}
-
-#btnList{
-    margin: 10px;
-    display: none;
-}
-
 .red{
     color:red;
     font-size: 26px;
