@@ -1018,19 +1018,17 @@ function updateTable(){
 }
 
 function updateTableFinish() {
-//gestione click pulsante che ritorna tutti gli studenti che hanno terminato l'esame di oggi
     //call the service that return all student that have finish
     $.ajax({
         url: "/getFinishStudent",
         dataType: "json",
         success: function (res) {
-            console.log("BOOOOO" + res);
             if (!res.length) {
                 console.log("nessuno ha consegnato");
             } else {
-                console.log("qualcuno ha consegnato");
                 var $divExamReport = $("#divEndExam");
                 var $tbody = $("#tableEndExam tbody");
+                var $rows = $('#tableEndExam tbody tr');
                 var $spanStudentEnd= $("#studentEnd");
                 if(firstEnd){
                     /* la tabella si svuota solo la prima volta */
@@ -1041,13 +1039,21 @@ function updateTableFinish() {
                 var tmp, tableRow;
                 for (var i = 0; i < res.length; i++) {
                     tmp = res[i];
-                    tableRow = "<tr>";
-                    tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
-                    tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
-                    tableRow += "<td>" + tmp[headersTableReport[2]] + "</td>";
-                    tableRow += "<td>" + "Consegnata" + "</td>";
-                    tableRow += "</tr>";
-                    $tbody.append(tableRow);
+                    /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
+                    /* questo evita la presenza di duplicati */
+                    $rows.each(function() {
+                        var matricola = $(this).find("td").eq(2).html();
+                        if(matricola !== tmp[headersTableReport[2]]){
+                            //console.log("matricola " + matricola + " !== " + tmp[headersTableReport[2]]);
+                            tableRow = "<tr>";
+                            tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
+                            tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
+                            tableRow += "<td class=\""+".mat"+"\">" + tmp[headersTableReport[2]] + "</td>";
+                            tableRow += "<td>" + "Consegnata" + "</td>";
+                            tableRow += "</tr>";
+                            $tbody.append(tableRow);
+                        }
+                    });
                 }
                 studentEnd = i;
                 $spanStudentEnd.text(studentEnd);
