@@ -164,7 +164,7 @@ function callForClockAulaStatus() {
         },
 
         error: function () {
-            alert("Si è verificato un problema");
+            alert("Si è verificato un problema (call)");
         }
     });
 }
@@ -180,7 +180,7 @@ function loadQuestion(){
         },
 
         error: function () {
-            alert("Si è verificato un problema");
+            alert("Si è verificato un problema (load)");
         }
     });
 }
@@ -281,7 +281,8 @@ function storeIdJsbinChecked(id){
 
 function deliveryExam(){
     var urlExam = location.pathname.split('/')[1];
-    var examRevision = location.pathname.split('/')[2]
+    console.log("URLDELIVERYEXAM "+urlExam);
+    var examRevision = 1;
 
     var data = {
         urlExam: urlExam,
@@ -299,7 +300,7 @@ function deliveryExam(){
         },
 
         error: function () {
-            alert("Si è verificato un problema");
+            alert("Si è verificato un problema (delivery exam)");
         }
     });
 }

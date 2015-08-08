@@ -34,12 +34,12 @@ function callForClockAulaStatus() {
                             type: "POST",
                             data: data,
                             success: function (response) {
-                                console.log(response);
+                                console.log("url exam " +response);
                                 window.location.href = response.listQuestionUrl;
                             },
 
                             error: function () {
-                                alert("Si è verificato un problema");
+                                alert("Si è verificato un problema (pageSetup)");
                             }
                         });
                         break;

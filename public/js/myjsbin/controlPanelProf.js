@@ -1044,7 +1044,6 @@ function updateTableFinish() {
                     $rows.each(function() {
                         var matricola = $(this).find("td").eq(2).html();
                         if(matricola !== tmp[headersTableReport[2]]){
-                            //console.log("matricola " + matricola + " !== " + tmp[headersTableReport[2]]);
                             tableRow = "<tr>";
                             tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
                             tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
