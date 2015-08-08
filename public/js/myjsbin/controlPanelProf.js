@@ -1023,7 +1023,7 @@ function updateTableFinish() {
         url: "/getFinishStudent",
         dataType: "json",
         success: function (res) {
-            if (!res.length) {
+            if (res.ok === false) {
                 console.log("nessuno ha consegnato");
             } else {
                 var $divExamReport = $("#divEndExam");
@@ -1036,31 +1036,28 @@ function updateTableFinish() {
                     $spanStudentEnd.empty();
                     firstEnd = 0;
                 }
-                var tmp, tableRow;
-                for (var i = 0; i < res.length; i++) {
-                    tmp = res[i];
-                    /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
-                    /* questo evita la presenza di duplicati */
-                    $rows.each(function() {
-                        var matricola = $(this).find("td").eq(2).html();
-                        if(matricola !== tmp[headersTableReport[2]]){
-                            tableRow = "<tr>";
-                            tableRow += "<td>" + tmp[headersTableReport[3]] + "</td>";
-                            tableRow += "<td>" + tmp[headersTableReport[0]] + " " + tmp[headersTableReport[1]] + "</td>";
-                            tableRow += "<td class=\""+".mat"+"\">" + tmp[headersTableReport[2]] + "</td>";
-                            tableRow += "<td>" + "Consegnata" + "</td>";
-                            tableRow += "</tr>";
-                            $tbody.append(tableRow);
-                        }
-                    });
-                }
-                studentEnd = i;
+                var tableRow;
+                /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
+                /* questo evita la presenza di duplicati */
+                $rows.each(function() {
+                    var matricola = $(this).find("td").eq(2).html();
+                    if(matricola !== res.matricola){
+                        tableRow = "<tr>";
+                        tableRow += "<td>" + res.postazione + "</td>";
+                        tableRow += "<td>" + res.name + " " + res.surname + "</td>";
+                        tableRow += "<td class=\""+".mat"+"\">" + res.matricola + "</td>";
+                        tableRow += "<td>" + "Consegnata" + "</td>";
+                        tableRow += "</tr>";
+                        $tbody.append(tableRow);
+                    }
+                });
+                studentEnd++;
                 $spanStudentEnd.text(studentEnd);
                 $divExamReport.show();
             }
         },
         error: function () {
-            alert("Si è verificato un problema");
+            alert("Si è verificato un problema - table end");
         }
     });
 }
