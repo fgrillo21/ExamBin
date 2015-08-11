@@ -110,7 +110,6 @@ function mainFunction() {
        var path = $('option:selected', this).data('link');
        var obj = {};
        obj.linkTo = JSON.stringify(path);
-       //alert(json);
        $.ajax({
            url: "getValueFileJson",
            data: obj,
@@ -119,7 +118,6 @@ function mainFunction() {
            success: function (response) {
                console.log(response);
                if (response.ok) {
-                   //alert(response.content);
                    var res = JSON.parse(response.content);
                    getFromFile(res.name, res.cover, res.question);
                    fileSelect = true;
@@ -467,6 +465,7 @@ function callForClockAulaStatus() {
             }
 
             setTimeout(callForClockAulaStatus, 5000);
+            //setTimeout(updateTable, 3000);
             setTimeout(updateTableFinish,5000);
             updateTable();
         },
@@ -985,7 +984,7 @@ function updateTable(){
         url: "getDataStudent",
         dataType: "json",
         success: function (data){
-            //console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
+            console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
             if(data.studentName !== null && data.studentSurname !== null){
                 //console.log("STUDENTLOGBEFORE "+studentLog);
                 var tableRow;

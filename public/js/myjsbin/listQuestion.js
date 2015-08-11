@@ -281,7 +281,7 @@ function storeIdJsbinChecked(id){
 
 function deliveryExam(){
     var urlExam = location.pathname.split('/')[1];
-    console.log("URLDELIVERYEXAM "+urlExam);
+    //console.log("URLDELIVERYEXAM "+urlExam);
     var examRevision = 1;
 
     var data = {
