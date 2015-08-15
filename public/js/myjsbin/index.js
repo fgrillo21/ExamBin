@@ -7,11 +7,9 @@ var clockStatus = null;
 
 $(document).ready(mainFunction);
 
-//TODO manage btnFinish click
 function mainFunction() {
 
     createCountdownElement();
-
     callForClockAulaStatus();
 }
 
@@ -30,8 +28,6 @@ function callForClockAulaStatus(){
                     case "setup":
                     case "ready":
                     case "over":
-                        deliveryExam();
-                        break;
                 }
             }
             setTimeout(callForClockAulaStatus, 5000);
