@@ -420,15 +420,13 @@ function mainFunction() {
 function callForClockAulaStatus() {
     console.log(location.protocol+"//"+location.hostname+":"+location.port+"/getClockAula");
     $.ajax({
-        url: "getClockAula", //this is the right route
+        url: "getClockAula",
         dataType: "json",
         success: function (data) {
             if (data.status !== clockStatus){
-
                 clockStatus = data.status;
                 $("#spanStatusClock").text(data.status);
                 $(".titleExam").text("Prova esame del " +getDataItalianFormat());
-
                 switch (clockStatus){
                     case "notest":
                     case "setup":
@@ -463,9 +461,7 @@ function callForClockAulaStatus() {
                         break;
                 }
             }
-
             setTimeout(callForClockAulaStatus, 5000);
-            //setTimeout(updateTable, 3000);
             setTimeout(updateTableFinish,5000);
             updateTable();
         },
@@ -595,15 +591,15 @@ function getValueToInput(){
         objJson.cover = objCover;
 
         for(var i=1; i<=len; i++) {
-            var divChoise = [];
+            var idChoise = [];
             var c1 = document.getElementById("choisea"+i).value;
             var c2 = document.getElementById("choiseb"+i).value;
             var c3 = document.getElementById("choisec"+i).value;
             var c4 = document.getElementById("choised"+i).value;
-            divChoise.push(c1);
-            divChoise.push(c2);
-            divChoise.push(c3);
-            divChoise.push(c4);
+            idChoise.push(c1);
+            idChoise.push(c2);
+            idChoise.push(c3);
+            idChoise.push(c4);
             var text = document.getElementById("inputText"+i).value;
             var html = document.getElementById("inputHtml"+i).value;
             var css = document.getElementById("inputCss"+i).value;
@@ -619,7 +615,7 @@ function getValueToInput(){
                 objJson.question = q;
                 q.push(objQuestion);
             }
-            /* domanda che necessita della presenza di jbin */
+            /* domanda che necessita della presenza di jsbin */
             else if(typeQuestion === "jsbin"){
                 /* questo è il caso in cui il professore permette allo studente di usare jsbin per rispondere ad una domanda ma non gli da nessun
                  * tipo di aiuto per partire */
@@ -643,12 +639,12 @@ function getValueToInput(){
             }
             /* domanda a risposta multipla */
             else if(typeQuestion === "radio"){
-                var res = validateMoreChoise(divChoise);
+                var res = validateMoreChoise(idChoise);
                 if(res === true) {
                     objQuestion = {
                         type: "radio",
                         text: text.split("\n"),
-                        options: divChoise
+                        options: idChoise
                     };
                     objJson.question = q;
                     q.push(objQuestion);
@@ -665,10 +661,10 @@ function getValueToInput(){
 }
 
 /* Le checkbox sono o tutte nulle o tutte inizializzate, in questo modo le domande a risposta multipla avranno sempre 4 opzioni possibili */
-function validateMoreChoise(divChoise){
+function validateMoreChoise(idChoise){
     var countNotNull = 0;
     for (var j = 0; j < 4; j++) {
-        if (divChoise[j] !== '') {
+        if (idChoise[j] !== '') {
             countNotNull++;
         }
     }
@@ -984,7 +980,7 @@ function updateTable(){
         url: "getDataStudent",
         dataType: "json",
         success: function (data){
-            console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
+            //console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
             if(data.studentName !== null && data.studentSurname !== null){
                 //console.log("STUDENTLOGBEFORE "+studentLog);
                 var tableRow;
@@ -996,18 +992,18 @@ function updateTable(){
                     $spanStudentLog.empty();
                     firstLogin = 0;
                 }
-                if(data.newStudent === 1) {
-                    studentLog++;
-                    console.log("STUDENTLOG "+studentLog);
-                    tableRow = "<tr>";
-                    tableRow += "<td>" + data.studentPost + "</td>";
-                    tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
-                    tableRow += "<td>" + data.studentRegistrationNumber + "</td>";
-                    tableRow += "</tr>";
-                    $tbody.append(tableRow);
-                    //console.log("STUDENTLOG "+studentLog);
-                    $spanStudentLog.text(studentLog);
-                }
+
+                studentLog++;
+                //console.log("STUDENTLOG "+studentLog);
+                tableRow = "<tr>";
+                tableRow += "<td>" + data.studentPost + "</td>";
+                tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
+                tableRow += "<td>" + data.studentRegistrationNumber + "</td>";
+                tableRow += "</tr>";
+                $tbody.append(tableRow);
+                //console.log("STUDENTLOG "+studentLog);
+                $spanStudentLog.text(studentLog);
+
             }
         },
         error: function () {
@@ -1024,8 +1020,8 @@ function updateTableFinish() {
         success: function (res) {
             if (res.ok === false) {
                 console.log("nessuno ha consegnato");
-            } else {
-                var $divExamReport = $("#divEndExam");
+            }
+            else {
                 var $tbody = $("#tableEndExam tbody");
                 var $rows = $('#tableEndExam tbody tr');
                 var $spanStudentEnd= $("#studentEnd");
@@ -1048,11 +1044,19 @@ function updateTableFinish() {
                         tableRow += "<td>" + "Consegnata" + "</td>";
                         tableRow += "</tr>";
                         $tbody.append(tableRow);
+                        studentEnd++;
                     }
                 });
-                studentEnd++;
                 $spanStudentEnd.text(studentEnd);
-                $divExamReport.show();
+                /* se il numero di studenti che hanno terminato l'esame è uguale al numero di studenti loggati nel sistema, significa che non c'è
+                 * più nessuno che sta svolgendo la prova quindi si dichiara lo stato di over */
+                if(studentEnd === studentLog){
+                    console.log("Non c'è più nessuno");
+                    var data = {
+                        status: "over"
+                    };
+                    setClockAulaStatus(data);
+                }
             }
         },
         error: function () {

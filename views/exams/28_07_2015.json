@@ -1,0 +1,49 @@
+{
+  "name": "Prova del 28_07_2015",
+  "cover": [
+    "<h1>Esame di Tecnologie Web del 28/07/2015</h1>",
+    "<h2>Corso di laurea in Informatica A.A. 2014/2015</h2>"
+  ],
+  "question": [
+    {
+      "type": "radio",
+      "text": [
+        "Quanto fa cinque per quattro?"
+      ],
+      "options": [
+        "20",
+        "16",
+        "3",
+        "giallo"
+      ]
+    },
+    {
+      "type": "text",
+      "text": [
+        "Come si fa un paragrafo in HTML?"
+      ]
+    },
+    {
+      "type": "jsbin",
+      "text": [
+        "Creare un documento HTML+CSS con grassetti e corsivi!"
+      ]
+    },
+    {
+      "type": "jsbin",
+      "text": [
+        "Crea un paragrafo con il testo di colore rosso."
+      ],
+      "html": [
+        "<html>",
+        "</html>"
+      ],
+      "css": [
+        ""
+      ],
+      "javascript": [
+        ""
+      ]
+    }
+  ]
+}
