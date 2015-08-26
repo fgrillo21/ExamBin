@@ -17,23 +17,6 @@ var createObjJson = false;
 var countdownTime = 0;
 var overTime = 0;
 var selectNumber = 1;
-var headersTableReport = [
-    "name",
-    "surname",
-    "matricola",
-    "postazione"
-    /*,
-    "html",
-    "javascript",
-    "css",
-    "examUrl",
-    "error_Html",
-    "error_Javascript",
-    "error_Css",
-    "failure_Mocha",
-    "pass_Mocha",
-    "proposal_vote"*/
-];
 
 
 
@@ -206,6 +189,7 @@ function mainFunction() {
 
         }
         if (confirmRequest) {
+            console.log("dati in input "+data.status);
             setClockAulaStatus(data);
         }
     });
@@ -418,7 +402,7 @@ function mainFunction() {
 }
 
 function callForClockAulaStatus() {
-    console.log(location.protocol+"//"+location.hostname+":"+location.port+"/getClockAula");
+    console.log(location.protocol+"//"+location.hostname+":"+location.port+"/getClockAula"+ "status"+clockStatus);
     $.ajax({
         url: "getClockAula",
         dataType: "json",
@@ -429,14 +413,20 @@ function callForClockAulaStatus() {
                 $(".titleExam").text("Prova esame del " +getDataItalianFormat());
                 switch (clockStatus){
                     case "notest":
-                    case "setup":
-                        $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
-                        break;
-                    case "over":
                         $("#divInfoTime").hide();
                         $('#btnSave').show();
                         $('#UPLOAD').show();
                         $('#NOEDIT').hide();
+                        //clearTable();
+                        break;
+                    case "setup":
+                        $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
+                        firstLogin = 1;
+                        firstEnd = 1;
+                        studentLog = 0;
+                        studentEnd = 0;
+                        break;
+                    case "over":
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnSubmitClockData').attr('class', 'btn btn-default active');
@@ -458,12 +448,11 @@ function callForClockAulaStatus() {
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg disabled');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg disabled');
                         $('#btnSubmitClockData').attr('class', 'btn btn-default disabled');
+                        setTimeout(updateTableFinish, 10000);
                         break;
                 }
             }
             setTimeout(callForClockAulaStatus, 5000);
-            setTimeout(updateTableFinish,5000);
-            updateTable();
         },
 
         error: function () {
@@ -481,11 +470,12 @@ function setClockAulaStatus(data) {
         success: function (response) {
             console.log(response);
             if (response.ok) {
+                $("#spanStatusClock").text(data.status);
                 switch (data.status) {
                     case "setup":
+                        setTimeout(updateTable, 10000);
                         break;
                     case "ready":
-                        break;
                     case "start":
                     case "over":
                         fileUploaded = false;
@@ -975,94 +965,132 @@ function getDataItalianFormat(){
     return date;
 }
 
+/*function clearTable(){
+    var tableRowInput;
+    var $tbodyInput = $("#tableStartExam tbody");
+    var $spanStudentLog = $("#studentLog");
+    $tbodyInput.empty();
+    $spanStudentLog.empty();
+    tableRowInput = "<tr>";
+    tableRowInput += "<td>" + "--" + "</td>";
+    tableRowInput += "<td>" + "--" + "</td>";
+    tableRowInput += "<td>" + "--" + "</td>";
+    tableRowInput += "</tr>";
+    $tbodyInput.append(tableRowInput);
+
+    var tableRowEnd;
+    var $tbodyEnd = $("#tableEndExam tbody");
+    var $spanStudentEnd = $("#studentEnd");
+    $tbodyEnd.empty();
+    $spanStudentEnd.empty();
+    tableRowEnd = "<tr>";
+    tableRowEnd += "<td>" + "--" + "</td>";
+    tableRowEnd += "<td>" + "--" + "</td>";
+    tableRowEnd += "<td>" + "--" + "</td>";
+    tableRowEnd += "<td>" + "--" + "</td>";
+    tableRowEnd += "</tr>";
+    $tbodyEnd.append(tableRowEnd);
+}*/
+
 function updateTable(){
-    $.ajax({
-        url: "getDataStudent",
-        dataType: "json",
-        success: function (data){
-            //console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
-            if(data.studentName !== null && data.studentSurname !== null){
-                //console.log("STUDENTLOGBEFORE "+studentLog);
-                var tableRow;
-                var $tbody = $("#tableStartExam tbody");
-                var $spanStudentLog = $("#studentLog");
-                if(firstLogin){
-                    /* la tabella si svuota solo la prima volta */
-                    $tbody.empty();
-                    $spanStudentLog.empty();
-                    firstLogin = 0;
+    console.log("UPDATE TABLE LOGIN");
+    if(clockStatus === "setup"){
+        $.ajax({
+            url: "getDataStudent",
+            dataType: "json",
+            success: function (data){
+                //console.log("RISULTATIIIII " + data.studentName + " " + data.studentSurname + " " + data.studentRegistrationNumber);
+                if(data){
+                    var tableRow;
+                    var $tbody = $("#tableStartExam tbody");
+                    var $spanStudentLog = $("#studentLog");
+                    if(firstLogin){
+                        /* la tabella si svuota solo la prima volta */
+                        $tbody.empty();
+                        $spanStudentLog.empty();
+                        firstLogin = 0;
+                    }
+
+                    studentLog++;
+                    tableRow = "<tr>";
+                    tableRow += "<td>" + data.studentPost + "</td>";
+                    tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
+                    tableRow += "<td>" + data.studentRegistrationNumber + "</td>";
+                    tableRow += "</tr>";
+                    $tbody.append(tableRow);
+                    $spanStudentLog.text(studentLog);
+
                 }
-
-                studentLog++;
-                //console.log("STUDENTLOG "+studentLog);
-                tableRow = "<tr>";
-                tableRow += "<td>" + data.studentPost + "</td>";
-                tableRow += "<td>" + data.studentName + " " + data.studentSurname + "</td>";
-                tableRow += "<td>" + data.studentRegistrationNumber + "</td>";
-                tableRow += "</tr>";
-                $tbody.append(tableRow);
-                //console.log("STUDENTLOG "+studentLog);
-                $spanStudentLog.text(studentLog);
-
+                else{
+                    console.log("nessuno si è registrato");
+                }
+            },
+            error: function () {
+                console.log("Errore nella updateTable");
             }
-        },
-        error: function () {
-            alert("Errore nella updateTable");
-        }
-    });
+        });
+        setTimeout(updateTable, 10000);
+    }
 }
 
 function updateTableFinish() {
     //call the service that return all student that have finish
-    $.ajax({
-        url: "/getFinishStudent",
-        dataType: "json",
-        success: function (res) {
-            if (res.ok === false) {
-                console.log("nessuno ha consegnato");
-            }
-            else {
-                var $tbody = $("#tableEndExam tbody");
-                var $rows = $('#tableEndExam tbody tr');
-                var $spanStudentEnd= $("#studentEnd");
-                if(firstEnd){
-                    /* la tabella si svuota solo la prima volta */
-                    $tbody.empty();
-                    $spanStudentEnd.empty();
-                    firstEnd = 0;
+    console.log("UPDATE TABLE END");
+    if(clockStatus === "start" || clockStatus === "over"){
+        $.ajax({
+            url: "getFinishStudent",
+            dataType: "json",
+            success: function (res) {
+                if (res.ok === false) {
+                    console.log("nessuno ha consegnato");
                 }
-                var tableRow;
-                /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
-                /* questo evita la presenza di duplicati */
-                $rows.each(function() {
-                    var matricola = $(this).find("td").eq(2).html();
-                    if(matricola !== res.matricola){
-                        tableRow = "<tr>";
-                        tableRow += "<td>" + res.postazione + "</td>";
-                        tableRow += "<td>" + res.name + " " + res.surname + "</td>";
-                        tableRow += "<td class=\""+".mat"+"\">" + res.matricola + "</td>";
-                        tableRow += "<td>" + "Consegnata" + "</td>";
-                        tableRow += "</tr>";
-                        $tbody.append(tableRow);
-                        studentEnd++;
-                    }
-                });
-                $spanStudentEnd.text(studentEnd);
-                /* se il numero di studenti che hanno terminato l'esame è uguale al numero di studenti loggati nel sistema, significa che non c'è
-                 * più nessuno che sta svolgendo la prova quindi si dichiara lo stato di over */
-                if(studentEnd === studentLog){
-                    console.log("Non c'è più nessuno");
-                    var data = {
-                        status: "over"
-                    };
-                    setClockAulaStatus(data);
+                else {
+                    var $tbody = $("#tableEndExam tbody");
+                    var $rows = $('#tableEndExam tbody tr');
+                    var $spanStudentEnd = $("#studentEnd");
+                    var tableRow;
+                    /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
+                    /* questo evita la presenza di duplicati */
+                    console.log(JSON.stringify(res));
+                    for (var i = 0; i < res.length; i++) {
+                        console.log(JSON.stringify(res[i]));
+                        console.log("rows "+$rows.length);
+                        var boolean = 1;
+                        var tmp = res[i];
+                        $rows.each(function () {
+                            var matricola = $(this).find("td").eq(2).html();
+                            if (firstEnd){
+                                /* la tabella si svuota solo la prima volta */
+                                $tbody.empty();
+                                $spanStudentEnd.empty();
+                                firstEnd = 0;
+                            }
+                            console.log("matricola: "+matricola+" and "+tmp.registrationNumber);
+                            if (matricola === tmp.registrationNumber) {
+                                console.log("uguali non aggiungo");
+                                boolean = 0;
+                            }
+                        });
+                        if(boolean){
+                            tableRow = "<tr>";
+                            tableRow += "<td>" + tmp.post + "</td>";
+                            tableRow += "<td>" + tmp.name + " " + tmp.surname + "</td>";
+                            tableRow += "<td class=\"" + ".mat" + "\">" + tmp.registrationNumber + "</td>";
+                            tableRow += "<td>" + "Consegnata" + "</td>";
+                            tableRow += "</tr>";
+                            $tbody.append(tableRow);
+                            studentEnd++;
+                        }
+                    }/*end ciclo for */
+                    $spanStudentEnd.text(studentEnd);
                 }
+            },
+            error: function () {
+                console.log("Si è verificato un problema - table end");
             }
-        },
-        error: function () {
-            alert("Si è verificato un problema - table end");
-        }
-    });
+        });
+        setTimeout(updateTableFinish, 5000);
+    }
 }
 
 function createCountdownObject(millisec){
