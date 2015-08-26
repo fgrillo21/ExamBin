@@ -28,6 +28,8 @@ function callForClockAulaStatus(){
                     case "setup":
                     case "ready":
                     case "over":
+                        finish();
+                        break;
                 }
             }
             setTimeout(callForClockAulaStatus, 5000);
@@ -72,4 +74,19 @@ function createCountdownElement(){
             },
             rangeHi:"hour"	// <- no comma on last item!
         });
+}
+
+function finish(){
+    $.ajax({
+        url: "/getFinishPage", //this is the right route
+        dataType: "json",
+        type: "POST",
+        success: function (response) { //TODO here I need a switch block to manage different clock status
+            window.location.href = response.finishPageUrl;
+        },
+
+        error: function () {
+            alert("Si è verificato un problema (finish Page)");
+        }
+    });
 }
