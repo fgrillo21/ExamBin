@@ -10,6 +10,7 @@ var check3 = 0;
 var check4 = 0;
 var radio = 0;
 var w = 1;
+var idQuestion = 1;
 
 
 function mainFunction() {
@@ -37,7 +38,8 @@ function mainFunction() {
         check2 = 0;
         check3 = 0;
         check4 = 0;
-        storeIdJsbinChecked(id);
+        var value = document.getElementById(id).value;
+        storeIdJsbinChecked(id, value);
         var lastCharId = id.slice(-1);
         var checked = "check"+lastCharId;
         /* primo checkbox */
@@ -219,6 +221,7 @@ function add(question){
         if(question[i].type === "text"){
             textarea = document.createElement("textarea");
             textarea.setAttribute("id", "textarea"+x);
+            textarea.setAttribute("onchange","change(this.id)");
             para.appendChild(textarea);
         }
         /* domanda a risposta multipla */
@@ -236,15 +239,14 @@ function add(question){
                 input = document.createElement("input");
                 label = document.createElement("label");
                 input.setAttribute("type", "radio");
-                input.setAttribute("id", "choise"+ w + (k+1));
-                input.setAttribute("value", question[i].options[k]);
+                input.setAttribute("id", "choise"+ x + (k+1));
+                input.setAttribute("value", arr[rand]);
                 label.appendChild(textChoise);
                 para.appendChild(input);
                 para.appendChild(label);
                 para.appendChild(document.createElement("br"));
                 arr.splice(rand, 1);
             }
-            w++;
         }
         /* jsbin */
         else{
@@ -258,14 +260,20 @@ function add(question){
             para.appendChild(link);
         }
         para.setAttribute("class", "question");                         // Add class to node p
+        para.setAttribute("id", idQuestion);                            // Add id to node p
         document.getElementById("divQuestion").appendChild(para);        // Append node p to div*/
+        idQuestion++;
     }
 }
 
-function storeIdJsbinChecked(id){
+function storeIdJsbinChecked(id, value){
+    var data = {
+        id: id,
+        value: value
+    };
     $.ajax({
         url: "setIdJsbinChecked",
-        data: {id:id},
+        data: data,
         dataType: "json",
         type: "POST",
         success: function (response) {
@@ -301,6 +309,28 @@ function deliveryExam(){
 
         error: function () {
             alert("Si è verificato un problema (delivery exam)");
+        }
+    });
+}
+
+function change(id){
+    var value = document.getElementById(id).value;
+    var data = {
+        answer: value,
+        id: id
+    };
+    console.log("value "+value);
+    $.ajax({
+        url: "saveValueTextarea",
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (response) {
+            console.log("RESPONSE " +response);
+        },
+
+        error: function () {
+            alert("Si è verificato un problema (textarea)");
         }
     });
 }
