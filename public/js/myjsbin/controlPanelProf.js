@@ -1051,10 +1051,7 @@ function updateTableFinish() {
                     var tableRow;
                     /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
                     /* questo evita la presenza di duplicati */
-                    console.log(JSON.stringify(res));
                     for (var i = 0; i < res.length; i++) {
-                        console.log(JSON.stringify(res[i]));
-                        console.log("rows "+$rows.length);
                         var boolean = 1;
                         var tmp = res[i];
                         $rows.each(function () {
@@ -1065,9 +1062,7 @@ function updateTableFinish() {
                                 $spanStudentEnd.empty();
                                 firstEnd = 0;
                             }
-                            console.log("matricola: "+matricola+" and "+tmp.registrationNumber);
                             if (matricola === tmp.registrationNumber) {
-                                console.log("uguali non aggiungo");
                                 boolean = 0;
                             }
                         });

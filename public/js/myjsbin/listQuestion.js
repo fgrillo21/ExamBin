@@ -272,7 +272,7 @@ function storeIdJsbinChecked(id, value){
         value: value
     };
     $.ajax({
-        url: "setIdJsbinChecked",
+        url: "saveIdRadioChecked",
         data: data,
         dataType: "json",
         type: "POST",
