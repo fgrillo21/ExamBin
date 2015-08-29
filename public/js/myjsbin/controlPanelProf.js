@@ -17,6 +17,7 @@ var createObjJson = false;
 var countdownTime = 0;
 var overTime = 0;
 var selectNumber = 1;
+var studentNotDelivery = [];
 
 
 
@@ -421,8 +422,6 @@ function callForClockAulaStatus() {
                         break;
                     case "setup":
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
-                        firstLogin = 1;
-                        firstEnd = 1;
                         studentLog = 0;
                         studentEnd = 0;
                         break;
@@ -430,6 +429,7 @@ function callForClockAulaStatus() {
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnSubmitClockData').attr('class', 'btn btn-default active');
+                        deleteExamNotDelivery();
                         break;
                     case "almostover":
                     case "overtime":
@@ -440,6 +440,8 @@ function callForClockAulaStatus() {
                         $('#btnSave').hide();
                         $('#UPLOAD').hide();
                         $('#NOEDIT').show();
+                        firstLogin = 1;
+                        firstEnd = 1;
                         break;
                     case "start":
                         countdownTime = data.timeout;
@@ -992,6 +994,24 @@ function getDataItalianFormat(){
     $tbodyEnd.append(tableRowEnd);
 }*/
 
+function deleteExamNotDelivery(){
+    var data = {
+        array: studentNotDelivery
+    };
+    $.ajax({
+        url: "deleteExamNotDelivery",
+        dataType: "json",
+        type: "POST",
+        data: data,
+        success: function (res){
+            console.log("File eliminati con successo");
+        },
+        error: function () {
+            console.log("Errore nella updateTable");
+        }
+    });
+}
+
 function updateTable(){
     console.log("UPDATE TABLE LOGIN");
     if(clockStatus === "setup"){
@@ -1049,6 +1069,13 @@ function updateTableFinish() {
                     var $rows = $('#tableEndExam tbody tr');
                     var $spanStudentEnd = $("#studentEnd");
                     var tableRow;
+                    if(firstEnd){
+                        /* la tabella si svuota solo la prima volta */
+                        $tbody.empty();
+                        $spanStudentEnd.empty();
+                        firstEnd = 0;
+                    }
+
                     /* se i dati sullo studente corrente non sono presenti nella tabella vengono aggiunti */
                     /* questo evita la presenza di duplicati */
                     for (var i = 0; i < res.length; i++) {
@@ -1056,25 +1083,31 @@ function updateTableFinish() {
                         var tmp = res[i];
                         $rows.each(function () {
                             var matricola = $(this).find("td").eq(2).html();
-                            if (firstEnd){
-                                /* la tabella si svuota solo la prima volta */
-                                $tbody.empty();
-                                $spanStudentEnd.empty();
-                                firstEnd = 0;
-                            }
                             if (matricola === tmp.registrationNumber) {
                                 boolean = 0;
                             }
                         });
-                        if(boolean){
+                        if(boolean && tmp.status === "delivery"){
                             tableRow = "<tr>";
                             tableRow += "<td>" + tmp.post + "</td>";
                             tableRow += "<td>" + tmp.name + " " + tmp.surname + "</td>";
                             tableRow += "<td class=\"" + ".mat" + "\">" + tmp.registrationNumber + "</td>";
-                            tableRow += "<td>" + "Consegnata" + "</td>";
+                            tableRow += "<td>" + "Consegnato" + "</td>";
                             tableRow += "</tr>";
                             $tbody.append(tableRow);
                             studentEnd++;
+                        }
+                        if(boolean && tmp.status === "notdelivery"){
+                            console.log("notdelivery "+tmp.status);
+                            tableRow = "<tr>";
+                            tableRow += "<td>" + tmp.post + "</td>";
+                            tableRow += "<td>" + tmp.name + " " + tmp.surname + "</td>";
+                            tableRow += "<td class=\"" + ".mat" + "\">" + tmp.registrationNumber + "</td>";
+                            tableRow += "<td>" + "Non consegnato" + "</td>";
+                            tableRow += "</tr>";
+                            $tbody.append(tableRow);
+                            studentEnd++;
+                            studentNotDelivery.push(tmp.registrationNumber);
                         }
                     }/*end ciclo for */
                     $spanStudentEnd.text(studentEnd);

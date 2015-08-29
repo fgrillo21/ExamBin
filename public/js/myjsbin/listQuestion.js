@@ -24,6 +24,13 @@ function mainFunction() {
         }
     });
 
+    $("#btnNotFinish").click(function() {
+        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler non consegnare il tuo esame???\n Cliccando su OK confermerai la tua scelta");
+        if (confirmDelivery){
+            notDeliveryExam();
+        }
+    });
+
     $(document).on('click','a[id^="link"]', function(){
         var id = $(this).attr("id");
         loadValueToJsbin(id.slice(-1));
@@ -272,7 +279,7 @@ function storeIdJsbinChecked(id, value){
         value: value
     };
     $.ajax({
-        url: "saveIdRadioChecked",
+        url: "setIdJsbinChecked",
         data: data,
         dataType: "json",
         type: "POST",
@@ -289,6 +296,7 @@ function storeIdJsbinChecked(id, value){
 
 function deliveryExam(){
     var urlExam = location.pathname.split('/')[1];
+        urlExam += "_delivery";
     //console.log("URLDELIVERYEXAM "+urlExam);
     var examRevision = 1;
 
@@ -303,12 +311,36 @@ function deliveryExam(){
         data: data,
         success: function (response) { //TODO here I need a switch block to manage different clock status
             console.log(response);
-            //alert("URL "+response.urlExamF);
             window.location.href = response.finishPageUrl;
         },
 
         error: function () {
             alert("Si è verificato un problema (delivery exam)");
+        }
+    });
+}
+
+function notDeliveryExam(){
+    var urlExam = location.pathname.split('/')[1];
+        urlExam += "_notdelivery";
+    var examRevision = 1;
+
+    var data = {
+        urlExam: urlExam,
+        examRevision: examRevision
+    };
+    $.ajax({
+        url: "/deliveryExam", //this is the right route
+        dataType: "json",
+        type: "POST",
+        data: data,
+        success: function (response) { //TODO here I need a switch block to manage different clock status
+            console.log(response);
+            window.location.href = response.finishPageUrl;
+        },
+
+        error: function () {
+            alert("Si è verificato un problema (not delivery exam)");
         }
     });
 }
