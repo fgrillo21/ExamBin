@@ -430,6 +430,7 @@ function callForClockAulaStatus() {
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         $('#btnSubmitClockData').attr('class', 'btn btn-default active');
                         deleteExamNotDelivery();
+                        studentNotDelivery = [];
                         break;
                     case "almostover":
                     case "overtime":
