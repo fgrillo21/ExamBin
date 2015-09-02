@@ -1,5 +1,5 @@
 #btnFinish, #btnNotFinish{
-    margin-top: 50%;
+    margin-top: 10%;
     color: royalblue;
     font-weight: bold;
     cursor: pointer;
@@ -32,6 +32,8 @@ textarea{
 input, label {
     display:inline-block;
 }
-label{
-    width:200px;
+label {
+    width: 250px;
+    text-align: left;
+    padding-left: 10px;
 }

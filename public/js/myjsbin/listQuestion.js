@@ -215,6 +215,7 @@ function add(question){
     for(i=0; i<question.length; i++) {
         var z = (i+1) + ". ";
         var x = i+1;
+        var div = document.createElement("div");
         var para = document.createElement("P");                          // Create a <p> node
         var number =  document.createTextNode(z);
         para.appendChild(number);
@@ -267,8 +268,9 @@ function add(question){
             para.appendChild(link);
         }
         para.setAttribute("class", "question");                         // Add class to node p
-        para.setAttribute("id", idQuestion);                            // Add id to node p
-        document.getElementById("divQuestion").appendChild(para);        // Append node p to div*/
+        para.setAttribute("id", idQuestion);                                // Add id to node p
+        div.appendChild(para);
+        document.getElementById("divQuestion").appendChild(div);        // Append node p to div*/
         idQuestion++;
     }
 }
