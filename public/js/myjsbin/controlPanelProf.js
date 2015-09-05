@@ -888,6 +888,17 @@ function cloneDivQuestion(){
     document.getElementById("formQuestion").appendChild(cln);
     /* MODIFICO gli ID nel nuovo elemento */
     updateId(cln);
+    /* recupero id dell'elemento clonato e svuoto gli input */
+    var z = cln.id.slice(-1);
+    document.getElementById("choiseTypeQuestion"+ z).value = '';
+    document.getElementById("inputText" + z).value = '';
+    document.getElementById("choisea" + z).value = '';
+    document.getElementById("choiseb" + z).value = '';
+    document.getElementById("choisec" + z).value = '';
+    document.getElementById("choised" + z).value = '';
+    document.getElementById("inputHtml" + z).value = '';
+    document.getElementById("inputCss" + z).value = '';
+    document.getElementById("inputJavascript" + z).value = '';
     len++;
 }
 
