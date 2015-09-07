@@ -4,10 +4,6 @@ var clockStatus = null;
 var countdownTime = 0;
 var timeout;
 var MILLIS2SEC = 1000;
-var check1 = 0;
-var check2 = 0;
-var check3 = 0;
-var check4 = 0;
 var radio = 0;
 var w = 1;
 var idQuestion = 1;
@@ -36,74 +32,11 @@ function mainFunction() {
         loadValueToJsbin(id.slice(-1));
     });
 
-    /* Gestione click checkbox, di seguito viene riportata la logica implementativa solo del primo caso, in quanto tutti gli altri sono analoghi */
-    /* CON QUESTA CONFIGURAZIONE SELEZIONANDO UN CHECKBOX LA SPUNTA NON SI LEVA PIU' SE CI SI CLICCA SOPRA -____- PERO' FUNZIA CAMBIANDO CHECKBOX */
+    /* Ad ogni click viene salvato il valore del campo radio spuntato */
     $(document).on('click','input[id^="choise"]', function(){
-        var i, ID;
         var id = $(this).attr("id");
-        check1 = 0;
-        check2 = 0;
-        check3 = 0;
-        check4 = 0;
         var value = document.getElementById(id).value;
         storeIdJsbinChecked(id, value);
-        var lastCharId = id.slice(-1);
-        var checked = "check"+lastCharId;
-        /* primo checkbox */
-        if(checked === "check1"){
-            /* quando si clicca su un checkbox tutti gli altri vengono disabilitati, in quanto allo studente viene concesso di
-             * scegliere solo una delle quattro opzioni */
-            for (i = 1; i <= 4; i++) {
-                if(i !== 1) {
-                    ID = id.slice(0,7)+i;
-                    console.log("IIIIIIIIIIIIIIIII "+ID);
-                    document.getElementById(ID).setAttribute("checked", "false");
-                    document.getElementById(ID).checked = false;
-                }
-                else{
-                    document.getElementById(id).setAttribute("checked", "true");
-                }
-            }
-        }
-        /* secondo checkbox */
-        if(checked === "check2"){
-            for (i = 1; i <= 4; i++){
-                if(i !== 2) {
-                    ID = id.slice(0,7)+i;
-                    document.getElementById(ID).setAttribute("checked", "false");
-                    document.getElementById(ID).checked = false;
-                }
-                else{
-                    document.getElementById(id).setAttribute("checked", "true");
-                }
-            }
-        }
-        /* terzo checkbox */
-        if(checked === "check3"){
-            for (i = 1; i <= 4; i++){
-                if(i !== 3) {
-                    ID = id.slice(0,7)+i;
-                    document.getElementById(ID).setAttribute("checked", "false");
-                    document.getElementById(ID).checked = false;
-                }
-                else{
-                    document.getElementById(id).setAttribute("checked", "true");
-                }
-            }
-        }
-        /* quarto checkbox */
-        if(checked === "check4"){
-            for (i = 1; i <= 4; i++){
-                if(i !== 4) {
-                    ID = id.slice(0,7)+i;
-                    document.getElementById(ID).setAttribute("checked", "false");
-                    document.getElementById(ID).checked = false;
-                }
-                else{
-                    document.getElementById(id).setAttribute("checked", "true");
-                }
-            }
-        }
     });
 }
 
@@ -248,6 +181,7 @@ function add(question){
                 label = document.createElement("label");
                 input.setAttribute("type", "radio");
                 input.setAttribute("id", "choise"+ x + (k+1));
+                input.setAttribute("name", "opt" + x);
                 input.setAttribute("value", arr[rand]);
                 label.appendChild(textChoise);
                 para.appendChild(input);
