@@ -9,6 +9,16 @@ header {
     text-align: center;
 }
 
+.testo_entrata{
+    text-align: center;
+    opacity: 0;
+    color: red;
+}
+
+#testoInizio{
+    display: none;
+}
+
 span.title {
     font-weight: bold;
 }

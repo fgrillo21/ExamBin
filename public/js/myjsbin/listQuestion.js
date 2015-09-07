@@ -21,7 +21,7 @@ function mainFunction() {
     });
 
     $("#btnNotFinish").click(function() {
-        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di voler non consegnare il tuo esame???\n Cliccando su OK confermerai la tua scelta");
+        var confirmDelivery = confirm("ATTENZIONE!!!\n Sei sicuro di non voler consegnare il tuo esame???\n Cliccando su OK confermerai la tua scelta");
         if (confirmDelivery){
             notDeliveryExam();
         }

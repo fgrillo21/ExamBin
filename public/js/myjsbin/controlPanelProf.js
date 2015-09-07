@@ -46,7 +46,12 @@ function mainFunction() {
                     if (res.ok) {
                         fileUploaded = true;
                         appendLastFile(res.path, res.name);
-                        alert(res.string);
+                        $("#testoInizio").text("File Json caricato con successo");
+                        $("#testoInizio").css("display","block");
+                        $("#testoInizio").animate({
+                            opacity: 1
+                        }, 1000);
+                        setTimeout(chiudiInizio, 2000);
                     } else {
                         alert(res);
                     }
@@ -61,7 +66,8 @@ function mainFunction() {
     });
 
     /* creazione file json */
-    $(document).on('click','#btnSave', function(){
+    $(document).on('click','#btnSave', function(event){
+        event.preventDefault();
         var obj = getValueToInput();
         var json = JSON.stringify(obj);
         if(createObjJson) {
@@ -72,11 +78,18 @@ function mainFunction() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 type: "POST",
+                cache: false,
+                processData: false,
                 success: function (response) {
                     console.log(response);
                     if (response.ok){
                         appendLastFile(response.path, response.name);
-                        alert("File json creato con successo");
+                        $("#testoInizio").text("File Json creato con successo");
+                        $("#testoInizio").css("display","block");
+                        $("#testoInizio").animate({
+                            opacity: 1
+                        }, 1000);
+                        setTimeout(chiudiInizio, 2000);
                     } else {
                         alert("Si è verificato un problema nel creare il file Json\n ");
                     }
@@ -136,7 +149,13 @@ function mainFunction() {
                 success: function (response) {
                     if (response.ok) {
                         clockUploaded = true;
-                        alert("Valori Temporizzazione compito aggiornati con successo");
+                        $("#testoStart").text("Valori Temporizzazione compito aggiornati con successo");
+                        $("#testoStart").css("display","block");
+                        $("#testoStart").animate({
+                            opacity: 1
+                        }, 1000);
+                        setTimeout(chiudiStart, 3000);
+
                     } else {
                         alert("Non è stato possibile caricare i valori della Temporizzazione del compito, riprovare più tardi");
                     }
@@ -173,19 +192,24 @@ function mainFunction() {
             }
             else{
                 if (!fileUploaded){
-                    message += "- File json non caricato\n";
+                    message += "- -\n";
                 }
                 else{
-                    message += "- File json caricato\n";
+                    message += " File json caricato - Login Abilitato \n";
                 }
                 if (!createObjJson){
-                    message += "- Oggetto json non creato\n";
+                    message += "- -\n";
                 }
                 else{
-                    message += "- Oggetto json creato\n";
+                    message += " Json configurato manualmente - Login Abilitato\n";
                 }
-
-                confirmRequest = confirm(message);
+                $("#testoStart").text(message);
+                $("#testoStart").css("display","block");
+                $("#testoStart").animate({
+                    opacity: 1
+                }, 1000);
+                setTimeout(chiudiStart, 5000);
+                confirmRequest = true;
             }
 
         }
@@ -363,8 +387,13 @@ function mainFunction() {
                 success: function (response) {
                     console.log(response);
                     if (response.ok) {
-                        //alert(response.message);
                         appendLastFile(response.path, response.name);
+                        $("#testoInizio").text("Copia creata con successo!");
+                        $("#testoInizio").css("display","block");
+                        $("#testoInizio").animate({
+                            opacity: 1
+                        }, 1000);
+                        setTimeout(chiudiInizio, 2000);
                     } else {
                         alert("Si è verificato un problema nel creare la copia del file Json\n ");
                     }
@@ -386,9 +415,20 @@ function mainFunction() {
                 status: "ready"
             };
             setClockAulaStatus(data);
+            $("#testoStart").text("L'esame partirà tra pochi secondi");
+            $("#testoStart").css("display","block");
+            $("#testoStart").animate({
+                opacity: 1
+            }, 1000);
+            setTimeout(chiudiStart, 5000);
         }
         else{
-            alert("Attendere il login di almeno uno studente prima di poter dare il via alla prova!");
+            $("#testoStart").text("Attendere il login di almeno uno studente prima di poter dare il via alla prova!");
+            $("#testoStart").css("display","block");
+            $("#testoStart").animate({
+                opacity: 1
+            }, 1000);
+            setTimeout(chiudiStart, 7000);
         }
     });
 
@@ -550,6 +590,13 @@ function appendFilePresent(){
             alert("Errore nella append");
         }
     });
+}
+
+function chiudiInizio(){
+    $("#testoInizio").css("display","none");
+}
+function chiudiStart(){
+    $("#testoStart").css("display","none");
 }
 
 function validateInputFile(){

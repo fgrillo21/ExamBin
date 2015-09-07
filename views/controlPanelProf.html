@@ -35,12 +35,14 @@
                                         <select size=20 id="listSelectExam" class="listSelect list"></select>
                                     </div>
                                     <div class="divConfig" id="divSetup">
-                                        <form role="form" id="formExam" class="form-horizontal" method='post' action='/uploadFileCustom' enctype="multipart/form-data">
+                                        <p class="testo_entrata" id="testoInizio"></p>
+                                        <form id="formExam" class="form-horizontal">
                                             <div class="btn-group margin" id="UPLOAD">
                                                 <span class="btn btn-default btn-file"> Carica Json
                                                     <input type='file' id='fileJsonUpload' name='fileJsonUpload' value=" "/>
                                                 </span>
-                                                <input id="btnExamFile" class="btn btn-default" type='submit' value="Salva Json"/>
+
+                                                <button id="btnExamFile"  class="btn btn-default" value="Salva Json"> Salva Json</button>
                                                 <!--<a id="linkViewExam" class="btn btn-default" href="{{static}}/professor/previewFile" target="_blank">Anteprima</a>-->
                                             </div>
                                             <div id="NOEDIT" style="display:none;"><p>PROVA D'ESAME IN CORSO ... IMPOSSIBILE EFFETTUARE MODIFICHE</p></div>
@@ -66,6 +68,19 @@
                                                 <div id="question1">
                                                     <label class="col-md-2 control-label" id="label1">Domanda n.1</label>
                                                     <div class="col-md-9 border">
+                                                        <!--
+                                                        <div id="divRadioButton" style="text-align: center;">
+                                                            <div class="radio-inline">
+                                                                <label><input type="radio" name="optradio" id="choiseRadio"> Radio </label>
+                                                            </div>
+                                                            <div class="radio-inline">
+                                                                <label><input type="radio" name="optradio" id="choiseText"> Text </label>
+                                                            </div>
+                                                            <div class="radio-inline">
+                                                                <label><input type="radio" name="optradio" id="choiseJsbin"> Jsbin </label>
+                                                            </div>
+                                                        </div>
+                                                        -->
                                                         <input type="text" class="form-control" id="choiseTypeQuestion1" placeholder="Inserisci tipologia domanda (text | radio | jsbin) --- [case sensitive]"/>
                                                         <ul class="nav nav-tabs" role="tablist">
                                                             <li class="active litext"><a href="#text1" role="tab" data-toggle="tab">Domanda</a></li>
@@ -123,6 +138,7 @@
                                         <select size=20 class="listSelect list"></select>
                                     </div>
                                     <div class="divConfig" id="divStartExam">
+                                        <p class="testo_entrata" id="testoStart"></p>
                                         <div class="center">
                                             <h1 class="titleExam"> </h1>
                                             <p>Studenti loggati <span id="studentLog"> 0</span>.</p>
