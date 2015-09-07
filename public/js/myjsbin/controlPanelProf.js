@@ -393,7 +393,7 @@ function mainFunction() {
                         $("#testoInizio").animate({
                             opacity: 1
                         }, 1000);
-                        setTimeout(chiudiInizio, 2000);
+                        setTimeout(chiudiInizio, 8000);
                     } else {
                         alert("Si è verificato un problema nel creare la copia del file Json\n ");
                     }
@@ -404,8 +404,8 @@ function mainFunction() {
             });
         }
         else{
-            alert("Per creare una copia bisogna selezionare un file\n dalla lista, se invece si vogliono inserire dei valori\n e poi salvarli il" +
-            "tasto giusto è 'salva configurazione'");
+            alert("Per creare una copia bisogna selezionare un file\ndalla lista, invece per inserire dei valori e poi \nsalvarli il " +
+            "tasto giusto è 'salva configurazione' \nin alto a destra");
         }
     });
 
