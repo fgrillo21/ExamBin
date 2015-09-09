@@ -458,12 +458,12 @@ function callForClockAulaStatus() {
                         $('#btnSave').show();
                         $('#UPLOAD').show();
                         $('#NOEDIT').hide();
-                        //clearTable();
                         break;
                     case "setup":
                         $('#btnClockready').attr('class', 'btn btn-primary btn-lg active');
                         studentLog = 0;
                         studentEnd = 0;
+                        setTimeout(clearTable, 1000);
                         break;
                     case "over":
                         $('#btnClocksetup').attr('class', 'btn btn-primary btn-lg active');
@@ -473,6 +473,7 @@ function callForClockAulaStatus() {
                         studentNotDelivery = [];
                         break;
                     case "almostover":
+                        break;
                     case "overtime":
                         countdownTime = data.durationOverTime;
                         createCountdownObject(countdownTime);
@@ -1026,7 +1027,8 @@ function getDataItalianFormat(){
     return date;
 }
 
-/*function clearTable(){
+function clearTable(){
+    console.log("CLEAR TABLE");
     var tableRowInput;
     var $tbodyInput = $("#tableStartExam tbody");
     var $spanStudentLog = $("#studentLog");
@@ -1051,7 +1053,7 @@ function getDataItalianFormat(){
     tableRowEnd += "<td>" + "--" + "</td>";
     tableRowEnd += "</tr>";
     $tbodyEnd.append(tableRowEnd);
-}*/
+}
 
 function deleteExamNotDelivery(){
     var data = {

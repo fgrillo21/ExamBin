@@ -42,7 +42,7 @@ function mainFunction() {
 
 function createCountdownElement(millisec){
     var second = millisec / MILLIS2SEC;
-    $("#divCountdown").empty();
+    $("#Countdown").empty();
     myCountdown = new Countdown({
         time: second,
         width:200,
@@ -90,7 +90,7 @@ function callForClockAulaStatus() {
                 switch (clockStatus){
                     case "overtime":
                         countdownTime = data.durationOverTime;
-                        createCountdownObject(countdownTime);
+                        createCountdownElement(countdownTime);
                         break;
                     case "start":
                         timeout = data.timeout;
