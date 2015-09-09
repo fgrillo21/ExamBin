@@ -88,6 +88,8 @@ function callForClockAulaStatus() {
                 clockStatus = data.status;
                 console.log("STATUS SERVER "+clockStatus);
                 switch (clockStatus){
+                    case "almostover":
+                        break;
                     case "overtime":
                         countdownTime = data.durationOverTime;
                         createCountdownElement(countdownTime);

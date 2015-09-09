@@ -4,12 +4,13 @@
 
 var myCountdown;
 var clockStatus = null;
+var countdownTime;
+var timeout;
+var MILLIS2SEC = 1000;
 
 $(document).ready(mainFunction);
 
 function mainFunction() {
-
-    createCountdownElement();
     callForClockAulaStatus();
 }
 
@@ -20,13 +21,15 @@ function callForClockAulaStatus(){
         success: function (data) {
             if (data.status !== clockStatus){
                 clockStatus = data.status;
-
                 switch (clockStatus){
-                    case "notest":
                     case "almostover":
+                        break;
                     case "overtime":
-                    case "setup":
-                    case "ready":
+                        break;
+                    case "start":
+                        timeout = data.timeout;
+                        createCountdownElement(timeout);
+                        break;
                     case "over":
                         finish();
                         break;
@@ -40,7 +43,9 @@ function callForClockAulaStatus(){
     });
 }
 
-function createCountdownElement(){
+function createCountdownElement(millisec){
+    var second = millisec / MILLIS2SEC;
+    $("#spanCountdown").empty();
     console.log(timeoutClassroomClock);
     myCountdown = new Countdown({
             time: timeoutClassroomClock,
